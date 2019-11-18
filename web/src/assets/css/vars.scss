@@ -1,0 +1,21 @@
+$baseFontSize: 12px;
+$baseFontColor: #333333;
+
+$color-primary: #3c8dbc;
+$color-success: #67C23A;
+$color-warning: #f39c12;
+$color-danger: #F56C6C;
+$color-info: #909399;
+
+$color-white: white;
+$color-black: black;
+$bg: #ffffff;
+$bg0: mix($color-black, $color-primary, 80%);
+$border-color: #bdc0c7;
+$--border-color-base: #dcdfe6;
+$--color-text-placeholder: #c0c4cc;
+
+:export {
+  colorPrimary: $color-primary;
+  bgColor: $bg;
+}

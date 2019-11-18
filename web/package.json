@@ -1,0 +1,50 @@
+{
+  "name": "learningweb",
+  "version": "1.0.0",
+  "description": "在线信息类课程学习平台",
+  "author": "hplwc <935151619@qq.com>",
+  "private": true,
+  "scripts": {
+    "build": "vue-cli-service build",
+    "dev": "vue-cli-service serve",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "element-ui": "^2.11.1",
+    "flex.css": "^1.1.7",
+    "nprogress": "^0.2.0",
+    "vue": "^2.6.10",
+    "vue-property-decorator": "^8.2.1",
+    "vue-router": "^3.0.7",
+    "vuex": "^3.1.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.9.2",
+    "@vue/cli-plugin-eslint": "^3.9.2",
+    "@vue/cli-service": "^3.9.3",
+    "@vue/eslint-config-standard": "^4.0.0",
+    "babel-eslint": "^10.0.2",
+    "babel-plugin-dynamic-import-webpack": "^1.1.0",
+    "eslint": "^6.1.0",
+    "eslint-plugin-vue": "^5.2.3",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^7.1.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "vue-template-compiler": "^2.6.10",
+    "webpack-bundle-analyzer": "^3.4.1"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "eslintIgnore": [
+    "../service"
+  ],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
