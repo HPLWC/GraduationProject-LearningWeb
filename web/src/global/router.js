@@ -3,7 +3,9 @@ import Router from 'vue-router'
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress.css' // progress bar style
 
-const Page404 = () => import('../module/common/ExceptionPage/404')
+import publicRouter from '../module/public/router'
+
+const Page404 = () => import('../module/common/view/ExceptionPage/404')
 
 Vue.use(Router)
 
@@ -17,6 +19,7 @@ const router = new Router({
       name: '404',
       component: Page404
     },
+    ...publicRouter
   ]
 })
 
