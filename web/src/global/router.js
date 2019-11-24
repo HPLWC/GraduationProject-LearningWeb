@@ -4,6 +4,8 @@ import Nprogress from 'nprogress'
 import 'nprogress/nprogress.css' // progress bar style
 
 import publicRouter from '../module/public/router'
+import commonRouter from '../module/common/router'
+import homeRouter from '../module/home/router'
 
 const Page404 = () => import('../module/common/view/ExceptionPage/404')
 
@@ -19,7 +21,10 @@ const router = new Router({
       name: '404',
       component: Page404
     },
-    ...publicRouter
+
+    ...publicRouter,
+    ...commonRouter,
+    ...homeRouter,
   ]
 })
 
