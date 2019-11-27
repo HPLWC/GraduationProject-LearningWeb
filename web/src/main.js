@@ -6,6 +6,7 @@ import ElementUI from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css'
 import 'flex.css/dist/data-flex.css'
 import './assets/css/base.scss'
+import utils from './assets/utils'
 import regComponents from './global/regComponents'
 
 Vue.use(ElementUI, { size: 'small' })
@@ -14,6 +15,7 @@ Vue.use(ElementUI, { size: 'small' })
 Vue.use(regComponents)
 
 Vue.config.productionTip = false
+Vue.use(utils)
 
 export default new Vue({
   router,
