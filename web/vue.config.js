@@ -52,11 +52,12 @@ module.exports = {
 
     const svgRule = config.module.rule('svg')
     svgRule.uses.clear()
+    // config.module.rules.delete('svg')
     svgRule.test(/\.svg$/)
       .include
       .add(resolve('src/assets/icons/svg'))
       .end()
-      .use('svg-spritse-loader')
+      .use('svg-sprite-loader')
       .loader('svg-sprite-loader')
       .options({
         symbolId: 'icon-[name]'

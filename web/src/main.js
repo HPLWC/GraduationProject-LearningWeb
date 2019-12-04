@@ -8,6 +8,7 @@ import 'flex.css/dist/data-flex.css'
 import './assets/css/base.scss'
 import utils from './assets/utils'
 import regComponents from './global/regComponents'
+import './assets/icons/icon'
 
 Vue.use(ElementUI, { size: 'small' })
 
