@@ -1,10 +1,10 @@
 <template>
   <nav class="f-16 p-h-20 o-8" data-flex="main:justify">
     <ul class="cp c-white" data-flex="main:left">
-      <li>首页</li>
-      <li>课程</li>
-      <li>关于</li>
-      <li>优惠</li>
+      <li class="t-hover">首页</li>
+      <li class="t-hover">课程</li>
+      <li class="t-hover">关于</li>
+      <li class="t-hover">优惠</li>
     </ul>
     <!--  登录状态  -->
     <header-login></header-login>

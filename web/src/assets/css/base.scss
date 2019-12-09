@@ -296,6 +296,7 @@ body {
   width: 100%;
 }
 
+// 超出省略
 .t-ell-1 {
   overflow: hidden;
   white-space: nowrap;
@@ -310,10 +311,19 @@ body {
   }
 }
 
+.bx-b {
+  box-sizing: border-box;
+}
+
+.t-hover:hover {
+  transition: all .3s;
+  color: $color-primary;
+}
+
 .hidden {
   opacity: 0;
   transition: all 1s;
-  transform: translate(0, 20px);
+  transform: translate(0, 50%);
 }
 .hover-animate {
   opacity: 1;
