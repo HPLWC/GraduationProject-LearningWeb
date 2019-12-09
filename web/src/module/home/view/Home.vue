@@ -2,7 +2,7 @@
   <div class="home-page">
     <layout-header :height="700"></layout-header>
 
-    <!--  第二层  -->
+    <!--  第二层：介绍功能  -->
     <div class="m-t-50" data-flex="dir:top cross:center">
       <div class="f-24 f-b p-v-20">选择科可课</div>
       <div class="w-100 m-h-100 p-h-100 bx-b" data-flex="main:justify box:mean">
@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <!--  第三层  -->
+    <!--  第三层：吹吹水  -->
     <div class="m-t-50 bg_lg">
       <div class="f-24 f-b p-v-50 a-c c-white o-9">
         <p>一切不以为了解决学生工作为目标的视频都是耍流氓！</p>
@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <!--  第四层  -->
+    <!--  第四层：内容介绍  -->
     <div class="m-t-50" data-flex="dir:top cross:center">
       <div class="f-24 f-b p-v-20">我能学到什么？</div>
       <!--<div class="w-100 m-h-100 p-h-100 bx-b m-t-20" data-flex="main:justify box:mean">
@@ -81,7 +81,7 @@
           <new-course></new-course>
         </el-col>
       </el-row>
-      <div class="f-16 cp m-t-30">
+      <div class="f-16 cp m-t-30 t-hover">
         <a @click="allCourse">全部课程 ></a>
       </div>
     </div>

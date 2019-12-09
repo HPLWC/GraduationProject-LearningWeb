@@ -1,3 +1,4 @@
+import constant from './constant'
 import utils from './utils'
 import { observerHover } from './observer'
 
@@ -5,9 +6,12 @@ export { utils }
 
 export default {
   install (Vue) {
+    Vue.prototype.$c = constant
     Vue.prototype.$utils = utils
 
-    // 设置全局IntersectionObserver
+    /**
+     * 设置全局IntersectionObserver
+     */
     Vue.directive('hover', {
       bind (el, binding) {
         el.classList.add('hidden')
