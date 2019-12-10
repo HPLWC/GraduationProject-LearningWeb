@@ -45,9 +45,9 @@ class NewCourse extends Vue {
 
     img {
       left: 0;
-      width: 400px;
+      width: 100%;
       height: 100%;
-      max-width: 100%;
+      /*max-width: 100%;*/
       object-fit: cover;
       position: absolute;
     }

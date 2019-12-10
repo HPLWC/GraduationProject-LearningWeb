@@ -1,14 +1,18 @@
+<!-- 课程列表页 -->
 <template>
   <div>
     <layout-header>类型</layout-header>
+
     <div data-flex="main:justify cross:center" class="m-h-100 p-h-30 m-t-15 m-b-5 b-b">
       <div data-flex="" class="f-16">
         <p v-for="val in $c.OrderWay" class="m-r-20" :key="val.way">按{{ val.value }}排序</p>
       </div>
       <el-form :model="searchForm" :inline="true" label-width="100px">
         <el-form-item>
-          <el-input v-model="searchForm.value" :style="{ width: '250px' }"></el-input>
-          <el-button class="m-l-10">搜索</el-button>
+          <el-input v-model="searchForm.value" :style="{ width: '250px' }">
+            <hpc-icon slot="append" name="search" :size="18"></hpc-icon>
+          </el-input>
+          <!--<el-button class="m-l-10">搜索</el-button>-->
         </el-form-item>
       </el-form>
     </div>

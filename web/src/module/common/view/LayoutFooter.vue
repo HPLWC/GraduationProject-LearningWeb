@@ -51,5 +51,10 @@ class LayoutFooter extends Vue {
 <style lang="scss" scoped>
   footer {
     overflow: hidden;
+
+    &.bg_deep {
+      background: #efeff4;
+    }
+
   }
 </style>

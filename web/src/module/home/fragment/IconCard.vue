@@ -1,3 +1,4 @@
+<!-- 我的课程卡片 -->
 <template>
   <el-card shadow="hover" class="a-c" data-flex="cross:center main:center">
     <img v-if="value.img" src="../../../assets/images/banner.png" alt="photo" style="width: 300px;">
