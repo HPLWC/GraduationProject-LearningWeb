@@ -25,28 +25,14 @@
 
     <!-- 课程目录 -->
     <div class="course-detail-catalog m-t-20">
-      <h1 data-flex="cross:center" class="f-22 p-b-8 b-b">
+      <!--<h1 data-flex="cross:center" class="f-22 p-b-8 b-b">
         <hpc-icon name="view"></hpc-icon>
         <span class="m-l-10">课程目录（3章）</span>
       </h1>
       <div>
-        <ul class="p-h-15 p-t-20">
-          <li data-flex="cross:center" class="m-t-20 p-b-20 p-h-10 b-b">
-            <hpc-icon name="video" class="o-8"></hpc-icon>
-            <div class="m-l-18 bx-b">
-              <p class="m-b-15 f-18">第一讲 Vue.js基础</p>
-              <p class="o-7 p-r-100">本节课我们介绍了系列课程的关系，后端mvc，前端mvvm等概念和Vue.js基础的指令v-for，v-model</p>
-            </div>
-          </li>
-          <li data-flex="cross:center" class="m-t-20 p-b-20 p-h-10 b-b">
-            <hpc-icon name="video" class="o-8"></hpc-icon>
-            <div class="m-l-18 bx-b">
-              <p class="m-b-15 f-18">第二讲 Vue.js另一基础</p>
-              <p class="o-7 p-r-100">本节课我们介绍了系列课程的另一关系，除后端mvc，前端mvvm等概念和Vue.js基础的指令v-for，v-model</p>
-            </div>
-          </li>
-        </ul>
-      </div>
+        <course-detail-catalog></course-detail-catalog>
+      </div>-->
+      <course-detail-catalog></course-detail-catalog>
     </div>
 
     <!-- 底部 -->
@@ -59,8 +45,9 @@ import {Component, Vue} from 'vue-property-decorator'
 import LayoutHeader from '../../common/view/LayoutHeader'
 import LayoutFooter from '../../common/view/LayoutFooter'
 import CourseDetailCard from '../fragment/CourseDetailCard'
+import CourseDetailCatalog from '../fragment/CourseDetailCatalog'
 
-export default @Component({ components: { LayoutHeader, LayoutFooter, CourseDetailCard } })
+export default @Component({ components: { LayoutHeader, LayoutFooter, CourseDetailCard, CourseDetailCatalog } })
 class CourseDetail extends Vue {
   /* vue-props */
   /* vue-vuex */

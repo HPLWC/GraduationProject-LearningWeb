@@ -16,9 +16,10 @@
         </el-form-item>
       </el-form>
     </div>
+
     <el-row :gutter="80" class="p-h-100">
       <el-col :lg="6" :md="8" :sm="12" class="m-t-20">
-        <new-course></new-course>
+        <new-course @click="toDetail"></new-course>
       </el-col>
       <el-col :lg="6" :md="8" :sm="12" class="m-t-20">
         <new-course></new-course>
@@ -50,6 +51,9 @@ class CourseList extends Vue {
   /* vue-watch */
   /* vue-lifecycle */
   /* vue-method */
+  toDetail () {
+    this.$router.push('/course/detail')
+  }
 }
 </script>
 
