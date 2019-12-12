@@ -25,13 +25,6 @@
 
     <!-- 课程目录 -->
     <div class="course-detail-catalog m-t-20">
-      <!--<h1 data-flex="cross:center" class="f-22 p-b-8 b-b">
-        <hpc-icon name="view"></hpc-icon>
-        <span class="m-l-10">课程目录（3章）</span>
-      </h1>
-      <div>
-        <course-detail-catalog></course-detail-catalog>
-      </div>-->
       <course-detail-catalog></course-detail-catalog>
     </div>
 

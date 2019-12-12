@@ -32,6 +32,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   Nprogress.start()
+  // document.title = to.meta && to.meta.title ? to.meta.title : '在线学习网站'
   next()
 })
 router.afterEach((to, from, next) => {

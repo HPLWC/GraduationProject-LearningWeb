@@ -47,6 +47,7 @@ class CourseList extends Vue {
   searchForm = {
     value: ''
   }
+
   /* vue-compute */
   /* vue-watch */
   /* vue-lifecycle */
