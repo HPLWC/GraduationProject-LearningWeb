@@ -59,7 +59,7 @@ class ListView extends Vue {
   /* vue-props */
   // 种类： catalog目录页  comment评论页
   @Prop({ type: String, default: 'catalog' }) type
-  @Prop({ type: Array, default: [] }) data
+  @Prop({ type: Array, default: () => [] }) data
   /* vue-vuex */
   /* vue-data */
   /* vue-compute */
