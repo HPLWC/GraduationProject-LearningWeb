@@ -16,11 +16,6 @@ class Constant {
       hash: '/about',
       roles: [0, 1]
     },
-    {
-      title: '优惠',
-      hash: '/home',
-      roles: [0, 1]
-    },
   ]
 
   // 排序方式
