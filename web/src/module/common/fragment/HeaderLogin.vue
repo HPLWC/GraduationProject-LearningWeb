@@ -1,3 +1,4 @@
+<!-- 登录状态 -->
 <template>
   <ul class="cp c-white" data-flex="main:left">
     <template v-if="!isLogin">
@@ -12,6 +13,9 @@
               <span data-link="/user/collection" @click="toUserInfo">我的收藏</span>
             </el-dropdown-item>
             <el-dropdown-item>
+              <span data-link="/user/attention" @click="toUserInfo">我的关注</span>
+            </el-dropdown-item>
+            <el-dropdown-item>
               <span data-link="/user/history" @click="toUserInfo">播放历史</span>
             </el-dropdown-item>
             <el-dropdown-item>
@@ -20,6 +24,9 @@
           </el-dropdown-menu>
         </el-dropdown>
       </li>
+      <!--<li data-flex="cross:center" class="t-hover" :style="{ padding: '1.6rem 0.5rem' }">
+        <hpc-icon name="delete"></hpc-icon>退出
+      </li>-->
     </template>
   </ul>
 </template>
@@ -51,6 +58,10 @@ export default @Component class HeaderLogin extends Vue {
 
     .el-dropdown {
       color: #ffffff;
+
+      &::before {
+        /*content: '你好，'*/
+      }
     }
   }
 </style>

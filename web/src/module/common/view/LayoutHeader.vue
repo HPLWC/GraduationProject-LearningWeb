@@ -1,3 +1,4 @@
+<!-- 顶部头部分 -->
 <template>
   <div class="header" :style="{ height: screen ? '100%' : getHeight(height) }">
     <div class="header_bg" :style="{ height: screen ? '100%' : getHeight(height) }">

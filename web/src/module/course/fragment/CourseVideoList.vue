@@ -1,3 +1,4 @@
+<!-- 视频播放列表 -->
 <template>
   <div class="course-video-list f-16 fill-height">
     <div data-flex="cross:center" class="bg-color o-9 f-18 p-l-20 p-v-20">
@@ -39,7 +40,6 @@ class CourseVideoList extends Vue {
   /* vue-compute */
   get selectedRow () {
     return (key) => {
-      console.log(key)
       return this.selectedKey === key
     }
   }

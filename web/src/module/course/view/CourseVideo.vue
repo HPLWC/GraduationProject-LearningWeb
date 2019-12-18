@@ -1,3 +1,4 @@
+<!-- 视频播放页 -->
 <template>
   <div>
     <header-nav :bgc="true"></header-nav>

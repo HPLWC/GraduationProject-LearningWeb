@@ -1,3 +1,4 @@
+<!-- 顶部导航 -->
 <template>
   <nav :class="['f-16', 'p-h-20', 'o-8', { 'mint-bgc': bgc }]" data-flex="main:justify">
     <ul class="cp c-white" data-flex="main:left">
