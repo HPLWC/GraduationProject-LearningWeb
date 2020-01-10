@@ -1,0 +1,24 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "CommonJS",
+    "noImplicitAny": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "moduleResolution" : "node",
+    "lib": [
+      "es6",
+      "es7"
+    ],
+    "types": [
+      "node"
+    ],
+    "sourceMap": false,
+    "baseUrl": ".",
+    "outDir": "./dist"
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
