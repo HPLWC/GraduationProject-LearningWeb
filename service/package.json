@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "dev": "node app.js",
-    "start": "tsc && node dist/app.js"
+    "start": "tsc && node dist/app.js",
+    "watch": "nodemon -e ts,tsx --exec ts-node ./app.ts"
   },
   "keywords": [],
   "author": "hplwc <935151619@qq.com>",
