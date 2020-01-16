@@ -12,9 +12,12 @@
   "author": "hplwc <935151619@qq.com>",
   "license": "ISC",
   "dependencies": {
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.11.0",
+    "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "mysql2": "^2.1.0",
+    "node-uuid": "^1.4.8",
     "typeorm": "^0.2.22"
   },
   "devDependencies": {

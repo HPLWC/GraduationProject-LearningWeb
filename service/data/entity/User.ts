@@ -12,6 +12,6 @@ export default class User {
   @Column({ length: 32 })
   public password: string
 
-  @Column()
+  @Column({ default: 2 })
   public role: number
 }

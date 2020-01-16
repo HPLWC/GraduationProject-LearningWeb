@@ -1,4 +1,5 @@
 import { getManager, getRepository } from 'typeorm'
+import * as uuid from 'node-uuid'
 
 export class BaseDao<Model> {
   protected entityClass
@@ -28,8 +29,14 @@ export class BaseDao<Model> {
     return entityManager.delete(this.entityClass, id)
   }
 
+  getUuid() {
+    return uuid.v1()
+  }
   getRepository() {
     return getRepository<Model>(this.entityClass)
+  }
+  getManager() {
+    return getManager()
   }
 
 }
