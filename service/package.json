@@ -12,6 +12,7 @@
   "author": "hplwc <935151619@qq.com>",
   "license": "ISC",
   "dependencies": {
+    "ioredis": "^4.14.1",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",

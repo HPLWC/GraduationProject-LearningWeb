@@ -1,7 +1,8 @@
 import * as jwt from 'jsonwebtoken'
 import * as Dao from '../../data/dao'
 import createBody from '../config/createBody'
-import { jwtSecret, jwtExp } from '../config/token'
+import * as redis from '../../utils/redis'
+import { jwtSecret, jwtExp } from '../config/encrypto'
 
 /* 测试接口 */
 async function test(ctx) {
@@ -22,6 +23,7 @@ async function register(ctx) {
     ctx.body = createBody(null, false, 0, user.message)
   } else {
     const token = jwt.sign({data: user}, jwtSecret, { expiresIn: jwtExp})
+    await redis.set(user.id, {user}, jwtExp)
     ctx.body = createBody({token})
   }
 }
@@ -29,9 +31,15 @@ async function register(ctx) {
 /* 登录接口 */
 async function login(ctx) {
   const params = ctx.request.body
+  if(!params.username || !params.password) {
+    ctx.body = createBody({}, false, 0, '用户名或密码不能为空')
+    return
+  }
+  // const user = await Dao.User.findOne({username: params.username})
   const user = await Dao.User.findOne(params)
   if(user) {
     const token = jwt.sign({data: user}, jwtSecret, { expiresIn: jwtExp})
+    await redis.set(user.id, {user}, jwtExp)
     ctx.body = createBody({token})
   } else {
     ctx.body = createBody(null, false, 0, '用户名密码不匹配')

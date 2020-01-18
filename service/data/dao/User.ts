@@ -3,6 +3,7 @@
  * */
 import { BaseDao } from './BaseDao'
 import User from '../entity/User'
+import { encrypto } from '../../services/config/encrypto'
 
 class UserDao extends BaseDao<User> {
   constructor() {
@@ -11,13 +12,12 @@ class UserDao extends BaseDao<User> {
 
   async findOne(where) {
     const repository = this.getRepository()
+
+    if(where.password) where.password = encrypto(where.password)
+
     const user = await repository.findOne({
       where
     })
-    // if (user && user.role) {
-    //   user.roleIds = user.role.map((role: Role) => role.id)
-    //   delete user.role
-    // }
     return user
   }
 
@@ -29,6 +29,7 @@ class UserDao extends BaseDao<User> {
     if(!res) {
       // 设置uuid值
       user.id = this.getUuid().replace(/-/g, '')
+      user.password = encrypto(user.password)
       return manager.save(this.entityClass, user)
     } else {
       return {
@@ -36,6 +37,11 @@ class UserDao extends BaseDao<User> {
         message: '用户名已存在'
       }
     }
+  }
+
+  async excPasswor(pwd1, pwd2) {
+
+    return true
   }
 
 }
