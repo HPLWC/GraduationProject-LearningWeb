@@ -30,6 +30,7 @@ class UserDao extends BaseDao<User> {
       // 设置uuid值
       user.id = this.getUuid().replace(/-/g, '')
       user.password = encrypto(user.password)
+      user.role = typeof user.role === 'number' ? user.role : 2
       return manager.save(this.entityClass, user)
     } else {
       return {

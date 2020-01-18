@@ -39,7 +39,6 @@ app.use(async (ctx, next) => {
     return
   }
 
-  console.log('123', decoded)
   if(decoded) {
     await redis.expire(decoded.data.id, jwtExp)
     await next()
