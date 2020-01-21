@@ -38,8 +38,11 @@ export default @Component class Login extends Vue {
   /** ******************************************  action  ************************************************************/
 
   /** * 登录 * */
-  login () {
-    this.$router.push('/home')
+  async login () {
+    // this.$router.push('/home')
+    console.log(this.user)
+    const data = await this.$store.dispatch('login', this.user)
+    console.log(data)
   }
 }
 </script>
