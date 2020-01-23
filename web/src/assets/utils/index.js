@@ -1,13 +1,15 @@
 import constant from './constant'
 import utils from './utils'
 import { observerHover } from './observer'
+import ls from './lsUtils'
 
-export { utils }
+export { utils, ls }
 
 export default {
   install (Vue) {
     Vue.prototype.$c = constant
     Vue.prototype.$utils = utils
+    Vue.prototype.$ls = ls
 
     /**
      * 设置全局IntersectionObserver

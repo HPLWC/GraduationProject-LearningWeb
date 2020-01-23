@@ -39,10 +39,11 @@ export default @Component class Login extends Vue {
 
   /** * 登录 * */
   async login () {
-    // this.$router.push('/home')
-    console.log(this.user)
-    const data = await this.$store.dispatch('login', this.user)
-    console.log(data)
+    const { data } = await this.$store.dispatch('login', this.user)
+    if (data) {
+      this.$ls.set('ACCESS_TOKEN', data.token)
+      this.$router.push('/home')
+    }
   }
 }
 </script>

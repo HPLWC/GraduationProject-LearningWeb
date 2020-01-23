@@ -88,7 +88,7 @@ export default (method, url, data = {}, myConfig = {}) => {
         // 显示loading
       }
       // FIXME: 先增加code === 0 判断，后期后端code成功返回修改200后，去掉"|| data.code === 0"
-      if (data.code === 200 || data.code === 1) {
+      if (data.code === 200) {
         return {data: data.data || {payload: data.payload} || {}, message: data.message, code: data.code, success: data.success}
       } else {
         // 默认情况下，此处统一提示服务端的错误信息，除非请求的时候设置了hideError为true
