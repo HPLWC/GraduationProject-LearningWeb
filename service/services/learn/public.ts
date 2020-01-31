@@ -5,7 +5,7 @@ import * as redis from '../../utils/redis'
 import { jwtSecret, jwtExp } from '../config/encrypto'
 
 /* 测试接口 */
-async function test(ctx) {
+async function test(ctx, a) {
   ctx.body = createBody({message: '测试数据'})
 }
 
@@ -37,6 +37,7 @@ async function login(ctx) {
   }
   // const user = await Dao.User.findOne({username: params.username})
   const user = await Dao.User.findOne(params)
+  console.log('user1:', user)
   if(user) {
     const token = jwt.sign({data: user}, jwtSecret, { expiresIn: jwtExp})
     await redis.set(user.id, {user}, jwtExp)

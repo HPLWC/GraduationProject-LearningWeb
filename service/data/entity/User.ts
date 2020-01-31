@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm'
+import { Entity, Column, PrimaryColumn, OneToOne, JoinColumn } from 'typeorm'
+import UserInfo from './UserInfo'
 
 @Entity()
 export default class User {
@@ -14,4 +15,8 @@ export default class User {
 
   @Column({ default: 2 })
   public role: number
+
+  @OneToOne(type => UserInfo, userInfo => userInfo.id)
+  @JoinColumn({ name: 'user_id' })
+  userInfo: UserInfo
 }

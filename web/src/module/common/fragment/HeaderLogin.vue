@@ -2,7 +2,7 @@
 <template>
   <ul class="cp c-white" data-flex="main:left">
     <template v-if="!isLogin">
-      <li>登录</li>
+      <li data-link="/login" @click="toUserInfo">登录</li>
     </template>
     <template v-else>
       <li>
@@ -21,6 +21,9 @@
             <el-dropdown-item>
               <span data-link="/user/center" @click="toUserInfo">个人中心</span>
             </el-dropdown-item>
+            <el-dropdown-item>
+              <span @click="exit">退出登录</span>
+            </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </li>
@@ -38,16 +41,25 @@ export default @Component class HeaderLogin extends Vue {
   /* vue-props */
   /* vue-vuex */
   /* vue-data */
-  isLogin = true
+  isLogin = false
   /* vue-compute */
   /* vue-watch */
   /* vue-lifecycle */
+  created () {
+    this.isLogin = !!this.$ls.get('ACCESS_TOKEN')
+  }
   /* vue-method */
 
   /* 用户管理页面跳转 */
   toUserInfo (e) {
     let dataset = e.target.dataset
     this.$router.push(dataset.link)
+  }
+
+  /* 退出登录 */
+  exit () {
+    this.$ls.remove('ACCESS_TOKEN')
+    this.$router.push('/login')
   }
 }
 </script>

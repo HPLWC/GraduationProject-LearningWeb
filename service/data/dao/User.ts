@@ -16,7 +16,8 @@ class UserDao extends BaseDao<User> {
     if(where.password) where.password = encrypto(where.password)
 
     const user = await repository.findOne({
-      where
+      where,
+      relations: ['userInfo'],
     })
     return user
   }
@@ -38,11 +39,6 @@ class UserDao extends BaseDao<User> {
         message: '用户名已存在'
       }
     }
-  }
-
-  async excPasswor(pwd1, pwd2) {
-
-    return true
   }
 
 }
