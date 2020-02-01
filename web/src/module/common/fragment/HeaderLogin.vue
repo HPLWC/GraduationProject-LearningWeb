@@ -47,8 +47,14 @@ export default @Component class HeaderLogin extends Vue {
   /* vue-lifecycle */
   created () {
     this.isLogin = !!this.$ls.get('ACCESS_TOKEN')
+    this.userInfo()
   }
   /* vue-method */
+
+  /* 判断用户是否登录 */
+  async userInfo () {
+    const { data } = await this.$store.dispatch('userInfo')
+  }
 
   /* 用户管理页面跳转 */
   toUserInfo (e) {

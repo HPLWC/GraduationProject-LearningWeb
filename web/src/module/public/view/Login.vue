@@ -28,7 +28,7 @@ export default @Component class Login extends Vue {
   /* vue-vuex */
   /* vue-data */
   user = {
-    username: 'admin',
+    username: 'test',
     password: '123456'
   }
   /* vue-compute */
@@ -40,9 +40,16 @@ export default @Component class Login extends Vue {
   /** * 登录 * */
   async login () {
     const { data } = await this.$store.dispatch('login', this.user)
+    console.log(data)
     if (data) {
       this.$ls.set('ACCESS_TOKEN', data.token)
-      this.$router.push('/home')
+      const res = await this.$store.dispatch('userInfo')
+      if (res.data) {
+        this.$store.commit('SET_USER_INFO', res.data)
+        this.$router.push('/home')
+      } else {
+        console.log('弹出添加信息页面')
+      }
     }
   }
 }

@@ -1,5 +1,6 @@
 import store from './store'
 import axios from 'axios'
+import { ls } from '../assets/utils/index'
 import { Notification, MessageBox } from 'element-ui'
 
 // 创建 axios 实例
@@ -12,46 +13,53 @@ const service = axios.create({
 })
 
 let modal = null
+const statusHandle = (status, data) => {
+  console.log(status, data)
+  switch (status) {
+    case 403:
+      Notification.error({ title: '系统提示', message: '您没有接口访问权限', duration: 4 })
+      break
+    case 401:
+      if (data.message === '未登录或已过期，请重新登录' || data.error.message === '未登录或已过期，请重新登录') {
+        console.log(modal)
+        if (modal) {
+          return
+        }
+        MessageBox('很抱歉，登录已过期，请重新登录', '登录已过期', {
+          confirmButtonText: '确定',
+          type: 'error'
+        }).then(() => {
+          store.dispatch('logout')
+          // setTimeout(() => { modal = null }, 500)
+          modal = null
+        })
+      }
+      break
+    case 404:
+      Notification.error({ title: '系统提示', message: '很抱歉，资源未找到!', duration: 4 })
+      break
+    case 504:
+      Notification.error({ title: '系统提示', message: '网络超时' })
+      break
+    case 417:
+      store.dispatch('errorPage')
+      window.localStorage.setItem('error_msg', JSON.stringify(data.message))
+      Notification.warning({ title: '系统提示', message: data.message, duration: 4 })
+      break
+    default:
+      Notification.error({
+        message: '系统提示',
+        description: data.message,
+        duration: 4
+      })
+      console.log(111)
+      break
+  }
+}
 const err = (error) => {
   if (error.response) {
     let data = error.response.data
-    switch (error.response.status) {
-      case 403:
-        Notification.error({ title: '系统提示', message: '您没有接口访问权限', duration: 4 })
-        break
-      case 500:
-        if (data.message === 'Token失效，请重新登录') {
-          if (modal) {
-            return
-          }
-          MessageBox('很抱歉，登录已过期，请重新登录', '登录已过期', {
-            confirmButtonText: '确定',
-            type: 'error'
-          }).then(() => {
-            store.dispatch('Logout')
-            setTimeout(() => { modal = null }, 500)
-          })
-        }
-        break
-      case 404:
-        Notification.error({ title: '系统提示', message: '很抱歉，资源未找到!', duration: 4 })
-        break
-      case 504:
-        Notification.error({ title: '系统提示', message: '网络超时' })
-        break
-      case 417:
-        store.dispatch('errorPage')
-        window.localStorage.setItem('error_msg', JSON.stringify(data.message))
-        Notification.warning({ title: '系统提示', message: data.message, duration: 4 })
-        break
-      default:
-        Notification.error({
-          message: '系统提示',
-          description: data.message,
-          duration: 4
-        })
-        break
-    }
+    statusHandle(error.response.status, data)
   }
   return Promise.reject(error)
 }
@@ -59,13 +67,19 @@ const err = (error) => {
 // request interceptor
 service.interceptors.request.use(config => {
   // 加公共请求参数
-  config.headers.token = sessionStorage.getItem('token') || ''
+  config.headers.token = ls.get('ACCESS_TOKEN') || ''
   return config
 })
 
 // response interceptor
 service.interceptors.response.use(response => {
-  return response.data
+  console.log(response)
+  if (response.data.success || response.data.code === 200) {
+    return Promise.resolve(response.data)
+  } else {
+    statusHandle(response.data.error.code, response.data)
+    return response.data
+  }
 }, err)
 
 export default (method, url, data = {}, myConfig = {}) => {

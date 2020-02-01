@@ -37,7 +37,6 @@ async function login(ctx) {
   }
   // const user = await Dao.User.findOne({username: params.username})
   const user = await Dao.User.findOne(params)
-  console.log('user1:', user)
   if(user) {
     const token = jwt.sign({data: user}, jwtSecret, { expiresIn: jwtExp})
     await redis.set(user.id, {user}, jwtExp)
@@ -47,8 +46,38 @@ async function login(ctx) {
   }
 }
 
+/* 退出登录接口 */
+async function logout(ctx) {
+  const params = ctx.request.body
+  try {
+    const token = ctx.header['token']
+    const decoded = jwt.verify(token, jwtSecret)
+    if (decoded) {
+      await redis.del(decoded.data.id)
+    }
+  } catch {
+    console.log('token已过期')
+  } finally {
+    ctx.body = createBody({message: '退出成功'}, true, 200, '退出成功')
+  }
+}
+
+/* 获取用户详情接口 */
+async function userInfo(ctx) {
+  const token = ctx.header['token']
+  const decoded = jwt.verify(token, jwtSecret)
+  const userInfo = decoded.data && decoded.data.userInfo
+  if(userInfo) {
+    ctx.body = createBody(userInfo)
+  } else {
+    ctx.body = createBody(null, false, 0, '无该用户信息')
+  }
+}
+
 export default (routes, prefix) => {
   routes.get(prefix + '/public/test', test)
   routes.post(prefix + '/public/user/register', register)
   routes.post(prefix + '/public/user/login', login)
+  routes.post(prefix + '/public/user/logout', logout)
+  routes.post(prefix + '/public/user/info', userInfo)
 }

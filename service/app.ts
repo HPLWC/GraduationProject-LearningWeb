@@ -7,7 +7,7 @@ import { jwtSecret, jwtExp } from './services/config/encrypto'
 import * as redis from './utils/redis'
 
 const app = new Koa()
-const unTokenUrl = ['/learn/public/user/login', '/learn/public/user/register', '/home']
+const unTokenUrl = ['/learn/public/user/login', '/learn/public/user/logout', '/learn/public/user/register', '/home']
 
 /* 中间件 */
 app.use(koaBody()) // 解析post请求的参数
