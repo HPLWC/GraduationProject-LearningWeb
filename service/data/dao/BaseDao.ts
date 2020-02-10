@@ -29,6 +29,19 @@ export class BaseDao<Model> {
     return entityManager.delete(this.entityClass, id)
   }
 
+  // 提取搜索参数中的 pageSize 和 pageNum
+  pickPage(where) {
+    let params = JSON.parse(JSON.stringify(where))
+    if('pageSize' in params) delete params.pageSize
+    if('pageNum' in params) delete params.pageNum
+
+    return {
+      where: params,
+      pageSize: where.pageSize,
+      pageNum: where.pageNum
+    }
+  }
+
   getUuid() {
     return uuid.v1()
   }
