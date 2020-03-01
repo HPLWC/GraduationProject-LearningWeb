@@ -29,7 +29,7 @@ class ExceptionPage extends Vue {
   /* vue-lifecycle */
   /* vue-method */
   handleToHome () {
-    this.$router.push({ name: 'start' })
+    this.$router.push('/home')
   }
 }
 </script>

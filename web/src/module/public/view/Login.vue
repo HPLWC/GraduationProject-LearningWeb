@@ -40,7 +40,6 @@ export default @Component class Login extends Vue {
   /** * 登录 * */
   async login () {
     const { data } = await this.$store.dispatch('login', this.user)
-    console.log(data)
     if (data) {
       this.$ls.set('ACCESS_TOKEN', data.token)
       const res = await this.$store.dispatch('userInfo')

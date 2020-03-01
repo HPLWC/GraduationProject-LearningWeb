@@ -26,7 +26,7 @@
                       <hpc-icon name="defaultuser" :size="40" class="o-8"></hpc-icon>
                     </div>
                     <div class="m-l-18 bx-b">
-                      <p class="m-b-10 f-16">子评论</p>
+                      <p class="m-b-10 f-16 cp">子评论</p>
                       <p class="o-7 p-r-100">本节课我们介绍了系列课程的另一关系，除后端mvc，前端mvvm等概念和Vue.js基础的指令v-for，v-model</p>
                     </div>
                   </li>
@@ -41,7 +41,7 @@
               <hpc-icon name="video" class="o-8"></hpc-icon>
             </div>
             <div class="m-l-18 bx-b">
-              <p class="m-b-15 f-18 cp t-hover">第一讲1 Vue.js另一基础</p>
+              <p class="m-b-15 f-18 cp t-hover" @click="toVideo" data-url="aaa">第一讲1 Vue.js另一基础</p>
               <p class="o-7 p-r-100">本节课我们介绍了系列课程的另一关系，除后端mvc，前端mvvm等概念和Vue.js基础的指令v-for，v-model</p>
             </div>
           </li>
@@ -72,6 +72,9 @@ class ListView extends Vue {
   /* vue-watch */
   /* vue-lifecycle */
   /* vue-method */
+  toVideo () {
+    this.$router.push('/course/video')
+  }
 }
 </script>
 

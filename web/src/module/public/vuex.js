@@ -21,7 +21,6 @@ export default {
     },
     async logout ({commit, status}, params) {
       const { data } = await api.logout(params)
-      console.log(data)
       commit('SET_USER_INFO', {})
       if (data) {
         router.push('/login')

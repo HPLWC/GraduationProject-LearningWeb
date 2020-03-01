@@ -7,7 +7,7 @@
     <template v-else>
       <li>
         <el-dropdown>
-          <span class="f-16 t-hover">HPLWC</span>
+          <span class="f-16 t-hover">{{ user.name }}</span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
               <span data-link="/user/collection" @click="toUserInfo">我的收藏</span>
@@ -42,6 +42,7 @@ export default @Component class HeaderLogin extends Vue {
   /* vue-vuex */
   /* vue-data */
   isLogin = false
+  user = {}
   /* vue-compute */
   /* vue-watch */
   /* vue-lifecycle */
@@ -54,6 +55,14 @@ export default @Component class HeaderLogin extends Vue {
   /* 判断用户是否登录 */
   async userInfo () {
     const { data } = await this.$store.dispatch('userInfo')
+    if (data) {
+      this.$store.commit('SET_USER_INFO', data)
+      this.isLogin = true
+      this.user = data
+    } else {
+      this.$store.commit('SET_USER_INFO', {})
+      this.isLogin = false
+    }
   }
 
   /* 用户管理页面跳转 */

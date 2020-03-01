@@ -4,22 +4,22 @@
 
     <!--  第二层：介绍功能  -->
     <div class="m-t-50" data-flex="dir:top cross:center">
-      <div class="f-24 f-b p-v-20">选择科可课</div>
+      <div class="f-24 f-b p-v-20">选择易上课</div>
       <div class="w-100 m-h-100 p-h-100 bx-b" data-flex="main:justify box:mean">
         <div v-hover data-observer="hover-animate" class="m-h-60 p-20" data-flex="dir:top cross:center">
           <div class="p-30"><i class="el-icon-share f-50"></i></div>
           <div class="f-18 m-b-10">覆盖面积广</div>
-          <div>fdfdsf范德萨发的说法是范德萨发大水发发发发付付付付付付付付付付付付付付付付付付付付付付付付付付付发大水发范发范德萨发大水</div>
+          <div>易上课作为线上课程，各个地区只要有网络，即可使用，覆盖面积广</div>
         </div>
         <div v-hover data-observer="hover-animate" class="m-h-60 p-20" data-flex="dir:top cross:center">
           <div class="p-30"><i class="el-icon-share f-50"></i></div>
-          <div class="f-18 m-b-10">面积广</div>
-          <div>fdfdsf范德萨发的说法是范德萨发大水发大水发范德萨发师弟发范德萨发大水</div>
+          <div class="f-18 m-b-10">涵盖范围大</div>
+          <div>易上课主要服务于教育群体，但并不局限于此，各行各业都可以上传自己想上传的视频供大家讨论学习。</div>
         </div>
         <div v-hover data-observer="hover-animate" class="m-h-60 p-20" data-flex="dir:top cross:center">
           <div class="p-30"><i class="el-icon-share f-50"></i></div>
-          <div class="f-18 m-b-10">面积广</div>
-          <div>fdfdsf范德萨发的说法是范德萨发大水发大水发范德萨发师弟发范德萨发大水</div>
+          <div class="f-18 m-b-10">时间局限性小</div>
+          <div>易上课是作为全天候上线的网站，任何时间任何地点，只要有网络就可以学习，只要有问题就可以评论。</div>
         </div>
       </div>
     </div>
@@ -72,13 +72,13 @@
       </div>-->
       <el-row :gutter="80" class="w-100 p-h-100">
         <el-col :md="8" :sm="12">
-          <new-course></new-course>
+          <new-course @click="toCourseDetail"></new-course>
         </el-col>
         <el-col :md="8" :sm="12">
-          <new-course></new-course>
+          <new-course @click="toCourseDetail"></new-course>
         </el-col>
         <el-col :md="8" :sm="12">
-          <new-course></new-course>
+          <new-course @click="toCourseDetail"></new-course>
         </el-col>
       </el-row>
       <div class="f-16 cp m-t-30 t-hover">
@@ -95,7 +95,7 @@
             <div data-flex="dir:top cross:center">
               <img src="../../../assets/images/banner.png" alt="" :style="{ width: '120px', height: '120px', borderRadius: '50%' }">
               <p class="f-b f-18 m-v-10">下雨收衫</p>
-              <p class="m-t-10 f-16 a-c" :style="{ maxWidth: '600px' }">下雨收衫下雨收衫下雨收衫下雨收衫下雨收衫下雨收衫下雨收衫下雨收衫下雨收衫下雨收衫下雨收衫下雨收衫下雨收衫下雨收衫下雨收衫下雨收衫下雨收衫下雨收衫</p>
+              <p class="m-t-10 f-16 a-c" :style="{ maxWidth: '600px' }">既然你诚心诚意地问了，我就大发慈悲地告诉你，为了防止世界被破坏，为了维护世界的和平，贯彻爱与真实的邪恶，我是来学习的。</p>
             </div>
           </el-carousel-item>
         </el-carousel>
@@ -124,7 +124,12 @@ class Home extends Vue {
   /* vue-lifecycle */
   /* vue-method */
   // 跳转到全部课程
-  allCourse () {}
+  allCourse () {
+    this.$router.push('/course/list')
+  }
+  toCourseDetail () {
+    this.$router.push('/course/detail')
+  }
 }
 </script>
 

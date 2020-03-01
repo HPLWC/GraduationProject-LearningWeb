@@ -1,7 +1,7 @@
 <!-- 课程详情页面 -->
 <template>
   <div>
-    <layout-header>详情页</layout-header>
+    <layout-header>[前端]Webpack介绍</layout-header>
 
     <!-- 课程介绍 -->
     <!--<div data-flex="" class="course-detail-card div p-20">
@@ -51,7 +51,9 @@ class CourseDetail extends Vue {
   /* vue-method */
 
   /* 开始学习 */
-  startHandle () {}
+  startHandle () {
+    this.$router.push('/course/video')
+  }
 }
 </script>
 

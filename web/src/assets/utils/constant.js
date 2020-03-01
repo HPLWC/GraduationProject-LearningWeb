@@ -28,10 +28,10 @@ class Constant {
       way: 'time',
       value: '时间'
     },
-    {
-      way: 'course',
-      value: '课程'
-    }
+    // {
+    //   way: 'course',
+    //   value: '课程'
+    // }
   ]
 }
 

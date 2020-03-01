@@ -14,7 +14,6 @@ const service = axios.create({
 
 let modal = null
 const statusHandle = (status, data) => {
-  console.log(status, data)
   switch (status) {
     case 403:
       Notification.error({ title: '系统提示', message: '您没有接口访问权限', duration: 4 })
@@ -52,7 +51,6 @@ const statusHandle = (status, data) => {
         description: data.message,
         duration: 4
       })
-      console.log(111)
       break
   }
 }

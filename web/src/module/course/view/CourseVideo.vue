@@ -22,7 +22,7 @@
           <div class="m-h-10">
             <hpc-icon name="defaultuser" :size="60" class="m-t-2 o-8"></hpc-icon>
           </div>
-          <p class="m-b-15 p-r-30">主讲人：张弟老师</p>
+          <p class="m-b-15 p-r-30">主讲人：张老师</p>
           <el-button type="primary" class="m-b-10">关注</el-button>
         </div>
       </el-col>
@@ -40,9 +40,12 @@
     </el-row>
 
     <!-- 评论 -->
-    <div class="m-h-100 m-t-80 p-r-100">
+    <div class="m-h-100 m-t-80 p-r-100 m-b-40">
       <list-view type="comment"></list-view>
     </div>
+
+    <!-- 底部 -->
+    <layout-footer></layout-footer>
   </div>
 </template>
 
@@ -50,10 +53,11 @@
 import {Component, Vue} from 'vue-property-decorator'
 import 'element-ui/lib/theme-chalk/display.css'
 import HeaderNav from '../../common/fragment/HeaderNav'
+import LayoutFooter from '../../common/view/LayoutFooter'
 import CourseVideoList from '../fragment/CourseVideoList'
 import ListView from '../fragment/ListView'
 
-export default @Component({ components: { HeaderNav, CourseVideoList, ListView } })
+export default @Component({ components: { HeaderNav, LayoutFooter, CourseVideoList, ListView } })
 class CourseVideo extends Vue {
   /* vue-props */
   /* vue-vuex */
