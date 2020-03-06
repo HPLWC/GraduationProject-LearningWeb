@@ -3,6 +3,7 @@
  * */
 import { BaseDao } from './BaseDao'
 import CourseType from '../entity/CourseType'
+import { utils } from '../../utils/utils'
 
 class CourseTypeDao extends BaseDao<CourseType> {
   constructor() {
@@ -28,14 +29,22 @@ class CourseTypeDao extends BaseDao<CourseType> {
       skip: params.pageNum - 1 || 0,
       take: params.pageSize || 6
     })
-    return courseType
+
+    const total = await repository.count()
+
+    return {
+      total: total,
+      pageNum: params.pageNum || 1,
+      pageSize: params.pageSize || 6,
+      data: courseType
+    }
   }
 
   async saveType(type): Promise<any> {
     const manager = this.getManager()
 
     // 查询是否已存在该种类
-    const res = await this.findOne({ name: type.name })
+    const res = await this.findOne({ title: type.title })
     if(!res) {
       // 设置uuid值
       type.id = this.getUuid().replace(/-/g, '')
@@ -58,11 +67,37 @@ class CourseTypeDao extends BaseDao<CourseType> {
         message: '未查找到该种类'
       }
     } else {
-      Object.assign(res, type)
+      utils.myLodashPick(res, 'title', 'id', 'photo')
+      Object.assign(res, utils.myLodashPick(type, 'title', 'decoration', 'photo'))
       return manager.save(res)
     }
   }
 
+  async deleteType(type): Promise<any> {
+    // const manager = this.getManager()
+    const repository = this.getRepository()
+
+    const res = await this.findOne({ id: type.id })
+    if(!res) {
+      return {
+        success: false,
+        message: '未查找到该种类'
+      }
+    } else {
+      let deleteRes = await repository.delete(res.id)
+      if(deleteRes.affected > 0) {
+        return {
+          success: true,
+          message: '删除成功'
+        }
+      } else {
+        return {
+          success: false,
+          message: '删除失败'
+        }
+      }
+    }
+  }
 }
 
 export default new CourseTypeDao()

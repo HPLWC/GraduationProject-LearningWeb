@@ -1,9 +1,9 @@
 import constant from './constant'
-import utils from './utils'
+import { utils } from './utils'
 import { observerHover } from './observer'
 import ls from './lsUtils'
 
-export { utils, ls }
+export { ls }
 
 export default {
   install (Vue) {

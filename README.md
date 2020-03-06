@@ -2,7 +2,7 @@ GraduationProject-LearningWeb
 ===
 - 毕业设计：在线信息类课程学习平台
 - 作者： HPLWC
-
+- 项目地址： https://github.com/HPLWC/GraduationProject-LearningWeb
 
 项目运行
 ---

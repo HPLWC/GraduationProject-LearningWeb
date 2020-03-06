@@ -20,7 +20,6 @@ const statusHandle = (status, data) => {
       break
     case 401:
       if (data.message === '未登录或已过期，请重新登录' || data.error.message === '未登录或已过期，请重新登录') {
-        console.log(modal)
         if (modal) {
           return
         }
@@ -71,7 +70,6 @@ service.interceptors.request.use(config => {
 
 // response interceptor
 service.interceptors.response.use(response => {
-  console.log(response)
   if (response.data.success || response.data.code === 200) {
     return Promise.resolve(response.data)
   } else {

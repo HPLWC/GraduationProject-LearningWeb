@@ -7,12 +7,12 @@
       <div class="f-24 f-b p-v-20">选择易上课</div>
       <div class="w-100 m-h-100 p-h-100 bx-b" data-flex="main:justify box:mean">
         <div v-hover data-observer="hover-animate" class="m-h-60 p-20" data-flex="dir:top cross:center">
-          <div class="p-30"><i class="el-icon-share f-50"></i></div>
+          <div class="p-30"><i class="el-icon-s-platform f-50"></i></div>
           <div class="f-18 m-b-10">覆盖面积广</div>
           <div>易上课作为线上课程，各个地区只要有网络，即可使用，覆盖面积广</div>
         </div>
         <div v-hover data-observer="hover-animate" class="m-h-60 p-20" data-flex="dir:top cross:center">
-          <div class="p-30"><i class="el-icon-share f-50"></i></div>
+          <div class="p-30"><i class="el-icon-s-promotion f-50"></i></div>
           <div class="f-18 m-b-10">涵盖范围大</div>
           <div>易上课主要服务于教育群体，但并不局限于此，各行各业都可以上传自己想上传的视频供大家讨论学习。</div>
         </div>
@@ -35,31 +35,28 @@
     <!--  第四层：内容介绍  -->
     <div class="m-t-50" data-flex="dir:top cross:center">
       <div class="f-24 f-b p-v-20">我能学到什么？</div>
-      <!--<div class="w-100 m-h-100 p-h-100 bx-b m-t-20" data-flex="main:justify box:mean">
-        <icon-card></icon-card>
-        <icon-card></icon-card>
-        <icon-card></icon-card>
-      </div>-->
-      <el-row :gutter="80" class="w-100 p-h-100">
-        <el-col :md="8" :sm="12" class="m-t-20">
-          <icon-card></icon-card>
-        </el-col>
-        <el-col :md="8" :sm="12" class="m-t-20">
-          <icon-card></icon-card>
-        </el-col>
-        <el-col :md="8" :sm="12" class="m-t-20">
-          <icon-card></icon-card>
-        </el-col>
-        <el-col :md="8" :sm="12" class="m-t-20">
-          <icon-card></icon-card>
-        </el-col>
-        <el-col :md="8" :sm="12" class="m-t-20">
-          <icon-card></icon-card>
-        </el-col>
-        <el-col :md="8" :sm="12" class="m-t-20">
-          <icon-card></icon-card>
-        </el-col>
-      </el-row>
+      <template >
+        <el-row v-for="(typeArr, key) in courseType" :gutter="80" class="w-100 p-h-100" :key="key">
+          <el-col v-for="type in typeArr" :md="8" :sm="12" class="m-t-20" :key="type.id">
+            <icon-card :value="type"></icon-card>
+          </el-col>
+          <!--<el-col :md="8" :sm="12" class="m-t-20">
+            <icon-card></icon-card>
+          </el-col>
+          <el-col :md="8" :sm="12" class="m-t-20">
+            <icon-card></icon-card>
+          </el-col>
+          <el-col :md="8" :sm="12" class="m-t-20">
+            <icon-card></icon-card>
+          </el-col>
+          <el-col :md="8" :sm="12" class="m-t-20">
+            <icon-card></icon-card>
+          </el-col>
+          <el-col :md="8" :sm="12" class="m-t-20">
+            <icon-card></icon-card>
+          </el-col>-->
+        </el-row>
+      </template>
     </div>
 
     <!--  第五层：最新课程  -->
@@ -119,10 +116,19 @@ class Home extends Vue {
   /* vue-props */
   /* vue-vuex */
   /* vue-data */
+  courseType = []
   /* vue-compute */
   /* vue-watch */
   /* vue-lifecycle */
+  async created () {
+    const allType = await this.getAllType()
+    this.courseType = this.$utils.toTwoArray(allType, 3)
+  }
   /* vue-method */
+  async getAllType () {
+    const { data } = await this.$store.dispatch('getCourseAllType', { pageSize: 6 })
+    return data && data.data || []
+  }
   // 跳转到全部课程
   allCourse () {
     this.$router.push('/course/list')

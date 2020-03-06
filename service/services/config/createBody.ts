@@ -6,7 +6,6 @@ export default function createBody(data= {}, success = true, code = 200, message
     data
   }
   if (!success) {
-    console.log(typeof message === 'string', code, message)
     if (typeof message === 'string') {
       re.error = { code, message }
     } else {

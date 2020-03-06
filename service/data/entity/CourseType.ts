@@ -9,10 +9,10 @@ export default class CourseType extends BaseEntity {
   public id: string
 
   @Column()
-  public typename: string
+  public title: string
 
   @Column()
-  public intro: string
+  public decoration: string
 
   @Column()
   public photo: string
