@@ -13,7 +13,7 @@ export default class CourseInfo extends BaseEntity {
   public title: string
 
   @Column()
-  public info: string
+  public decoration: string
 
   @Column()
   public photo: string

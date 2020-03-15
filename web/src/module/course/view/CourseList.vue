@@ -7,19 +7,19 @@
       <div data-flex="cross:center" class="f-16">
 <!--        <p v-for="val in $c.OrderWay" class="m-r-20" :key="val.way">按{{ val.value }}排序</p>-->
         <p>类型：</p>
-        <el-select v-model="value" placeholder="请选择">
+        <el-select v-model="courseTypeOptions.value" @change="typeChange" filterable placeholder="请选择">
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in courseTypeOptions.options"
+            :key="item.id"
+            :label="item.title"
+            :value="item.id">
           </el-option>
         </el-select>
       </div>
-      <el-form :model="searchForm" :inline="true" label-width="100px">
+      <el-form :model="searchForm" :inline="true" label-width="100px" @submit.native.prevent="searchEvent">
         <el-form-item>
           <el-input v-model="searchForm.value" :style="{ width: '250px' }">
-            <hpc-icon slot="append" name="search" :size="18"></hpc-icon>
+            <hpc-icon @click="searchEvent" slot="append" name="search" :size="18"></hpc-icon>
           </el-input>
           <!--<el-button class="m-l-10">搜索</el-button>-->
         </el-form-item>
@@ -28,37 +28,16 @@
 
     <div data-flex="dir:top" class="a-c">
       <el-row :gutter="80" class="p-h-100">
-        <el-col :lg="6" :md="8" :sm="12" class="m-t-20">
-          <new-course @click="toDetail"></new-course>
-        </el-col>
-        <el-col :lg="6" :md="8" :sm="12" class="m-t-20">
-          <new-course></new-course>
-        </el-col>
-        <el-col :lg="6" :md="8" :sm="12" class="m-t-20">
-          <new-course></new-course>
-        </el-col>
-        <el-col :lg="6" :md="8" :sm="12" class="m-t-20">
-          <new-course></new-course>
-        </el-col>
-        <el-col :lg="6" :md="8" :sm="12" class="m-t-20">
-          <new-course></new-course>
-        </el-col>
-        <el-col :lg="6" :md="8" :sm="12" class="m-t-20">
-          <new-course></new-course>
-        </el-col>
-        <el-col :lg="6" :md="8" :sm="12" class="m-t-20">
-          <new-course></new-course>
-        </el-col>
-        <el-col :lg="6" :md="8" :sm="12" class="m-t-20">
-          <new-course></new-course>
+        <el-col v-for="info in courseList" :lg="6" :md="8" :sm="12" class="m-t-20" :key="info.id">
+          <new-course :value="info" @click="toDetail(id)"></new-course>
         </el-col>
       </el-row>
       <el-pagination
         class="m-v-20"
-        :page-sizes="[10, 20, 30, 100]"
-        :page-size="10"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="8">
+        :page-sizes="pagination.pageSizeOptions"
+        :page-size="pagination.pageSize"
+        :total="pagination.total"
+        layout="total, sizes, prev, pager, next, jumper">
       </el-pagination>
     </div>
 
@@ -82,30 +61,63 @@ class CourseList extends Vue {
     value: ''
   }
 
-  options = [{
-    value: '0',
-    label: '全部'
-  }, {
-    value: '1',
-    label: '体育'
-  }, {
-    value: '2',
-    label: '前端'
-  }, {
-    value: '3',
-    label: '美工'
-  }, {
-    value: '4',
-    label: '后台'
-  }]
-  value = '0'
+  courseTypeOptions = {
+    options: [],
+    value: 0,
+  }
+  courseList = []
 
+  pagination = {
+    pageSizeOptions: ['10', '20', '30', '50'],
+    current: 1,
+    pageSize: 10,
+    total: 0
+  }
   /* vue-compute */
   /* vue-watch */
   /* vue-lifecycle */
+  async created () {
+    this.courseList = await this.getAllInfo()
+    this.courseTypeOptions.options = await this.getAllType()
+    this.courseTypeOptions.options.push({id: 0, title: '所有'})
+
+    // this.$nextTick(() => {
+    //   this.courseTypeOptions.value = 0
+    // })
+  }
   /* vue-method */
-  toDetail () {
-    this.$router.push('/course/detail')
+  async getAllInfo (params) {
+    const { data } = await this.$store.dispatch('getCourseAllInfo', {
+      ...params,
+      pageSize: this.pagination.pageSize,
+      pageNum: this.pagination.current,
+    })
+    if (data) {
+      this.pagination.total = data.total || 0
+    }
+    return data && data.data || []
+  }
+  async getAllType () {
+    const { data } = await this.$store.dispatch('getCourseAllNameType')
+    return data || []
+  }
+
+  /* 选择器改变事件 */
+  async typeChange (value) {
+    this.searchForm.value = ''
+    this.courseList = await this.getAllInfo({ type_id: value })
+  }
+  /* 查询 */
+  async searchEvent () {
+    console.log(this.searchForm.value)
+    this.courseList = await this.getAllInfo({
+      type_id: this.courseTypeOptions.value,
+      title: this.searchForm.value
+    })
+  }
+
+  toDetail (id) {
+    this.$router.push({ path: '/course/detail', query: { id } })
   }
 }
 </script>

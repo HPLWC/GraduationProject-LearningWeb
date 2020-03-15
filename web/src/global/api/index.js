@@ -3,8 +3,10 @@
  * */
 import publicx from './public'
 import homex from './home'
+import coursex from './course'
 
 export default {
   ...publicx,
   ...homex,
+  ...coursex,
 }

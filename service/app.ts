@@ -14,7 +14,6 @@ app.use(koaBody()) // 解析post请求的参数
 
 /* 登录验证 */
 app.use(async (ctx, next) => {
-  console.log(ctx.request.url)
   if(unTokenUrl.includes(ctx.request.url)) {
     return await next()
   }

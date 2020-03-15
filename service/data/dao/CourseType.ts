@@ -40,6 +40,18 @@ class CourseTypeDao extends BaseDao<CourseType> {
     }
   }
 
+  async findSelect(where, select) {
+    const repository = this.getRepository()
+
+    const courseType = await repository.find({
+      select,
+      where: where,
+      order: { addTime: 'ASC' }
+    })
+
+    return courseType
+  }
+
   async saveType(type): Promise<any> {
     const manager = this.getManager()
 
@@ -67,6 +79,10 @@ class CourseTypeDao extends BaseDao<CourseType> {
         message: '未查找到该种类'
       }
     } else {
+      // 判断是否有重复
+      const nameRes = await this.findOne({ title: type.title })
+      if(!nameRes) return { success: false, message: '已存在此类型' }
+
       utils.myLodashPick(res, 'title', 'id', 'photo')
       Object.assign(res, utils.myLodashPick(type, 'title', 'decoration', 'photo'))
       return manager.save(res)

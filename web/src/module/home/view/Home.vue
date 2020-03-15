@@ -62,20 +62,9 @@
     <!--  第五层：最新课程  -->
     <div class="m-t-50 p-b-40 bg_deep" data-flex="dir:top cross:center">
       <div class="f-24 f-b p-v-20 m-t-20">最新课程</div>
-      <!--<div class="w-100 m-h-100 p-h-100 bx-b m-t-20" data-flex="main:justify box:mean">
-        <new-course></new-course>
-        <new-course></new-course>
-        <new-course></new-course>
-      </div>-->
       <el-row :gutter="80" class="w-100 p-h-100">
-        <el-col :md="8" :sm="12">
-          <new-course @click="toCourseDetail"></new-course>
-        </el-col>
-        <el-col :md="8" :sm="12">
-          <new-course @click="toCourseDetail"></new-course>
-        </el-col>
-        <el-col :md="8" :sm="12">
-          <new-course @click="toCourseDetail"></new-course>
+        <el-col v-for="info in courseInfo" :md="8" :sm="12" :key="info.id">
+          <new-course :value="info" @click="toCourseDetail(info.id)"></new-course>
         </el-col>
       </el-row>
       <div class="f-16 cp m-t-30 t-hover">
@@ -117,24 +106,31 @@ class Home extends Vue {
   /* vue-vuex */
   /* vue-data */
   courseType = []
+  courseInfo = []
   /* vue-compute */
   /* vue-watch */
   /* vue-lifecycle */
   async created () {
     const allType = await this.getAllType()
     this.courseType = this.$utils.toTwoArray(allType, 3)
+
+    this.courseInfo = await this.getAllInfo()
   }
   /* vue-method */
   async getAllType () {
     const { data } = await this.$store.dispatch('getCourseAllType', { pageSize: 6 })
     return data && data.data || []
   }
+  async getAllInfo () {
+    const { data } = await this.$store.dispatch('getCourseAllInfo', { pageSize: 3 })
+    return data && data.data || []
+  }
   // 跳转到全部课程
   allCourse () {
     this.$router.push('/course/list')
   }
-  toCourseDetail () {
-    this.$router.push('/course/detail')
+  toCourseDetail (id) {
+    this.$router.push({ path: '/course/detail', query: { id } })
   }
 }
 </script>

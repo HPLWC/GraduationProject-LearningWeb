@@ -1,12 +1,13 @@
 <template>
   <div @click="$emit('click')" class="dir:top a-c m-t-10 m-b-20 cp">
     <div class="course-img w-100">
-      <img src="../../../assets/images/banner.png" alt="course">
+      <img :src="value.photo" v-if="value.photo" alt="course">
+      <img src="../../../assets/images/banner.png" v-else alt="course">
       <div data-flex="cross:center main:center" class="hover-icon h-100 w-100 c-white o-7">
         <hpc-icon name="video" :size="45"></hpc-icon>
       </div>
     </div>
-    <p class="m-t-10 f-18">{{ value.title || '无值' }}</p>
+    <p class="m-t-10 f-18">{{ value.title || '未命名' }}</p>
     <p class="m-t-20">{{ value.decoration || '暂无介绍' }}</p>
   </div>
 </template>

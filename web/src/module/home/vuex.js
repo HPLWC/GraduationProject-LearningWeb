@@ -7,5 +7,8 @@ export default {
     getCourseAllType (context, params) {
       return api.getCourseAllType(params)
     },
+    getCourseAllInfo (context, params) {
+      return api.getCourseAllInfo(params)
+    },
   },
 }

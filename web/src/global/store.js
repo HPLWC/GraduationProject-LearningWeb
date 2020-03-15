@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import publicx from '../module/public/vuex'
 import homex from '../module/home/vuex'
+import coursex from '../module/course/vuex'
 
 Vue.use(Vuex)
 
@@ -16,7 +17,8 @@ const actions = {
 
 const modules = {
   publicx,
-  homex
+  homex,
+  coursex
 }
 
 export default new Vuex.Store({

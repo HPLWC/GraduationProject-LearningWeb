@@ -5,4 +5,5 @@ import request from '../request'
 
 export default {
   getCourseAllType: (params, config) => request('get', '/course/type/all', params, config), // 获取所有课程种类
+  getCourseAllInfo: (params, config) => request('get', '/course/info/all', params, config), // 获取所有课程详情
 }
