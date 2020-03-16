@@ -29,7 +29,7 @@
     <div data-flex="dir:top" class="a-c">
       <el-row :gutter="80" class="p-h-100">
         <el-col v-for="info in courseList" :lg="6" :md="8" :sm="12" class="m-t-20" :key="info.id">
-          <new-course :value="info" @click="toDetail(id)"></new-course>
+          <new-course :value="info" @click="toDetail(info.id)"></new-course>
         </el-col>
       </el-row>
       <el-pagination
@@ -117,6 +117,7 @@ class CourseList extends Vue {
   }
 
   toDetail (id) {
+    console.log(id)
     this.$router.push({ path: '/course/detail', query: { id } })
   }
 }

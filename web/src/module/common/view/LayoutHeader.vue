@@ -17,7 +17,7 @@ import HeaderNav from '../fragment/HeaderNav'
 export default @Component({ components: { HeaderNav } })
 class LayoutHeader extends Vue {
   /* vue-props */
-  @Prop({ type: Number, default: 450 }) height
+  @Prop({ type: Number, default: 400 }) height
   @Prop({ type: Boolean, default: false }) screen
   /* vue-vuex */
   /* vue-data */
