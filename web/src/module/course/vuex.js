@@ -6,6 +6,9 @@ export default {
   actions: {
     getCourseAllNameType (context, params) {
       return api.getCourseAllNameType(params)
-    }
+    },
+    getTheCourseInfo (context, params) {
+      return api.getTheCourseInfo(params)
+    },
   },
 }

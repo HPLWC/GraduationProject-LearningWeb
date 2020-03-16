@@ -109,7 +109,6 @@ class CourseList extends Vue {
   }
   /* 查询 */
   async searchEvent () {
-    console.log(this.searchForm.value)
     this.courseList = await this.getAllInfo({
       type_id: this.courseTypeOptions.value,
       title: this.searchForm.value
@@ -117,7 +116,6 @@ class CourseList extends Vue {
   }
 
   toDetail (id) {
-    console.log(id)
     this.$router.push({ path: '/course/detail', query: { id } })
   }
 }

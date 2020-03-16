@@ -17,7 +17,8 @@ class CourseInfoDao extends BaseDao<CourseInfo> {
     const repository = this.getRepository()
 
     const courseInfo = await repository.findOne({
-      where
+      where,
+      relations: ['courseType']
     })
     return courseInfo
   }

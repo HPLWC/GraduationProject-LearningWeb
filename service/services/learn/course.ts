@@ -39,6 +39,12 @@ async function getAllCourseInfo(ctx) {
   ctx.body = createBody(courseInfo)
 }
 
+async function getTheCourseInfo(ctx) {
+  const params = ctx.request.query
+  const courseInfo = await Dao.CourseInfo.findOne(params)
+  ctx.body = createBody(courseInfo)
+}
+
 async function saveCourseInfo(ctx) {
   const params = ctx.request.body
   const courseInfo = await Dao.CourseInfo.saveInfo(params, ctx.header['token'])
@@ -68,6 +74,7 @@ export default (routes, prefix) => {
 
   // 课程详情
   routes.get(prefix + '/course/info/all', getAllCourseInfo) // 获取所有课程详情
+  routes.get(prefix + '/course/info/detail', getTheCourseInfo) // 获取某个课程详情
   routes.post(prefix + '/course/info/save', saveCourseInfo) // 添加课程详情
   routes.put(prefix + '/course/info/update', updateCourseInfo) // 修改所有课程详情
   routes.delete(prefix + '/course/info/delete', deleteCourseInfo) // 获取所有课程详情

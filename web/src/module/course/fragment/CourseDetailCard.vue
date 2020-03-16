@@ -3,13 +3,14 @@
   <div data-flex="" class="course-detail-card div p-20">
     <el-row :gutter="60">
       <el-col :md="14" :sm="14">
-        <img src="../../../assets/images/banner.png" alt="" class="w-100" :style="{ objectFit: 'cover' }">
+        <img v-if="data.photo" :src="data.photo" alt="" class="w-100" :style="{ objectFit: 'cover' }">
+        <img v-else src="../../../assets/images/banner.png" alt="默认图片" class="w-100" :style="{ objectFit: 'cover' }">
       </el-col>
       <el-col :md="10" :sm="10" class="p-5">
-        <h1 class="f-22 p-b-10 b-b">[前端]Webpack介绍</h1>
+        <h1 class="f-22 p-b-10 b-b">[{{ data.courseType && data.courseType.title }}]{{ data.title }}</h1>
         <div>
           <p class="m-t-18 m-b-5 f-18">课程介绍</p>
-          <div class="o-8" :style="{ lineHeight: '1.7' }">Vue.js多火热不用再说，本套课程针对有前端HTML CSS基础的童鞋，快速的学习并掌握在实战中Vue的开发套路。后面的 (实战篇) 我们来模拟真实企业实战开发大型的Vue项目，争取做完一个项目让你能直接到企业找到对应工作。</div>
+          <div class="o-8" :style="{ lineHeight: '1.7' }">{{ data.decoration || '暂无简介' }}</div>
         </div>
         <div class="a-c m-t-20">
           <el-button type="primary" size="medium" @click="$emit('click')">开始学习</el-button>
@@ -20,11 +21,12 @@
 </template>
 
 <script>
-import {Component, Vue} from 'vue-property-decorator'
+import {Component, Prop, Vue} from 'vue-property-decorator'
 
 export default @Component
 class CourseDetailCard extends Vue {
   /* vue-props */
+  @Prop({ type: Object, default: {} }) data
   /* vue-vuex */
   /* vue-data */
   /* vue-compute */

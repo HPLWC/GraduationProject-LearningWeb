@@ -1,7 +1,7 @@
 <!-- 课程详情页面 -->
 <template>
   <div>
-    <layout-header>[前端]Webpack介绍</layout-header>
+    <layout-header>[{{ cardInfo.courseType && cardInfo.courseType.title }}]{{ cardInfo.title }}</layout-header>
 
     <!-- 课程介绍 -->
     <!--<div data-flex="" class="course-detail-card div p-20">
@@ -21,7 +21,7 @@
         </el-col>
       </el-row>
     </div>-->
-    <course-detail-card @click="startHandle"></course-detail-card>
+    <course-detail-card :data="cardInfo" @click="startHandle"></course-detail-card>
 
     <!-- 课程目录 -->
     <div class="course-detail-catalog m-t-20">
@@ -45,10 +45,24 @@ class CourseDetail extends Vue {
   /* vue-props */
   /* vue-vuex */
   /* vue-data */
+  cardInfo = {}
   /* vue-compute */
   /* vue-watch */
   /* vue-lifecycle */
+  created () {
+    this.getCardInfo()
+  }
   /* vue-method */
+  async getCardInfo () {
+    const id = this.$route.query.id
+    const { data } = await this.$store.dispatch('getTheCourseInfo', {id})
+    // if (data && data.data) {
+    //   return data.data.length && data.data[0] || {}
+    // }
+    if (data) {
+      this.cardInfo = data || {}
+    }
+  }
 
   /* 开始学习 */
   startHandle () {
