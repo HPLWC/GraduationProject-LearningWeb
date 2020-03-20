@@ -64,6 +64,12 @@ async function deleteCourseInfo(ctx) {
   else ctx.body = createBody(courseInfo, false, 400, courseInfo.message)
 }
 
+async function getAllCourseSection(ctx) {
+  const params = ctx.request.query
+  const section = await Dao.Section.findAll(params)
+  ctx.body = createBody(section)
+}
+
 export default (routes, prefix) => {
   // 课程种类
   routes.get(prefix + '/course/type/all', getAllCourseType) // 获取所有课程种类
@@ -78,4 +84,7 @@ export default (routes, prefix) => {
   routes.post(prefix + '/course/info/save', saveCourseInfo) // 添加课程详情
   routes.put(prefix + '/course/info/update', updateCourseInfo) // 修改所有课程详情
   routes.delete(prefix + '/course/info/delete', deleteCourseInfo) // 获取所有课程详情
+
+  // 课程目录
+  routes.get(prefix + '/course/section/all', getAllCourseSection) // 获取所有课程目录
 }

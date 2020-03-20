@@ -25,7 +25,7 @@
 
     <!-- 课程目录 -->
     <div class="course-detail-catalog m-t-20">
-      <course-detail-catalog></course-detail-catalog>
+      <course-detail-catalog :id="id"></course-detail-catalog>
     </div>
 
     <!-- 底部 -->
@@ -45,8 +45,11 @@ class CourseDetail extends Vue {
   /* vue-props */
   /* vue-vuex */
   /* vue-data */
-  cardInfo = {}
+  cardInfo = {} // 课程卡片内容
   /* vue-compute */
+  get id () {
+    return this.$route.query.id
+  }
   /* vue-watch */
   /* vue-lifecycle */
   created () {
@@ -56,9 +59,6 @@ class CourseDetail extends Vue {
   async getCardInfo () {
     const id = this.$route.query.id
     const { data } = await this.$store.dispatch('getTheCourseInfo', {id})
-    // if (data && data.data) {
-    //   return data.data.length && data.data[0] || {}
-    // }
     if (data) {
       this.cardInfo = data || {}
     }

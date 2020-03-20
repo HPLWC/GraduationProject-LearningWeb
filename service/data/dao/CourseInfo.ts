@@ -7,6 +7,7 @@ import { BaseDao } from './BaseDao'
 import CourseInfo from '../entity/CourseInfo'
 import { jwtSecret } from '../../services/config/encrypto'
 import * as redis from '../../utils/redis'
+import course from '../../services/learn/course'
 
 class CourseInfoDao extends BaseDao<CourseInfo> {
   constructor() {
@@ -17,8 +18,10 @@ class CourseInfoDao extends BaseDao<CourseInfo> {
     const repository = this.getRepository()
 
     const courseInfo = await repository.findOne({
+      ...where
+    },{
       where,
-      relations: ['courseType']
+      relations: ['courseType'],
     })
     return courseInfo
   }
@@ -40,8 +43,8 @@ class CourseInfoDao extends BaseDao<CourseInfo> {
       courseInfo = await repository.find({
         where: params.where,
         order: { addTime: 'ASC' },
-        skip: params.pageNum - 1 || 0,
-        take: params.pageSize || 6,
+        skip: parseInt(params.pageNum) - 1 || 0,
+        take: parseInt(params.pageSize) || 6,
       })
       total = await repository.count({where: params.where})
     }
@@ -49,8 +52,8 @@ class CourseInfoDao extends BaseDao<CourseInfo> {
 
     return {
       total: total,
-      pageNum: params.pageNum || 1,
-      pageSize: params.pageSize || 6,
+      pageNum: parseInt(params.pageNum) || 1,
+      pageSize: parseInt(params.pageSize) || 6,
       data: courseInfo
     }
   }

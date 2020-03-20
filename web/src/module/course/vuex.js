@@ -10,5 +10,8 @@ export default {
     getTheCourseInfo (context, params) {
       return api.getTheCourseInfo(params)
     },
+    getCourseAllSection (context, params) {
+      return api.getCourseAllSection(params)
+    },
   },
 }

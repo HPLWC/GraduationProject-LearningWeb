@@ -1,13 +1,12 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm'
+import {Entity, Column, PrimaryColumn, ManyToOne, JoinColumn} from 'typeorm'
+import BaseEntity from './BaseEntity'
+import CourseInfo from './CourseInfo'
 
 @Entity()
-export default class Section {
+export default class Section extends BaseEntity {
 
   @PrimaryColumn()
   public id: string
-
-  @Column({ length: 32 })
-  public info_id: string
 
   @Column({ type: 'tinyint' })
   public section_num: number
@@ -16,7 +15,7 @@ export default class Section {
   public title: string
 
   @Column()
-  public intro: string
+  public decoration: string
 
   @Column()
   public video: string
@@ -26,4 +25,8 @@ export default class Section {
 
   @Column()
   public length: string
+
+  @ManyToOne(type => CourseInfo, CourseInfo => CourseInfo.section)
+  @JoinColumn({ name: 'info_id' })
+  courseInfo: CourseInfo
 }

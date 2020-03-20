@@ -6,4 +6,5 @@ import request from '../request'
 export default {
   getCourseAllNameType: (params, config) => request('get', '/course/type/name/all', params, config), // 获取所有课程类型
   getTheCourseInfo: (params, config) => request('get', '/course/info/detail', params, config), // 获取某一课程详情
+  getCourseAllSection: (params, config) => request('get', '/course/section/all', params, config), // 获取所有课程目录
 }

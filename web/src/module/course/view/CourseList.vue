@@ -34,6 +34,8 @@
       </el-row>
       <el-pagination
         class="m-v-20"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
         :page-sizes="pagination.pageSizeOptions"
         :page-size="pagination.pageSize"
         :total="pagination.total"
@@ -69,7 +71,7 @@ class CourseList extends Vue {
 
   pagination = {
     pageSizeOptions: ['10', '20', '30', '50'],
-    current: 1,
+    current: 1, // 当前页数
     pageSize: 10,
     total: 0
   }
@@ -115,6 +117,15 @@ class CourseList extends Vue {
     })
   }
 
+  handleSizeChange (val) {
+    this.pagination.pageSize = val
+    this.pagination.current = 1
+    this.searchEvent()
+  }
+  handleCurrentChange (val) {
+    this.pagination.current = val
+    this.searchEvent()
+  }
   toDetail (id) {
     this.$router.push({ path: '/course/detail', query: { id } })
   }
