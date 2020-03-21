@@ -6,13 +6,13 @@
       <el-col :md="18" :sm="24">
         <!-- 标题部分 -->
         <div class="p-t-20 f-18">
-          <p class="m-b-15 f-24">第一讲1 Vue的基础</p>
+          <p class="m-b-15 f-24">{{ courseInfo.title }}</p>
           <div data-flex="">
             <p data-flex="cross:center" class="m-b-0 f-14">
               <hpc-icon name="timeselect" size="20"></hpc-icon>
-              <span class="m-l-5">发布时间：2019-02-02</span>
+              <span class="m-l-5">发布时间：{{ courseInfo.addTime }}</span>
             </p>
-            <p class="m-l-40 m-b-0 f-14">播放量：102</p>
+            <p class="m-l-40 m-b-0 f-14">播放量：{{ courseInfo.play_num }}</p>
           </div>
         </div>
       </el-col>
@@ -22,7 +22,7 @@
           <div class="m-h-10">
             <hpc-icon name="defaultuser" :size="60" class="m-t-2 o-8"></hpc-icon>
           </div>
-          <p class="m-b-15 p-r-30">主讲人：张老师</p>
+          <p class="m-b-15 p-r-30">主讲人：{{ userInfo.name }}</p>
           <el-button type="primary" class="m-b-10">关注</el-button>
         </div>
       </el-col>
@@ -31,17 +31,17 @@
     <el-row type="flex" :gutter="20" class="p-h-100 m-t-20">
       <el-col :md="18" :sm="24">
         <!-- 视频播放器 -->
-        <hpc-video :options="{ height: videoHeight }"></hpc-video>
+        <hpc-video v-if="videoUrl.url" :videoUrl="videoUrl" :options="{ height: videoHeight }"></hpc-video>
       </el-col>
 
       <el-col :md="6" :sm="1" class="hidden-xs-only hidden-sm-only" :style="{ height: `calc(${videoHeight} - 70px)` }">
-        <course-video-list :selectedKey="selectedKey" @checkList="checkList"></course-video-list>
+        <course-video-list :data="sections" :selectedKey="selectedKey" @checkList="checkList"></course-video-list>
       </el-col>
     </el-row>
 
     <!-- 评论 -->
     <div class="m-h-100 m-t-80 p-r-100 m-b-40">
-      <list-view type="comment"></list-view>
+      <list-view type="comment" :data="sections"></list-view>
     </div>
 
     <!-- 底部 -->
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import {Component, Vue} from 'vue-property-decorator'
+import {Component, Watch, Vue} from 'vue-property-decorator'
 import 'element-ui/lib/theme-chalk/display.css'
 import HeaderNav from '../../common/fragment/HeaderNav'
 import LayoutFooter from '../../common/view/LayoutFooter'
@@ -63,14 +63,57 @@ class CourseVideo extends Vue {
   /* vue-vuex */
   /* vue-data */
   videoHeight = '600px'
-  selectedKey = 'data-video-key'
+  videoUrl = {}
+  selectedKey = ''
+
+  courseInfo = {}
+  userInfo = {}
+  sections = []
   /* vue-compute */
   /* vue-watch */
+  @Watch('$route', {immediate: false, deep: true})
+  change (newV) {
+    const res = this.sections.filter(item => item.id === newV.query.videoKey)
+    this.videoUrl = {
+      url: res[0].video
+    }
+  }
   /* vue-lifecycle */
+  created () {
+    this.getCourseInfo()
+    this.getSection()
+    this.selectedKey = this.$route.query.videoKey
+  }
   /* vue-method */
+  async getCourseInfo (params = {}) {
+    Object.assign(params, { id: this.$route.query.id })
+    const { data } = await this.$store.dispatch('getTheCourseInfo', {
+      ...params
+    })
+    if (data) {
+      this.courseInfo = data
+      this.userInfo = data.userInfo || {}
+    }
+  }
+
+  async getSection (params = {}) {
+    Object.assign(params, { id: this.$route.query.id })
+    const { data } = await this.$store.dispatch('getCourseAllSection', {
+      ...params,
+    })
+    if (data) {
+      this.sections = data.data
+      const res = this.sections.filter(item => item.id === this.$route.query.videoKey)
+      this.videoUrl = {
+        url: res[0].video
+      }
+    }
+  }
 
   /* 选中视频列表 */
-  checkList (key) {}
+  checkList (key) {
+    this.selectedKey = key
+  }
 }
 </script>
 

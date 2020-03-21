@@ -7,22 +7,15 @@
     </div>
     <ul @click="checkList" class="video-list-box bg-color o-8 f-16 scroll fill-height">
       <li
-        data-video-key="id"
-        data-video-title="第一讲"
+        v-for="item in data"
+        :data-video-key="item.id"
+        :data-video-title="item.title"
         data-flex="cross:center"
-        :class="['p-l-30', 'm-r-2', 'p-v-10', 'm-b-5', 'cp', 't-hover', { 'checked': selectedRow('data-video-key') }]"
+        :class="['p-l-30', 'm-r-2', 'p-v-10', 'm-b-5', 'cp', 't-hover', { 'checked': selectedRow(item.id) }]"
+        :key="item.id"
       >
         <hpc-icon name="video" :size="15"></hpc-icon>
-        <p class="m-l-10">第一讲1 Vue.js基础</p>
-      </li>
-      <li
-        data-video-key="id"
-        data-video-title="第二讲"
-        data-flex="cross:center"
-        :class="['p-l-30', 'p-v-10', 'm-b-5', 'cp', 't-hover', { 'checked': selectedRow('data-video-key1') }]"
-      >
-        <hpc-icon name="video" :size="15"></hpc-icon>
-        <p class="m-l-10">第二讲 Vue.js基础2</p>
+        <p class="m-l-10">{{ item.title }}</p>
       </li>
     </ul>
   </div>
@@ -35,6 +28,7 @@ export default @Component
 class CourseVideoList extends Vue {
   /* vue-props */
   @Prop({ type: String, default: 'data-video-key' }) selectedKey
+  @Prop({ type: Array, default: [] }) data
   /* vue-vuex */
   /* vue-data */
   /* vue-compute */
@@ -53,7 +47,7 @@ class CourseVideoList extends Vue {
     this.$router.push({
       query: {
         videoKey: dataObj.videoKey,
-        videoTitle: dataObj.videoTitle,
+        id: this.$route.query.id
       }
     })
     this.$emit('checkList', e.target.dataset.videoKey)

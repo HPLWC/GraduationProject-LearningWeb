@@ -103,7 +103,7 @@ class ListView extends Vue {
     this.$emit('handleCurrentChange', this.pagination)
   }
   toVideo (id) {
-    this.$router.push({ path: '/course/video', query: { videoKey: id } })
+    this.$router.push({ path: '/course/video', query: { id: this.$route.query.id, videoKey: id } })
   }
 }
 </script>

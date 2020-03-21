@@ -1,5 +1,6 @@
 <template>
   <video-player
+    v-if="bool"
     class="vjs-custom-skin"
     ref="videoPlayer"
     :playsinline="true"
@@ -11,7 +12,7 @@
 </template>
 
 <script>
-import {Component, Prop, Vue} from 'vue-property-decorator'
+import {Component, Prop, Watch, Vue} from 'vue-property-decorator'
 import 'vue-video-player/src/custom-theme.css'
 import 'video.js/dist/video-js.css'
 import { videoPlayer } from 'vue-video-player'
@@ -26,6 +27,7 @@ class HpcVideo extends Vue {
   /* vue-vuex */
   /* vue-data */
   playerOptions = {} // 初始化参数
+  bool = true
 
   /* vue-compute */
   get player () {
@@ -33,6 +35,12 @@ class HpcVideo extends Vue {
   }
 
   /* vue-watch */
+  @Watch('videoUrl', {deep: true})
+  change (newV) {
+    console.log(newV, 22)
+    this.bool = false
+    this.setVideo()
+  }
   /* vue-lifecycle */
   created () {
     this.assignOption()
@@ -82,8 +90,11 @@ class HpcVideo extends Vue {
 
   /* 设置视频数据源 */
   setVideo () {
-    this.playerOptions.sources[0].src = this.videoUrl && this.videoUrl.url
+    this.playerOptions.sources[0].src = this.videoUrl.url
     if (this.videoUrl.poster) this.playerOptions.poster = this.videoUrl.poster
+    this.$nextTick(() => {
+      this.bool = true
+    })
   }
 
   /* 重置几个方法：播放、停止、重置进度条 */

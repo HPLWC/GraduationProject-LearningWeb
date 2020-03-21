@@ -28,16 +28,13 @@ class CourseDetailCatalog extends Vue {
   }
   /* vue-method */
   async init (params = {}) {
-    console.log(this.pagination)
     Object.assign(params, { id: this.id })
     const { data } = await this.$store.dispatch('getCourseAllSection', {
       ...params,
       pageSize: this.pagination.pageSize,
       pageNum: this.pagination.current,
     })
-    console.log(this.pagination, 22)
     if (data) {
-      console.log(data)
       this.data = data.data || []
       this.pagination.total = data.total || 0
     }

@@ -21,7 +21,7 @@ class CourseInfoDao extends BaseDao<CourseInfo> {
       ...where
     },{
       where,
-      relations: ['courseType'],
+      relations: ['courseType', 'userInfo'],
     })
     return courseInfo
   }
