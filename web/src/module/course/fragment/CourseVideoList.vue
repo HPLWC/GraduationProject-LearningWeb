@@ -2,7 +2,7 @@
 <template>
   <div class="course-video-list f-16 fill-height">
     <div data-flex="cross:center" class="bg-color o-9 f-18 p-l-20 p-v-20">
-      <p>视频列表(1/1)</p>
+      <p>视频列表</p>
       <!--<hpc-icon name="view" :size="20" class="m-l-10"></hpc-icon>-->
     </div>
     <ul @click="checkList" class="video-list-box bg-color o-8 f-16 scroll fill-height">

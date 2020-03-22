@@ -41,7 +41,7 @@
 
     <!-- 评论 -->
     <div class="m-h-100 m-t-80 p-r-100 m-b-40">
-      <list-view type="comment" :data="sections"></list-view>
+      <list-view type="comment" :data="comment" :total="commentPage.total" @refresh="refresh"></list-view>
     </div>
 
     <!-- 底部 -->
@@ -69,20 +69,32 @@ class CourseVideo extends Vue {
   courseInfo = {}
   userInfo = {}
   sections = []
+  comment = []
+  commentPage = {
+    pageSizeOptions: ['10', '20', '30', '50'],
+    current: 1, // 当前页数
+    pageSize: 10,
+    total: 0
+  }
   /* vue-compute */
   /* vue-watch */
   @Watch('$route', {immediate: false, deep: true})
   change (newV) {
-    const res = this.sections.filter(item => item.id === newV.query.videoKey)
+    const videoKey = newV.query.videoKey
+    const res = this.sections.filter(item => item.id === videoKey)
     this.videoUrl = {
       url: res[0].video
     }
+
+    this.getComment()
   }
+
   /* vue-lifecycle */
   created () {
     this.getCourseInfo()
     this.getSection()
     this.selectedKey = this.$route.query.videoKey
+    this.getComment()
   }
   /* vue-method */
   async getCourseInfo (params = {}) {
@@ -108,6 +120,22 @@ class CourseVideo extends Vue {
         url: res[0].video
       }
     }
+  }
+
+  async getComment (params = {}) {
+    Object.assign(params, { id: this.$route.query.videoKey })
+    const { data } = await this.$store.dispatch('getTheComment', {
+      ...params,
+    })
+    if (data) {
+      this.comment = data.data
+      this.commentPage.total = data.total || 0
+    }
+  }
+
+  /* 刷新 */
+  refresh () {
+    this.getComment()
   }
 
   /* 选中视频列表 */
