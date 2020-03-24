@@ -7,6 +7,7 @@ import publicRouter from '../module/public/router'
 import commonRouter from '../module/common/router'
 import homeRouter from '../module/home/router'
 import courseRouter from '../module/course/router'
+import userRouter from '../module/user/router'
 
 const Page404 = () => import('../module/common/view/ExceptionPage/404')
 
@@ -27,6 +28,7 @@ const router = new Router({
     ...commonRouter,
     ...homeRouter,
     ...courseRouter,
+    ...userRouter,
   ]
 })
 

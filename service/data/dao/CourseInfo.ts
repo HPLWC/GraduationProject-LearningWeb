@@ -7,7 +7,6 @@ import { BaseDao } from './BaseDao'
 import CourseInfo from '../entity/CourseInfo'
 import { jwtSecret } from '../../services/config/encrypto'
 import * as redis from '../../utils/redis'
-import course from '../../services/learn/course'
 
 class CourseInfoDao extends BaseDao<CourseInfo> {
   constructor() {
@@ -49,6 +48,26 @@ class CourseInfoDao extends BaseDao<CourseInfo> {
       total = await repository.count({where: params.where})
     }
 
+
+    return {
+      total: total,
+      pageNum: parseInt(params.pageNum) || 1,
+      pageSize: parseInt(params.pageSize) || 6,
+      data: courseInfo
+    }
+  }
+
+  async findAllCollections(where) {
+    const repository = this.getRepository()
+    const params = this.pickPage(where)
+
+    let resP = await repository.createQueryBuilder('courseInfo')
+      .innerJoinAndSelect('courseInfo.userCollect', 'collections')
+      .where('collections.id = :id', {id: params.where.id})
+      .skip(params.pageNum - 1 || 0)
+      .take(params.pageSize || 6)
+    let courseInfo = await resP.getMany()
+    let total = await resP.getCount()
 
     return {
       total: total,

@@ -8,7 +8,19 @@
       </div>
     </div>
     <p class="m-t-10 f-18">{{ value.title || '未命名' }}</p>
-    <p class="m-t-20">{{ value.decoration || '暂无介绍' }}</p>
+    <p class="m-t-20" v-if="!isCollection">{{ value.decoration || '暂无介绍' }}</p>
+    <div data-flex="main:justify" class="m-t-10 w-100" v-if="isCollection">
+      <p></p>
+      <p>收藏于2020-02-02</p>
+      <el-dropdown @command="handleCommand">
+        <span class="el-dropdown-link">
+          <hpc-icon name="el-icon-more el-icon--right"></hpc-icon>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="cancel">取消收藏</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
   </div>
 </template>
 
@@ -19,12 +31,18 @@ export default @Component
 class NewCourse extends Vue {
   /* vue-props */
   @Prop({ type: Object, default: () => ({}) }) value
+  @Prop({ type: Boolean, default: false }) isCollection
   /* vue-vuex */
   /* vue-data */
   /* vue-compute */
   /* vue-watch */
   /* vue-lifecycle */
   /* vue-method */
+  handleCommand (command) {
+    if (command === 'cancel') {
+      /* 取消收藏 */
+    }
+  }
 }
 </script>
 

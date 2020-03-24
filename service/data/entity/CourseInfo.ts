@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryColumn, ManyToOne, JoinColumn, OneToMany} from 'typeorm'
+import {Entity, Column, PrimaryColumn, ManyToOne, JoinColumn, OneToMany, ManyToMany, JoinTable} from 'typeorm'
 import BaseEntity from './BaseEntity'
 import CourseType  from './CourseType'
 import UserInfo from './UserInfo'
@@ -35,4 +35,12 @@ export default class CourseInfo extends BaseEntity {
 
   @OneToMany(type => Section, Section => Section.courseInfo)
   section: Section[]
+
+  @ManyToMany(type => UserInfo, userInfo => userInfo.collections)
+  @JoinTable({
+    name: 'collection',
+    joinColumn: { name: 'course_info_id' },
+    inverseJoinColumn: { name: 'user_id' },
+  })
+  userCollect: UserInfo[]
 }
