@@ -16,9 +16,6 @@
               <span data-link="/user/attention" @click="toUserInfo">我的关注</span>
             </el-dropdown-item>
             <el-dropdown-item>
-              <span data-link="/user/history" @click="toUserInfo">播放历史</span>
-            </el-dropdown-item>
-            <el-dropdown-item>
               <span data-link="/user/center" @click="toUserInfo">个人中心</span>
             </el-dropdown-item>
             <el-dropdown-item>
