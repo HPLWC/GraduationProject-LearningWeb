@@ -10,5 +10,8 @@ export default {
     getCourseAllInfo (context, params) {
       return api.getCourseAllInfo(params)
     },
+    deleteCollection (context, params) {
+      return api.deleteCollection(params)
+    },
   },
 }

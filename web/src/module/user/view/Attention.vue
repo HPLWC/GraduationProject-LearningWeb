@@ -2,8 +2,8 @@
 <template>
   <div class="contact">
     <div data-flex="dir:top" class="a-c m-t-20">
-      <div>
-        <attent-user-list></attent-user-list>
+      <div v-for="item in userList" :key="item.id">
+        <attent-user-list :data="item"></attent-user-list>
       </div>
       <el-pagination
         v-if="userList.length > 0"
@@ -47,14 +47,14 @@ class Home extends Vue {
   /* vue-method */
   async getAllInfo (params = {}) {
     Object.assign(params, {id: this.$ls.getObj('USER_INFO').id})
-    const { data } = await this.$store.dispatch('getTheUserCollections', {
+    const { data } = await this.$store.dispatch('getTheUserAttentions', {
       ...params,
       pageSize: this.pagination.pageSize,
       pageNum: this.pagination.current,
     })
     if (data) {
       this.pagination.total = data.total || 0
-      this.courseList = data.data || []
+      this.userList = data.data || []
     }
   }
 

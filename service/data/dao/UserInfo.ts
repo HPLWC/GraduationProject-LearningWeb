@@ -18,7 +18,41 @@ class UserInfoDao extends BaseDao<UserInfo> {
     return userInfo
   }
 
-  async saveUser(userInfo): Promise<any> {
+  /*async findAttentions(where) {
+    const repository = this.getRepository()
+    const params = this.pickPage(where)
+
+    let resP = await repository.createQueryBuilder('userInfo')
+      .innerJoinAndSelect('userInfo.attentions', 'attentions')
+      .where('attentions.id = :id', {id: params.where.id})
+      .skip(params.pageNum - 1 || 0)
+      .take(params.pageSize || 6)
+    let courseInfo = await resP.getMany()
+    let total = await resP.getCount()
+
+    return {
+      total: total,
+      pageNum: parseInt(params.pageNum) || 1,
+      pageSize: parseInt(params.pageSize) || 6,
+      data: courseInfo
+    }
+  }*/
+
+  /*async saveAttentions(where) {
+    const manager = this.getManager()
+    let params:any = {}
+
+    const attentions = await this.findOne({ id: where.user_id })
+    const toAttentions = await this.findOne({ id: where.attention_id })
+
+    params.id = this.getUuid().replace(/-/g, '')
+    params.attentions = attentions
+    params.toAttentions = toAttentions
+
+    return manager.save(this.entityClass, params)
+  }*/
+
+  async saveUserInfo(userInfo): Promise<any> {
     const manager = this.getManager()
 
     // 查询是否已存在该用户

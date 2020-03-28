@@ -57,26 +57,6 @@ class CourseInfoDao extends BaseDao<CourseInfo> {
     }
   }
 
-  async findAllCollections(where) {
-    const repository = this.getRepository()
-    const params = this.pickPage(where)
-
-    let resP = await repository.createQueryBuilder('courseInfo')
-      .innerJoinAndSelect('courseInfo.userCollect', 'collections')
-      .where('collections.id = :id', {id: params.where.id})
-      .skip(params.pageNum - 1 || 0)
-      .take(params.pageSize || 6)
-    let courseInfo = await resP.getMany()
-    let total = await resP.getCount()
-
-    return {
-      total: total,
-      pageNum: parseInt(params.pageNum) || 1,
-      pageSize: parseInt(params.pageSize) || 6,
-      data: courseInfo
-    }
-  }
-
   async saveInfo(info, myToken): Promise<any> {
     const manager = this.getManager()
 

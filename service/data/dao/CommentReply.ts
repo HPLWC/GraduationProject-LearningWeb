@@ -54,12 +54,10 @@ class CommentReplyDao extends BaseDao<CommentReply> {
 
   async saveComment(comment): Promise<any> {
     const manager = this.getManager()
-    console.log(comment)
 
     const fComment = await Comment.findOne({id: comment.comment_id})
     const userInfo = await UserInfo.findOne({id: comment.user_id})
     const toUserInfo = await UserInfo.findOne({id: comment.to_user_id})
-    console.log(fComment)
     comment.comment = fComment
     comment.userInfo = userInfo
     comment.toUserInfo = toUserInfo

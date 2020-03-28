@@ -3,6 +3,7 @@ import BaseEntity from './BaseEntity'
 import CourseType  from './CourseType'
 import UserInfo from './UserInfo'
 import Section from './Section'
+import Collection from './Collection'
 
 @Entity()
 export default class CourseInfo extends BaseEntity {
@@ -36,11 +37,6 @@ export default class CourseInfo extends BaseEntity {
   @OneToMany(type => Section, Section => Section.courseInfo)
   section: Section[]
 
-  @ManyToMany(type => UserInfo, userInfo => userInfo.collections)
-  @JoinTable({
-    name: 'collection',
-    joinColumn: { name: 'course_info_id' },
-    inverseJoinColumn: { name: 'user_id' },
-  })
-  userCollect: UserInfo[]
+  @OneToMany(type => Collection, collection => collection.courseInfo)
+  collections: Collection[]
 }

@@ -1,14 +1,14 @@
 <template>
   <div @click="$emit('click')" class="dir:top a-c m-t-10 m-b-20 cp">
     <div class="course-img w-100">
-      <img :src="value.photo" v-if="value.photo" alt="course">
+      <img :src="isCollection ? value.courseInfo.photo : value.photo" v-if="isCollection ? value.courseInfo.photo : value.photo" alt="course">
       <img src="../../../assets/images/banner.png" v-else alt="course">
       <div data-flex="cross:center main:center" class="hover-icon h-100 w-100 c-white o-7">
         <hpc-icon name="video" :size="45"></hpc-icon>
       </div>
     </div>
-    <p class="m-t-10 f-18">{{ value.title || '未命名' }}</p>
-    <p class="m-t-20" v-if="!isCollection">{{ value.decoration || '暂无介绍' }}</p>
+    <p class="m-t-10 f-18">{{ (isCollection ? value.courseInfo.title : value.title) || '未命名' }}</p>
+    <p class="m-t-20" v-if="!isCollection">{{(isCollection ? value.courseInfo.decoration : value.decoration) || '暂无介绍' }}</p>
     <div data-flex="main:justify" class="m-t-10 w-100" v-if="isCollection">
       <p></p>
       <p>收藏于2020-02-02</p>
@@ -38,9 +38,24 @@ class NewCourse extends Vue {
   /* vue-watch */
   /* vue-lifecycle */
   /* vue-method */
-  handleCommand (command) {
+  async handleCommand (command) {
     if (command === 'cancel') {
       /* 取消收藏 */
+      const { data } = await this.$store.dispatch('deleteCollection', { id: this.value.id })
+      if (data.success) {
+        this.$notify({
+          type: 'success',
+          title: '提示',
+          message: '取消成功'
+        })
+        this.$emit('refresh', true)
+      } else {
+        this.$notify({
+          type: 'error',
+          title: '提示',
+          message: '取消失败'
+        })
+      }
     }
   }
 }

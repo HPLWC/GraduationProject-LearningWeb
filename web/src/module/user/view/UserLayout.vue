@@ -20,7 +20,7 @@
         </el-menu-item>
       </el-menu>
 
-      <div class="div m-l-10" :style="{ width: '1000px' }">
+      <div class="div m-l-10" :style="{ width: '1000px', minHeight: '233px' }">
         <router-view></router-view>
       </div>
     </div>

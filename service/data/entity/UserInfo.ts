@@ -1,8 +1,10 @@
-import { Entity, Column, PrimaryColumn, JoinTable, ManyToMany } from 'typeorm'
+import { Entity, Column, PrimaryColumn, JoinTable, ManyToMany, OneToMany } from 'typeorm'
 import CourseInfo from './CourseInfo'
+import Collection from './Collection'
+import BaseEntity from './BaseEntity'
 
 @Entity()
-export default class UserInfo {
+export default class UserInfo extends BaseEntity {
 
   @PrimaryColumn()
   public id: string
@@ -19,6 +21,9 @@ export default class UserInfo {
   @Column({ length: 50 })
   public email: string
 
-  @ManyToMany(type => CourseInfo, courseInfo => courseInfo.userCollect)
-  collections: CourseInfo[]
+  @Column({ length: 255 })
+  public decoration: string
+
+  @OneToMany(type => Collection, collection => collection.userInfo)
+  collections: Collection[]
 }

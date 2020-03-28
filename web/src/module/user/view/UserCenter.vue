@@ -2,29 +2,35 @@
 <template>
   <div class="user_center">
     <div data-flex="main:center cross:top" class="a-c m-t-20 a-l">
-      <img src="../../../assets/images/banner.png" alt="">
-      <el-form ref="form" :model="form" label-width="120px" class="m-l-40 m-t-20" :style="{ width: '60%' }">
-        <el-form-item label="用户名">
+      <div>
+        <img v-if="form.photo" :src="form.photo" alt="" class="m-t-2">
+        <hpc-icon v-else name="defaultuser" :size="100" class="m-t-2 o-8"></hpc-icon>
+      </div>
+      <el-form ref="form" :rules="rules" :model="form" label-width="120px" class="m-l-40 m-t-20" :style="{ width: '60%' }">
+        <el-form-item label="用户名" prop="name">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item label="性别" class="m-t-15">
+        <el-form-item label="性别" class="m-t-15" prop="sex">
           <el-radio-group v-model="form.sex">
             <el-radio label="男"></el-radio>
             <el-radio label="女"></el-radio>
             <el-radio label="未知"></el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="电话号码" class="m-t-15">
+        <el-form-item label="电话号码" class="m-t-15" prop="phone">
           <el-input v-model="form.phone"></el-input>
         </el-form-item>
-        <el-form-item label="邮箱" class="m-t-15">
+        <el-form-item label="邮箱" class="m-t-15" prop="email">
           <el-input v-model="form.email"></el-input>
         </el-form-item>
-        <el-form-item label="评价" class="m-t-15">
+        <el-form-item label="个人简介" class="m-t-15" prop="decoration">
+          <el-input type="textarea" v-model="form.decoration"></el-input>
+        </el-form-item>
+        <el-form-item label="评价" class="m-t-15" prop="common">
           <el-input type="textarea" v-model="form.common"></el-input>
         </el-form-item>
         <el-form-item class="m-t-15">
-          <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
+          <el-button type="primary" @click="submitForm('form')">保存</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -43,6 +49,45 @@ class Home extends Vue {
   /* vue-vuex */
   /* vue-data */
   form = {}
+
+  data () {
+    let isMobileNumber = (rule, value, callback) => {
+      if (!value) {
+        return new Error('请输入电话号码')
+      } else {
+        const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
+        const isPhone = reg.test(value)
+        value = Number(value) // 转换为数字
+        if (typeof value === 'number' && !isNaN(value)) { // 判断是否为数字
+          value = value.toString() // 转换成字符串
+          if (value.length < 0 || value.length > 12 || !isPhone) { // 判断是否为11位手机号
+            callback(new Error('手机号码格式如:138xxxx8754'))
+          } else {
+            callback()
+          }
+        } else {
+          callback(new Error('请输入电话号码'))
+        }
+      }
+    }
+    return {
+      rules: {
+        name: [
+          { required: true, message: '请输入姓名', trigger: 'change' },
+        ],
+        sex: [
+          { required: true, message: '请选择性别', trigger: 'change' },
+        ],
+        phone: [
+          { required: true, message: '请输入电话', trigger: 'change' },
+          { validator: isMobileNumber, trigger: 'change' }
+        ],
+        email: [
+          { type: 'email', required: true, message: '请填写正确格式', trigger: 'change' }
+        ],
+      }
+    }
+  }
   /* vue-compute */
   /* vue-watch */
   /* vue-lifecycle */
@@ -50,13 +95,27 @@ class Home extends Vue {
     this.form = this.$ls.getObj('USER_INFO')
   }
   /* vue-method */
+  submitForm (formName) {
+    this.$refs[formName].validate((valid) => {
+      if (valid) {
+        alert('submit!')
+      } else {
+        this.$notify({
+          type: 'error',
+          title: '提示',
+          message: '请按要求输入正确项'
+        })
+        return false
+      }
+    })
+  }
 }
 </script>
 
 <style lang="scss" scoped>
   img {
-    width: 100px;
-    height: 100px;
+    width: 85px;
+    height: 85px;
     border-radius: 50%;
   }
   .user_center {

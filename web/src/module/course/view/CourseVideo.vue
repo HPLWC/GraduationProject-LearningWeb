@@ -23,7 +23,7 @@
             <hpc-icon name="defaultuser" :size="60" class="m-t-2 o-8"></hpc-icon>
           </div>
           <p class="m-b-15 p-r-30">主讲人：{{ userInfo.name }}</p>
-          <el-button type="primary" class="m-b-10">关注</el-button>
+          <el-button @click="attention(userInfo.id)" type="primary" class="m-b-10">关注</el-button>
         </div>
       </el-col>
     </el-row>
@@ -131,6 +131,17 @@ class CourseVideo extends Vue {
       this.comment = data.data
       this.commentPage.total = data.total || 0
     }
+  }
+
+  /* 关注 */
+  async attention (id) {
+    const params = {
+      user_id: this.$ls.getObj('USER_INFO').id,
+      attention_id: id
+    }
+    console.log(params)
+    const { data } = await this.$store.dispatch('saveTheUserAttentions', params)
+    console.log(data)
   }
 
   /* 刷新 */
