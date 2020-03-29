@@ -23,7 +23,7 @@
             <hpc-icon name="defaultuser" :size="60" class="m-t-2 o-8"></hpc-icon>
           </div>
           <p class="m-b-15 p-r-30">主讲人：{{ userInfo.name }}</p>
-          <el-button @click="attention(userInfo.id)" type="primary" class="m-b-10">关注</el-button>
+          <el-button @click="attention(userInfo.id)" type="primary" class="m-b-10">{{ isAttention ? '已关注' : '关注' }}</el-button>
         </div>
       </el-col>
     </el-row>
@@ -65,6 +65,7 @@ class CourseVideo extends Vue {
   videoHeight = '600px'
   videoUrl = {}
   selectedKey = ''
+  isAttention = false
 
   courseInfo = {}
   userInfo = {}
@@ -95,6 +96,7 @@ class CourseVideo extends Vue {
     this.getSection()
     this.selectedKey = this.$route.query.videoKey
     this.getComment()
+    this.isAttentionEvent()
   }
   /* vue-method */
   async getCourseInfo (params = {}) {
@@ -133,15 +135,30 @@ class CourseVideo extends Vue {
     }
   }
 
-  /* 关注 */
-  async attention (id) {
+  async isAttentionEvent () {
     const params = {
       user_id: this.$ls.getObj('USER_INFO').id,
-      attention_id: id
+      attention_user_id: this.userInfo.id
     }
-    console.log(params)
-    const { data } = await this.$store.dispatch('saveTheUserAttentions', params)
-    console.log(data)
+    const { data } = await this.$store.dispatch('getIsAttention', {
+      ...params
+    })
+    if (data) {
+      this.isAttention = data.data.isAttention
+    }
+  }
+
+  /* 关注 */
+  async attention (id) {
+    const vuex = this.isAttention ? 'deleteAttention' : 'saveTheUserAttentions'
+    const params = {
+      user_id: this.$ls.getObj('USER_INFO').id,
+      attention_user_id: id
+    }
+    const { data } = await this.$store.dispatch(vuex, params)
+    if (data) {
+      this.isAttentionEvent()
+    }
   }
 
   /* 刷新 */

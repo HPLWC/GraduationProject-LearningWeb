@@ -3,7 +3,7 @@
   <div class="contact">
     <div data-flex="dir:top" class="a-c m-t-20">
       <div v-for="item in userList" :key="item.id">
-        <attent-user-list :data="item"></attent-user-list>
+        <attent-user-list :data="item" @refresh="refresh"></attent-user-list>
       </div>
       <el-pagination
         v-if="userList.length > 0"
@@ -67,8 +67,8 @@ class Home extends Vue {
     this.pagination.current = val
     this.getAllInfo()
   }
-  toDetail (id) {
-    this.$router.push({ path: '/course/detail', query: { id } })
+  refresh () {
+    this.getAllInfo()
   }
 }
 </script>

@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryColumn, JoinTable, ManyToMany, OneToMany } from 'typeorm'
-import CourseInfo from './CourseInfo'
+import Attention from './Attention'
 import Collection from './Collection'
 import BaseEntity from './BaseEntity'
 
@@ -26,4 +26,7 @@ export default class UserInfo extends BaseEntity {
 
   @OneToMany(type => Collection, collection => collection.userInfo)
   collections: Collection[]
+
+  @OneToMany(type => Attention, attention => attention.attentionUserInfo)
+  attentions: Attention[]
 }

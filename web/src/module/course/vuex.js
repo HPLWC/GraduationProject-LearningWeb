@@ -30,5 +30,9 @@ export default {
     saveCollection (context, params) {
       return api.saveCollection(params)
     },
+
+    getIsAttention (context, params) {
+      return api.getIsAttention(params)
+    },
   },
 }

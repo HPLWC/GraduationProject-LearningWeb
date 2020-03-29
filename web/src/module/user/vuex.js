@@ -13,5 +13,8 @@ export default {
     saveTheUserAttentions (context, params) {
       return api.saveTheUserAttentions(params)
     },
+    deleteAttention (context, params) {
+      return api.deleteAttention(params)
+    },
   },
 }
