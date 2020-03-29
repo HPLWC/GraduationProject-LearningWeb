@@ -12,8 +12,11 @@
           <p class="m-t-18 m-b-5 f-18">课程介绍</p>
           <div class="o-8" :style="{ lineHeight: '1.7' }">{{ data.decoration || '暂无简介' }}</div>
         </div>
-        <div class="a-c m-t-20">
+        <div class="a-l m-t-20" data-flex="cross:center">
           <el-button type="primary" size="medium" @click="$emit('click')">开始学习</el-button>
+          <div class="m-l-20">
+            <hpc-icon @click="collectionEvent" name="el-icon-star-on" :style="{ color: isCollect ? '#ffe838' : '#aaa' }"></hpc-icon>
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -29,12 +32,47 @@ class CourseDetailCard extends Vue {
   @Prop({ type: Object, default: {} }) data
   /* vue-vuex */
   /* vue-data */
+  isCollect = false
   /* vue-compute */
   /* vue-watch */
   /* vue-lifecycle */
+  created () {
+    this.isCollectEvent()
+  }
   /* vue-method */
+  async collectionEvent () {
+    let vuex = this.isCollect ? 'deleteCollection' : 'saveCollection'
+    const { data } = await this.$store.dispatch(vuex, {
+      user_id: this.$ls.getObj('USER_INFO').id,
+      course_info_id: this.$route.query.id
+    })
+    if (data) {
+      this.isCollectEvent()
+    }
+  }
+  async isCollectEvent () {
+    const params = {
+      user_id: this.$ls.getObj('USER_INFO').id,
+      course_info_id: this.$route.query.id
+    }
+    const { data } = await this.$store.dispatch('getIsCollection', {
+      ...params
+    })
+    if (data) {
+      this.isCollect = data.data.isCollect
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+  .course-detail-card {
+    /deep/ .el-icon-star-on {
+      font-size: 32px;
+      cursor: pointer;
+    }
+    /deep/ .el-icon-star-off {
+      font-size: 28px;
+    }
+  }
 </style>

@@ -11,4 +11,7 @@ export default {
   getTheComment: (params, config) => request('get', '/section/comment/all', params, config), // 获取相应课程评论
   saveTheFirstComment: (params, config) => request('post', '/section/comment/save', params, config), // 保存相应课程评论
   saveTheSecondComment: (params, config) => request('post', '/section/comment/reply/save', params, config), // 保存相应二级评论
+
+  getIsCollection: (params, config) => request('get', '/user/the/isCollection', params, config), // 判断是否已收藏
+  saveCollection: (params, config) => request('post', '/user/collections/save', params, config), // 添加用户的收藏信息
 }

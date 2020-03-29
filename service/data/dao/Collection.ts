@@ -13,10 +13,20 @@ class CollectionDao extends BaseDao<Collection> {
 
   async findOne(where) {
     const repository = this.getRepository()
+    let collection
 
-    const collection = await repository.findOne({
-      where
-    })
+    if(!where.id) {
+      collection = await repository.createQueryBuilder('collection')
+        .innerJoinAndSelect('collection.userInfo', 'userInfo')
+        .innerJoinAndSelect('collection.courseInfo', 'courseInfo')
+        .where('userInfo.id = :id', {id: where.user_id})
+        .where('courseInfo.id = :id', {id: where.course_info_id})
+        .getOne()
+    } else {
+      collection = await repository.findOne({
+        where
+      })
+    }
     return collection
   }
 
@@ -58,7 +68,7 @@ class CollectionDao extends BaseDao<Collection> {
   async deleteCollection(where) {
     const repository = this.getRepository()
 
-    const collection = await this.findOne({ id: where.id })
+    const collection = await this.findOne(where)
 
     if(!collection) {
       return {
@@ -76,6 +86,27 @@ class CollectionDao extends BaseDao<Collection> {
         return {
           success: false,
           message: '删除失败'
+        }
+      }
+    }
+  }
+
+  async getIsCollection (where) {
+    const res = await this.findOne(where)
+    if(!res) {
+      return {
+        success: true,
+        message: '未收藏',
+        data: {
+          isCollect: false
+        }
+      }
+    } else {
+      return {
+        success: true,
+        message: '已收藏',
+        data: {
+          isCollect: true
         }
       }
     }

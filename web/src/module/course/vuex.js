@@ -23,5 +23,12 @@ export default {
     saveTheSecondComment (context, params) {
       return api.saveTheSecondComment(params)
     },
+
+    getIsCollection (context, params) {
+      return api.getIsCollection(params)
+    },
+    saveCollection (context, params) {
+      return api.saveCollection(params)
+    },
   },
 }

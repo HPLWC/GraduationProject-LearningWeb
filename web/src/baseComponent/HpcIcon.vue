@@ -2,7 +2,7 @@
   <svg :class="svgClass" :style="styleObj" aria-hidden="true" @click="$emit('click')" v-if="!name.startsWith('el-icon')">
     <use :xlink:href="iconName"></use>
   </svg>
-  <i :class="name" v-else></i>
+  <i :class="name" @click="$emit('click')" v-else></i>
 </template>
 
 <script>
