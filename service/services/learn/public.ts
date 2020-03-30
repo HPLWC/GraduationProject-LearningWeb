@@ -35,10 +35,9 @@ async function login(ctx) {
     ctx.body = createBody({}, false, 0, '用户名或密码不能为空')
     return
   }
-  // const user = await Dao.User.findOne({username: params.username})
   const user = await Dao.User.findOne(params)
   if(user) {
-    const token = jwt.sign({data: user}, jwtSecret, { expiresIn: jwtExp})
+    const token = jwt.sign({data: {id: user.id, password: user.password, username: user.username}}, jwtSecret, { expiresIn: jwtExp})
     await redis.set(user.id, {user}, jwtExp)
     ctx.body = createBody({token})
   } else {
@@ -66,7 +65,9 @@ async function logout(ctx) {
 async function userInfo(ctx) {
   const token = ctx.header['token']
   const decoded = jwt.verify(token, jwtSecret)
-  const userInfo = decoded.data && decoded.data.userInfo
+  // const userInfo = decoded.data && decoded.data.userInfo
+  const user = await Dao.User.findOne({id: decoded.data.id})
+  const userInfo = user.userInfo
   if(userInfo) {
     ctx.body = createBody(userInfo)
   } else {

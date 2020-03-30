@@ -20,7 +20,8 @@
       <el-col :md="6" :sm="1" class="hidden-xs-only hidden-sm-only">
         <div data-flex="cross:bottom" class="p-t-20 f-18">
           <div class="m-h-10">
-            <hpc-icon name="defaultuser" :size="60" class="m-t-2 o-8"></hpc-icon>
+            <img v-if="userInfo.photo" :src="userInfo.photo" alt="" class="my_photo_ava">
+            <hpc-icon v-else name="defaultuser" :size="60" class="m-t-2 o-8"></hpc-icon>
           </div>
           <p class="m-b-15 p-r-30">主讲人：{{ userInfo.name }}</p>
           <el-button @click="attention(userInfo.id)" type="primary" class="m-b-10">{{ isAttention ? '已关注' : '关注' }}</el-button>
@@ -97,6 +98,8 @@ class CourseVideo extends Vue {
     this.selectedKey = this.$route.query.videoKey
     this.getComment()
     this.isAttentionEvent()
+
+    this.playCourseInfo()
   }
   /* vue-method */
   async getCourseInfo (params = {}) {
@@ -146,6 +149,13 @@ class CourseVideo extends Vue {
     if (data) {
       this.isAttention = data.data.isAttention
     }
+  }
+
+  /* 播放 */
+  async playCourseInfo () {
+    const { data } = await this.$store.dispatch('playCourseInfo', {
+      id: this.$route.query.id
+    })
   }
 
   /* 关注 */

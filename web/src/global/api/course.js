@@ -16,4 +16,6 @@ export default {
   saveCollection: (params, config) => request('post', '/user/collections/save', params, config), // 添加用户的收藏信息
 
   getIsAttention: (params, config) => request('get', '/user/the/isAttention', params, config), // 判断是否已关注
+
+  playCourseInfo: (params, config) => request('put', '/course/info/play', params, config), // 播放次数加一
 }

@@ -41,7 +41,6 @@ import {Component, Vue} from 'vue-property-decorator'
 import LayoutHeader from '../../common/view/LayoutHeader'
 import LayoutFooter from '../../common/view/LayoutFooter'
 import AttentUserList from '../fragment/AttentUserList'
-import {ls} from '../../../assets/utils'
 
 export default @Component({ components: { LayoutHeader, LayoutFooter, AttentUserList } })
 class Home extends Vue {
@@ -104,8 +103,13 @@ class Home extends Vue {
           photo: this.photoUrl
         })
         if (data) {
-          this.$ls.set('USER_INFO', data)
+          this.$store.commit('SET_USER_INFO', data)
           this.form = this.$ls.getObj('USER_INFO')
+          this.$notify({
+            type: 'success',
+            title: '提示',
+            message: '修改成功'
+          })
         }
       } else {
         this.$notify({

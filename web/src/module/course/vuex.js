@@ -34,5 +34,9 @@ export default {
     getIsAttention (context, params) {
       return api.getIsAttention(params)
     },
+
+    playCourseInfo (context, params) {
+      return api.playCourseInfo(params)
+    },
   },
 }

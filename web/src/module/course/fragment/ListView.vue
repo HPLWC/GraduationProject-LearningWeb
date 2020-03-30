@@ -10,7 +10,8 @@
         <!-- 发表评论 -->
         <div data-flex="cross:top" class="m-v-20 w-100 b-b p-b-40">
           <div>
-            <hpc-icon name="defaultuser" :size="50" class="m-t-2 o-8"></hpc-icon>
+            <img v-if="$ls.getObj('USER_INFO').photo" :src="$ls.getObj('USER_INFO').photo" alt="" class="my_photo_ava">
+            <hpc-icon v-else name="defaultuser" :size="50" class="m-t-2 o-8"></hpc-icon>
           </div>
           <div class="m-l-18 bx-b w-100">
             <div class="w-100">
@@ -26,7 +27,8 @@
           <template v-if="data.length > 0">
             <li v-for="(item, key) in data" data-flex="cross:top" class="m-t-20 p-b-20 p-h-10 b-b" :key="item.id">
               <div>
-                <hpc-icon name="defaultuser" :size="50" class="m-t-2 o-8"></hpc-icon>
+                <img v-if="item.userInfo.photo" :src="item.userInfo.photo" alt="" class="my_photo_ava">
+                <hpc-icon v-else name="defaultuser" :size="50" class="m-t-2 o-8"></hpc-icon>
               </div>
               <div class="m-l-18 bx-b w-100">
                 <div>
@@ -41,7 +43,14 @@
                   <ul class="w-100">
                     <li v-for="replyItem in item.commentReply" data-flex="cross:top" class="m-t-20 p-b-20 p-h-10" :key="replyItem.id">
                       <div>
-                        <hpc-icon name="defaultuser" :size="40" class="o-8"></hpc-icon>
+                        <img
+                          v-if="replyItem.userInfo.photo"
+                          :src="replyItem.userInfo.photo"
+                          alt=""
+                          class="my_photo_ava"
+                          :style="{ width: '34px', height: '34px' }"
+                        >
+                        <hpc-icon v-else name="defaultuser" :size="40" class="o-8"></hpc-icon>
                       </div>
                       <div class="m-l-18 bx-b">
                         <div>
@@ -130,6 +139,8 @@ class ListView extends Vue {
   isReplyComment = [] // 是否显示二级评论
   replyCommentInfo = {} // 二级评论信息
 
+  photo = ''
+
   pagination = {
     pageSizeOptions: ['10', '20', '30', '50'],
     current: 1, // 当前页数
@@ -147,6 +158,11 @@ class ListView extends Vue {
   onChangeValue (newV) {
     this.pagination.total = newV
     this.isReplyComment.length = newV
+  }
+
+  /* vue-life */
+  async created () {
+    const { data } = await this.$store.dispatch('userInfo')
   }
 
   /* vue-method */

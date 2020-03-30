@@ -12,6 +12,10 @@
           <p class="m-t-18 m-b-5 f-18">课程介绍</p>
           <div class="o-8" :style="{ lineHeight: '1.7' }">{{ data.decoration || '暂无简介' }}</div>
         </div>
+        <div>
+          <p class="m-t-18 m-b-5 f-18">主讲人:   {{ data.userInfo.name || '暂无' }}</p>
+<!--          <div class="o-8" :style="{ lineHeight: '1.7' }">{{ data.userInfo.name || '暂无' }}</div>-->
+        </div>
         <div class="a-l m-t-20" data-flex="cross:center">
           <el-button type="primary" size="medium" @click="$emit('click')">开始学习</el-button>
           <div class="m-l-20">

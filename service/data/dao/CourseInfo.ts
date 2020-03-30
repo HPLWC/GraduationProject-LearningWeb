@@ -119,6 +119,20 @@ class CourseInfoDao extends BaseDao<CourseInfo> {
     }
   }
 
+  async playInfo(info) {
+    const manager = this.getManager()
+
+    const res = await this.findOne({ id: info.id })
+    if(!res) {
+      return {
+        success: false,
+        message: '未查找到此课程'
+      }
+    } else {
+      Object.assign(res, { play_num: ++ res.play_num })
+      return manager.save(res)
+    }
+  }
 }
 
 export default new CourseInfoDao()
