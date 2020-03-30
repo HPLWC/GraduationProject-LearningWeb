@@ -18,11 +18,17 @@ export default class UserInfo extends BaseEntity {
   @Column({ length: 11 })
   public phone: string
 
+  @Column({ length: 255 })
+  public photo: string
+
   @Column({ length: 50 })
   public email: string
 
   @Column({ length: 255 })
   public decoration: string
+
+  @Column({ length: 255 })
+  public common: string
 
   @OneToMany(type => Collection, collection => collection.userInfo)
   collections: Collection[]

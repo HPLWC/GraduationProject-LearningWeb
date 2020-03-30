@@ -1,6 +1,7 @@
 import * as Koa from 'koa'
 import * as koaBody from 'koa-bodyparser'
 import * as jwt from 'jsonwebtoken'
+import * as serve from 'koa-static'
 import routes from './services'
 import { connection } from './data/db'
 import { jwtSecret, jwtExp } from './services/config/encrypto'
@@ -11,6 +12,7 @@ const unTokenUrl = ['/learn/public/user/login', '/learn/public/user/logout', '/l
 
 /* 中间件 */
 app.use(koaBody()) // 解析post请求的参数
+app.use(serve('static', {maxage: 20 * 60 * 1000}))// 设置静态文件中间件
 
 /* 登录验证 */
 app.use(async (ctx, next) => {

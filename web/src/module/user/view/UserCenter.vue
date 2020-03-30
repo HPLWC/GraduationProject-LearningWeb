@@ -3,8 +3,7 @@
   <div class="user_center">
     <div data-flex="main:center cross:top" class="a-c m-t-20 a-l">
       <div>
-        <img v-if="form.photo" :src="form.photo" alt="" class="m-t-2">
-        <hpc-icon v-else name="defaultuser" :size="100" class="m-t-2 o-8"></hpc-icon>
+        <hpc-upload :imageUrl="form.photo" @photoUrlEvent="photoUrlEvent"></hpc-upload>
       </div>
       <el-form ref="form" :rules="rules" :model="form" label-width="120px" class="m-l-40 m-t-20" :style="{ width: '60%' }">
         <el-form-item label="用户名" prop="name">
@@ -42,6 +41,7 @@ import {Component, Vue} from 'vue-property-decorator'
 import LayoutHeader from '../../common/view/LayoutHeader'
 import LayoutFooter from '../../common/view/LayoutFooter'
 import AttentUserList from '../fragment/AttentUserList'
+import {ls} from '../../../assets/utils'
 
 export default @Component({ components: { LayoutHeader, LayoutFooter, AttentUserList } })
 class Home extends Vue {
@@ -49,6 +49,7 @@ class Home extends Vue {
   /* vue-vuex */
   /* vue-data */
   form = {}
+  photoUrl = ''
 
   data () {
     let isMobileNumber = (rule, value, callback) => {
@@ -96,9 +97,16 @@ class Home extends Vue {
   }
   /* vue-method */
   submitForm (formName) {
-    this.$refs[formName].validate((valid) => {
+    this.$refs[formName].validate(async (valid) => {
       if (valid) {
-        alert('submit!')
+        const { data } = await this.$store.dispatch('updateUserInfo', {
+          ...this.form,
+          photo: this.photoUrl
+        })
+        if (data) {
+          this.$ls.set('USER_INFO', data)
+          this.form = this.$ls.getObj('USER_INFO')
+        }
       } else {
         this.$notify({
           type: 'error',
@@ -108,6 +116,10 @@ class Home extends Vue {
         return false
       }
     })
+  }
+  photoUrlEvent (url) {
+    this.photoUrl = url
+    this.form.photo = url
   }
 }
 </script>

@@ -16,5 +16,9 @@ export default {
     deleteAttention (context, params) {
       return api.deleteAttention(params)
     },
+
+    updateUserInfo (context, params) {
+      return api.updateUserInfo(params)
+    },
   },
 }

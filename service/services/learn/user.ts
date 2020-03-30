@@ -49,6 +49,12 @@ async function getIsAttention(ctx) {
   ctx.body = createBody(attentions)
 }
 
+async function updateUserInfo(ctx) {
+  const params = ctx.request.body
+  const userInfo = await Dao.UserInfo.updateUserInfo(params)
+  ctx.body = createBody(userInfo)
+}
+
 export default (routes, prefix) => {
   // 用户收藏信息
   routes.get(prefix + '/user/collections/all', getTheUserCollections) // 获取用户的收藏信息
@@ -61,5 +67,8 @@ export default (routes, prefix) => {
   routes.post(prefix + '/user/attentions/save', saveTheUserAttentions) // 保存用户的关注用户
   routes.delete(prefix + '/user/attentions/delete', deleteAttention) // 取消用户的关注用户
   routes.get(prefix + '/user/the/isAttention', getIsAttention) // 判断是否已关注
+
+  // 修改用户信息
+  routes.post(prefix + '/user/info/update', updateUserInfo) // 修改用户信息
 
 }

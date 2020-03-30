@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import api from './api'
 import publicx from '../module/public/vuex'
 import homex from '../module/home/vuex'
 import coursex from '../module/course/vuex'
@@ -14,6 +15,18 @@ const mutations = {
 const getters = {
 }
 const actions = {
+  async uploadImg (context, file) {
+    let formData = new FormData()
+    let upload = await file
+    formData.append('typeOption', 'upload_image')
+    formData.append('upload', upload)
+    const { data } = await api.imageUpload(formData)
+    // data.default = process.env.VUE_APP_BASE_URL + data.default
+
+    let baseUrl = 'http://127.0.0.1:3000'
+    data.default = baseUrl + '/' + data.default
+    return { data }
+  }
 }
 
 const modules = {
