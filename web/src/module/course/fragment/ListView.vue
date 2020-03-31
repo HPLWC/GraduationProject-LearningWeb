@@ -21,6 +21,7 @@
           </div>
         </div>
       </template>
+
       <ul class="p-h-15 p-t-20">
         <template v-if="type==='comment'">
           <!-- 评论 -->

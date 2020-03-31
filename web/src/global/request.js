@@ -14,9 +14,10 @@ const service = axios.create({
 
 let modal = null
 const statusHandle = (status, data) => {
+  console.log(status, data)
   switch (status) {
     case 403:
-      Notification.error({ title: '系统提示', message: '您没有接口访问权限', duration: 4 })
+      Notification.error({ title: '系统提示', message: '您没有接口访问权限', duration: 4000 })
       break
     case 401:
       if (data.message === '未登录或已过期，请重新登录' || data.error.message === '未登录或已过期，请重新登录') {
@@ -34,7 +35,7 @@ const statusHandle = (status, data) => {
       }
       break
     case 404:
-      Notification.error({ title: '系统提示', message: '很抱歉，资源未找到!', duration: 4 })
+      Notification.error({ title: '系统提示', message: '很抱歉，资源未找到!', duration: 4000 })
       break
     case 504:
       Notification.error({ title: '系统提示', message: '网络超时' })
@@ -42,13 +43,13 @@ const statusHandle = (status, data) => {
     case 417:
       store.dispatch('errorPage')
       window.localStorage.setItem('error_msg', JSON.stringify(data.message))
-      Notification.warning({ title: '系统提示', message: data.message, duration: 4 })
+      Notification.warning({ title: '系统提示', message: data.message, duration: 4000 })
       break
     default:
       Notification.error({
-        message: '系统提示',
-        description: data.message,
-        duration: 4
+        title: '系统提示',
+        message: data.message || data.data.message,
+        duration: 4000
       })
       break
   }
@@ -73,7 +74,7 @@ service.interceptors.response.use(response => {
   if (response.data.success || response.data.code === 200) {
     return Promise.resolve(response.data)
   } else {
-    statusHandle(response.data.error.code, response.data)
+    statusHandle((response.data.error && response.data.error.code) || response.data.data.code, response.data)
     return response.data
   }
 }, err)

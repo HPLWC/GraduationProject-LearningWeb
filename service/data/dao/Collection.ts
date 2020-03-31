@@ -54,6 +54,26 @@ class CollectionDao extends BaseDao<Collection> {
     }
   }
 
+  async findAllByIds(where) {
+    if(!where.id) return { success:false, data: [] }
+
+    const repository = this.getRepository()
+
+    let resP = await repository.createQueryBuilder('collection')
+      .innerJoinAndSelect('collection.userInfo', 'userInfo')
+      .innerJoinAndSelect('collection.courseInfo', 'courseInfo')
+      .where('courseInfo.id = :id', { id: where.id })
+    let collection = await resP.getMany()
+    const total = await resP.getCount()
+
+    let collectionIds = collection.map(item => item.id)
+
+    return {
+      total: total,
+      data: collectionIds
+    }
+  }
+
   async saveCollection(collection): Promise<any> {
     const manager = this.getManager()
     const userInfo = await UserInfo.findOne({id: collection.user_id})
@@ -91,7 +111,7 @@ class CollectionDao extends BaseDao<Collection> {
     }
   }
 
-  async getIsCollection (where) {
+  async getIsCollection(where) {
     const res = await this.findOne(where)
     if(!res) {
       return {
@@ -112,6 +132,22 @@ class CollectionDao extends BaseDao<Collection> {
     }
   }
 
+  async deleteCollections(ids) {
+    const repository = this.getRepository()
+    let deleteRes = await repository.delete(ids)
+
+    if(deleteRes.affected > 0) {
+      return {
+        success: true,
+        message: '删除成功'
+      }
+    } else {
+      return {
+        success: false,
+        message: '删除失败'
+      }
+    }
+  }
 }
 
 export default new CollectionDao()

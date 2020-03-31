@@ -20,5 +20,13 @@ export default {
     updateUserInfo (context, params) {
       return api.updateUserInfo(params)
     },
+
+    saveCourseInfo (context, params) {
+      return api.saveCourseInfo(params)
+    },
+
+    getTheUploadCourseInfo (context, params) {
+      return api.getTheUploadCourseInfo(params)
+    },
   },
 }

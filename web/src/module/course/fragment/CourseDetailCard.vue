@@ -1,10 +1,10 @@
 <!-- 课程介绍卡片 -->
 <template>
   <div data-flex="" class="course-detail-card div p-20">
-    <el-row :gutter="60">
+    <el-row :gutter="60" class="w-100">
       <el-col :md="14" :sm="14">
-        <img v-if="data.photo" :src="data.photo" alt="" class="w-100" :style="{ objectFit: 'cover' }">
-        <img v-else src="../../../assets/images/banner.png" alt="默认图片" class="w-100" :style="{ objectFit: 'cover' }">
+        <img v-if="data.photo" :src="data.photo" alt="" class="w-100" :style="{ objectFit: 'cover', maxHeight: '300px' }">
+        <img v-else src="../../../assets/images/banner.png" alt="默认图片" class="w-100" :style="{ objectFit: 'cover', maxHeight: '300px' }">
       </el-col>
       <el-col :md="10" :sm="10" class="p-5">
         <h1 class="f-22 p-b-10 b-b">[{{ data.courseType && data.courseType.title }}]{{ data.title }}</h1>
@@ -13,7 +13,7 @@
           <div class="o-8" :style="{ lineHeight: '1.7' }">{{ data.decoration || '暂无简介' }}</div>
         </div>
         <div>
-          <p class="m-t-18 m-b-5 f-18">主讲人:   {{ data.userInfo.name || '暂无' }}</p>
+          <p class="m-t-18 m-b-5 f-18">主讲人:   {{ data.userInfo && data.userInfo.name || '暂无' }}</p>
 <!--          <div class="o-8" :style="{ lineHeight: '1.7' }">{{ data.userInfo.name || '暂无' }}</div>-->
         </div>
         <div class="a-l m-t-20" data-flex="cross:center">

@@ -13,5 +13,9 @@ export default {
     deleteCollection (context, params) {
       return api.deleteCollection(params)
     },
+
+    deleteCourseInfo (context, params) {
+      return api.deleteCourseInfo(params)
+    },
   },
 }

@@ -20,7 +20,7 @@ export default class CourseInfo extends BaseEntity {
   @Column()
   public photo: string
 
-  @Column({type: 'tinyint'})
+  @Column({type: 'tinyint', default: 0})
   public play_num: number
 
   @Column({type: 'tinyint'})

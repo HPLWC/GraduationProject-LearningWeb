@@ -18,6 +18,9 @@
         <el-menu-item index="attention">
           <span slot="title">我的关注</span>
         </el-menu-item>
+        <el-menu-item index="upload">
+          <span slot="title">我的上传</span>
+        </el-menu-item>
       </el-menu>
 
       <div class="div m-l-10" :style="{ width: '1000px', minHeight: '233px' }">

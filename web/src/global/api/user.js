@@ -12,4 +12,7 @@ export default {
   imageUpload: (params, config) => request('post', '/image/upload', params, config), // 上传文件
 
   updateUserInfo: (params, config) => request('post', '/user/info/update', params, config), // 修改用户信息
+
+  saveCourseInfo: (params, config) => request('post', '/course/info/save', params, config), // 添加课程详情
+  getTheUploadCourseInfo: (params, config) => request('get', '/course/user/upload/all', params, config), // 获取用户的课程
 }

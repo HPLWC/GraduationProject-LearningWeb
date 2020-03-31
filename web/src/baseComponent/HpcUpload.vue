@@ -1,5 +1,5 @@
 <template>
-  <div class="upload_img">
+  <div :class="{ 'upload_img': true, 'border-rad': isCir }">
     <el-upload
     class="avatar-uploader"
     action="/"
@@ -21,6 +21,7 @@ export default @Component
 class HpcIcon extends Vue {
   /* vue-props */
   @Prop({type: String, default: ''}) imageUrl
+  @Prop({type: Boolean, default: true}) isCir
   /* vue-vuex */
   /* vue-data */
   photo = ''
@@ -63,7 +64,7 @@ class HpcIcon extends Vue {
   .upload_img /deep/ {
     .avatar-uploader .el-upload {
       border: 1px dashed #d9d9d9;
-      border-radius: 50%;
+      /*border-radius: 50%;*/
       cursor: pointer;
       position: relative;
       overflow: hidden;
@@ -83,10 +84,18 @@ class HpcIcon extends Vue {
     }
 
     .avatar {
-      border-radius: 50%;
+      /*border-radius: 50%;*/
       width: 178px;
       height: 178px;
       display: block;
+    }
+  }
+  .border-rad /deep/ {
+    .avatar-uploader .el-upload {
+      border-radius: 50%;
+    }
+    .avatar {
+      border-radius: 50%;
     }
   }
 </style>

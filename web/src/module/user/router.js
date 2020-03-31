@@ -5,6 +5,7 @@
 const Collection = () => import(/* webpackChunkName: "user" */ './view/Collection')
 const Attention = () => import(/* webpackChunkName: "user" */ './view/Attention')
 const UserCenter = () => import(/* webpackChunkName: "user" */ './view/UserCenter')
+const UploadView = () => import(/* webpackChunkName: "user" */ './view/UploadView')
 const UserLayout = () => import(/* webpackChunkName: "user" */ './view/UserLayout')
 
 export default [
@@ -42,6 +43,11 @@ export default [
         path: 'center',
         name: 'userCenter',
         component: UserCenter
+      },
+      {
+        path: 'upload',
+        name: 'uploadView',
+        component: UploadView
       },
     ]
   },

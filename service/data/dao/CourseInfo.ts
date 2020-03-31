@@ -1,12 +1,11 @@
 /**
  * Created by HPLWC on 2020/02/25.
  * */
-import { Like } from 'typeorm'
-import * as jwt from 'jsonwebtoken'
 import { BaseDao } from './BaseDao'
 import CourseInfo from '../entity/CourseInfo'
-import { jwtSecret } from '../../services/config/encrypto'
-import * as redis from '../../utils/redis'
+import UserInfo from './UserInfo'
+import CourseType from './CourseType'
+import Collection from './Collection'
 
 class CourseInfoDao extends BaseDao<CourseInfo> {
   constructor() {
@@ -57,23 +56,45 @@ class CourseInfoDao extends BaseDao<CourseInfo> {
     }
   }
 
-  async saveInfo(info, myToken): Promise<any> {
+  async findAllUpload(where) {
+    const repository = this.getRepository()
+    const params = this.pickPage(where)
+
+    let resP = await repository.createQueryBuilder('courseInfo')
+      .innerJoin('courseInfo.userInfo', 'userInfo', 'userInfo.id = :id', {id: params.where.user_id})
+      .skip(params.pageNum - 1 || 0)
+      .take(params.pageSize || 6)
+    const courseInfo = await resP.getMany()
+    const total = await resP.getCount()
+
+    return {
+      total: total,
+      pageNum: parseInt(params.pageNum) || 1,
+      pageSize: parseInt(params.pageSize) || 6,
+      data: courseInfo
+    }
+  }
+
+  async saveInfo(info): Promise<any> {
     const manager = this.getManager()
 
     // 查询是否已存在该名称
-    const res = await this.findOne({ name: info.name })
+    const res = await this.findOne({ title: info.title })
     if(!res) {
-      let decoded = jwt.verify(myToken, jwtSecret)
-      let user = await redis.get(decoded.data.id)
+      const userInfo = await UserInfo.findOne({ id: info.user_id })
+      const courseType = await CourseType.findOne({ id: info.type_id })
+
+      info.userInfo = userInfo
+      info.courseType = courseType
 
       // 设置uuid值
       info.id = this.getUuid().replace(/-/g, '')
-      info.user_id = user.userInfo.id
       return manager.save(this.entityClass, info)
     } else {
       return {
         success: false,
-        message: '该种类已存在'
+        message: '该标题已存在',
+        code: 300
       }
     }
   }
@@ -98,12 +119,28 @@ class CourseInfoDao extends BaseDao<CourseInfo> {
     const repository = this.getRepository()
 
     const res = await this.findOne({ id: info.id })
+
     if(!res) {
       return {
         success: false,
         message: '未查找到此课程'
       }
     } else {
+      let collections = await Collection.findAllByIds({ id: res.id })
+      console.log(collections)
+      let deleteCol:any
+      if (collections.data.length > 0) {
+        deleteCol = await Collection.deleteCollections(collections.data)
+      } else {
+        deleteCol = {
+          success: true
+        }
+      }
+
+      if (!deleteCol.success) {
+        return deleteCol
+      }
+
       let deleteRes = await repository.delete(res.id)
       if(deleteRes.affected > 0) {
         return {

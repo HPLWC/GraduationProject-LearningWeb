@@ -8,7 +8,7 @@
       </div>
     </div>
     <p class="m-t-10 f-18">{{ (isCollection ? value.courseInfo.title : value.title) || '未命名' }}</p>
-    <p class="m-t-20" v-if="!isCollection">{{(isCollection ? value.courseInfo.decoration : value.decoration) || '暂无介绍' }}</p>
+    <p class="m-t-20" v-if="!(isCollection || isUpload)">{{(isCollection ? value.courseInfo.decoration : value.decoration) || '暂无介绍' }}</p>
     <div data-flex="main:justify" class="m-t-10 w-100" v-if="isCollection">
       <p></p>
       <p>收藏于2020-02-02</p>
@@ -18,6 +18,18 @@
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="cancel">取消收藏</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
+    <div data-flex="main:justify" class="m-t-10 w-100" v-if="isUpload">
+      <p></p>
+      <p>创建于2020-02-02</p>
+      <el-dropdown @command="handleCommand">
+        <span class="el-dropdown-link">
+          <hpc-icon name="el-icon-more el-icon--right"></hpc-icon>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="delete">删除</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -32,6 +44,7 @@ class NewCourse extends Vue {
   /* vue-props */
   @Prop({ type: Object, default: () => ({}) }) value
   @Prop({ type: Boolean, default: false }) isCollection
+  @Prop({ type: Boolean, default: false }) isUpload
   /* vue-vuex */
   /* vue-data */
   /* vue-compute */
@@ -54,6 +67,24 @@ class NewCourse extends Vue {
           type: 'error',
           title: '提示',
           message: '取消失败'
+        })
+      }
+    } else if (command === 'delete') {
+      const { data } = await this.$store.dispatch('deleteCourseInfo', {
+        id: this.value.id
+      })
+      if (data.success) {
+        this.$notify({
+          type: 'success',
+          title: '提示',
+          message: '删除成功'
+        })
+        this.$emit('refresh', true)
+      } else {
+        this.$notify({
+          type: 'error',
+          title: '提示',
+          message: '删除失败'
         })
       }
     }
