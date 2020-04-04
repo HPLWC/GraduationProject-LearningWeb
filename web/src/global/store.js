@@ -26,6 +26,19 @@ const actions = {
     let baseUrl = 'http://127.0.0.1:3000'
     data.default = baseUrl + '/' + data.default
     return { data }
+  },
+
+  async uploadSection (context, file) {
+    let formData = new FormData()
+    let upload = await file
+    formData.append('typeOption', 'upload_section')
+    formData.append('upload', upload)
+    const { data } = await api.sectionUpload(formData)
+    // data.default = process.env.VUE_APP_BASE_URL + data.default
+
+    let baseUrl = 'http://127.0.0.1:3000'
+    data.default = baseUrl + '/' + data.default
+    return { data }
   }
 }
 

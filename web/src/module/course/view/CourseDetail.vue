@@ -21,11 +21,11 @@
         </el-col>
       </el-row>
     </div>-->
-    <course-detail-card :data="cardInfo" @click="startHandle"></course-detail-card>
+    <course-detail-card :data="cardInfo" @click="startHandle" :hasCatalog="hasCatalog"></course-detail-card>
 
     <!-- 课程目录 -->
     <div class="course-detail-catalog m-t-20">
-      <course-detail-catalog :id="id"></course-detail-catalog>
+      <course-detail-catalog :id="id" :courseDetail="cardInfo" @firstData="getFirstCatalog"></course-detail-catalog>
     </div>
 
     <!-- 底部 -->
@@ -46,6 +46,9 @@ class CourseDetail extends Vue {
   /* vue-vuex */
   /* vue-data */
   cardInfo = {} // 课程卡片内容
+
+  firstDetail = {}
+  hasCatalog = false
   /* vue-compute */
   get id () {
     return this.$route.query.id
@@ -64,9 +67,19 @@ class CourseDetail extends Vue {
     }
   }
 
+  getFirstCatalog (val) {
+    console.log(122, val)
+    if (val.length > 0) {
+      this.firstDetail = val[0]
+      this.hasCatalog = true
+    } else {
+      this.hasCatalog = false
+    }
+  }
+
   /* 开始学习 */
   startHandle () {
-    this.$router.push('/course/video')
+    this.$router.push({ path: '/course/video', query: { id: this.$route.query.id, videoKey: this.firstDetail.id } })
   }
 }
 </script>

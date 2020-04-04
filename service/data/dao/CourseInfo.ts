@@ -6,6 +6,7 @@ import CourseInfo from '../entity/CourseInfo'
 import UserInfo from './UserInfo'
 import CourseType from './CourseType'
 import Collection from './Collection'
+import Section from './Section'
 
 class CourseInfoDao extends BaseDao<CourseInfo> {
   constructor() {
@@ -127,8 +128,9 @@ class CourseInfoDao extends BaseDao<CourseInfo> {
       }
     } else {
       let collections = await Collection.findAllByIds({ id: res.id })
-      console.log(collections)
-      let deleteCol:any
+      let sections = await Section.findAllByIds({ id: res.id })
+
+      let deleteCol:any, deleteSec:any
       if (collections.data.length > 0) {
         deleteCol = await Collection.deleteCollections(collections.data)
       } else {
@@ -136,9 +138,19 @@ class CourseInfoDao extends BaseDao<CourseInfo> {
           success: true
         }
       }
+      if (sections.data.length > 0) {
+        deleteSec = await Section.deleteSections(sections.data)
+      } else {
+        deleteSec = {
+          success: true
+        }
+      }
 
       if (!deleteCol.success) {
         return deleteCol
+      }
+      if (!deleteSec.success) {
+        return deleteSec
       }
 
       let deleteRes = await repository.delete(res.id)

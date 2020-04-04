@@ -4,6 +4,7 @@
     <h1 data-flex="cross:center" class="f-22 p-b-8 b-b">
       <hpc-icon name="view"></hpc-icon>
       <span class="m-l-10">{{ title }}</span>
+      <hpc-icon name="add" v-if="isEditor" @click="addUploadSection" class="cp"></hpc-icon>
     </h1>
     <div>
       <template v-if="type==='comment'">
@@ -71,7 +72,12 @@
                     <!-- 发表评论 -->
                     <li v-if="isReplyComment[key]" data-flex="cross:top" class="m-t-20 p-b-20 p-h-10 w-100">
                       <div>
-                        <hpc-icon name="defaultuser" :size="40" class="o-8"></hpc-icon>
+                        <img
+                          v-if="$ls.getObj('USER_INFO').photo"
+                          :src="$ls.getObj('USER_INFO').photo"
+                          alt="" class="my_photo_ava"
+                          style="width: 35px;height: 35px;">
+                        <hpc-icon v-else name="defaultuser" :size="40" class="o-8"></hpc-icon>
                       </div>
                       <div class="m-l-18 bx-b w-100">
                         <div class="w-100">
@@ -133,6 +139,7 @@ class ListView extends Vue {
   @Prop({ type: String, default: 'catalog' }) type
   @Prop({ type: Array, default: () => [] }) data
   @Prop({ type: Number, default: 0 }) total
+  @Prop({ type: String, default: '' }) userId
   /* vue-vuex */
   /* vue-data */
   firstCommentText = '' // 首评论
@@ -141,6 +148,7 @@ class ListView extends Vue {
   replyCommentInfo = {} // 二级评论信息
 
   photo = ''
+  isEditor = false
 
   pagination = {
     pageSizeOptions: ['10', '20', '30', '50'],
@@ -164,6 +172,11 @@ class ListView extends Vue {
   /* vue-life */
   async created () {
     const { data } = await this.$store.dispatch('userInfo')
+
+    if (data) {
+      this.isEditor = data.id === this.userId && this.type === 'catalog'
+    }
+    console.log(data)
   }
 
   /* vue-method */
@@ -234,6 +247,11 @@ class ListView extends Vue {
       user_id: userId,
       comment_id: commentId
     }
+  }
+
+  /* 上传文件 */
+  addUploadSection () {
+    this.$emit('uploadSection')
   }
 }
 </script>

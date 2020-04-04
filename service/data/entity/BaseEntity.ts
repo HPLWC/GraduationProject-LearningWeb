@@ -2,8 +2,8 @@ import {CreateDateColumn, UpdateDateColumn} from 'typeorm'
 
 export default abstract class BaseEntity {
   @CreateDateColumn()
-  public addTime: number
+  public addTime: String
 
   @UpdateDateColumn()
-  public updateTime: number
+  public updateTime: String
 }

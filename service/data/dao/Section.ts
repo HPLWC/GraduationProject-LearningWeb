@@ -3,7 +3,8 @@
  * */
 import { BaseDao } from './BaseDao'
 import Section from '../entity/Section'
-import CourseInfo from '../entity/CourseInfo'
+import CourseInfo from './CourseInfo'
+import Comment from './Comment'
 
 class SectionDao extends BaseDao<Section> {
   constructor() {
@@ -47,6 +48,28 @@ class SectionDao extends BaseDao<Section> {
     }
   }
 
+  async findAllByIds(where) {
+    if(!where.id) return { success:false, data: [] }
+
+    const repository = this.getRepository()
+
+    let resP = await repository.createQueryBuilder('section')
+      .innerJoinAndSelect('section.courseInfo', 'courseInfo')
+      .leftJoinAndSelect('section.comment', 'comment')
+      .leftJoinAndSelect('comment.commentReply', 'reply')
+      .where('courseInfo.id = :id', { id: where.id })
+    let section = await resP.getMany()
+    const total = await resP.getCount()
+
+    console.log(2333, section)
+    // let sectionIds = section.map(item => item.id)
+
+    return {
+      total: total,
+      data: section
+    }
+  }
+
   // async findSectionAll(where) {
   //   if(!where.id) return { success:false, data: [] }
   //
@@ -78,16 +101,33 @@ class SectionDao extends BaseDao<Section> {
   async saveSection(section): Promise<any> {
     const manager = this.getManager()
 
-    // 查询是否已存在该用户
-    const res = await this.findOne({ user_id: section.user_id })
-    if(!res) {
-      // 设置uuid值
-      section.id = this.getUuid().replace(/-/g, '')
-      return manager.save(this.entityClass, section)
+    section.courseInfo = await CourseInfo.findOne({ id: section.course_info_id })
+    section.id = this.getUuid().replace(/-/g, '')
+    return manager.save(this.entityClass, section)
+  }
+
+  async deleteSections(sectionIds) {
+    const repository = this.getRepository()
+
+    let comments = []
+    let ids = sectionIds.map(item => {
+      comments.push(...item.comment)
+      return item.id
+    })
+
+    let deleteCom = await Comment.deleteComments(comments)
+
+    let deleteRes = await repository.delete(ids)
+
+    if(deleteRes.affected > 0) {
+      return {
+        success: true,
+        message: '删除成功'
+      }
     } else {
       return {
         success: false,
-        message: '用户名已存在'
+        message: '删除失败'
       }
     }
   }

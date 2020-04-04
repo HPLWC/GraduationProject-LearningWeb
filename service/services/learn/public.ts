@@ -36,12 +36,13 @@ async function login(ctx) {
     return
   }
   const user = await Dao.User.findOne(params)
+  console.log(user)
   if(user) {
     const token = jwt.sign({data: {id: user.id, password: user.password, username: user.username}}, jwtSecret, { expiresIn: jwtExp})
     await redis.set(user.id, {user}, jwtExp)
     ctx.body = createBody({token})
   } else {
-    ctx.body = createBody(null, false, 0, '用户名密码不匹配')
+    ctx.body = createBody({}, false, 0, '用户名密码不匹配')
   }
 }
 

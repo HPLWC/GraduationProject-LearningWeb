@@ -1,6 +1,7 @@
-import {Entity, Column, PrimaryColumn, ManyToOne, JoinColumn} from 'typeorm'
+import {Entity, Column, PrimaryColumn, ManyToOne, JoinColumn, OneToMany} from 'typeorm'
 import BaseEntity from './BaseEntity'
 import CourseInfo from './CourseInfo'
+import Comment from './Comment'
 
 @Entity()
 export default class Section extends BaseEntity {
@@ -20,8 +21,8 @@ export default class Section extends BaseEntity {
   @Column()
   public video: string
 
-  @Column({ type: 'tinyint' })
-  public date: number
+  // @Column({ type: 'tinyint' })
+  // public date: number
 
   @Column()
   public length: string
@@ -29,4 +30,7 @@ export default class Section extends BaseEntity {
   @ManyToOne(type => CourseInfo, CourseInfo => CourseInfo.section)
   @JoinColumn({ name: 'info_id' })
   courseInfo: CourseInfo
+
+  @OneToMany(type => Comment, comment => comment.section)
+  comment: Comment[]
 }

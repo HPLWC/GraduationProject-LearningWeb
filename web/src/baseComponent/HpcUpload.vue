@@ -1,15 +1,22 @@
 <template>
-  <div :class="{ 'upload_img': true, 'border-rad': isCir }">
+  <div :class="{ 'upload_img': isUploadPhoto, 'border-rad': isCir && isUploadPhoto }">
     <el-upload
     class="avatar-uploader"
     action="/"
-    :http-request="uploadImgEvent"
+    :http-request="uploadEvent"
     :show-file-list="false"
     :on-success="handleAvatarSuccess"
     :before-upload="beforeAvatarUpload">
-      <img v-if="photo" :src="photo" class="avatar">
+      <template v-if="isUploadPhoto">
+        <img v-if="photo" :src="photo" class="avatar">
 <!--      <hpc-icon v-else name="defaultuser" :size="100" class="m-t-2 o-8"></hpc-icon>-->
-      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+      </template>
+
+      <template v-else>
+        <el-button type="primary">上传视频</el-button>
+        <p>{{ photo }}</p>
+      </template>
     </el-upload>
   </div>
 </template>
@@ -18,10 +25,11 @@
 import {Component, Prop, Watch, Vue} from 'vue-property-decorator'
 
 export default @Component
-class HpcIcon extends Vue {
+class HpcUpload extends Vue {
   /* vue-props */
   @Prop({type: String, default: ''}) imageUrl
   @Prop({type: Boolean, default: true}) isCir
+  @Prop({type: Boolean, default: true}) isUploadPhoto
   /* vue-vuex */
   /* vue-data */
   photo = ''
@@ -41,18 +49,26 @@ class HpcIcon extends Vue {
     const isJPG = file.type === 'image/jpeg'
     const isLt2M = file.size / 1024 / 1024 < 2
 
-    if (!isJPG) {
-      this.$message.error('上传头像图片只能是 JPG 格式!')
+    const isMp4 = file.type === 'video/mp4'
+
+    if (this.isUploadPhoto) {
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
+    } else {
+      if (!isMp4) {
+        this.$message.error('上传视频只能是 mp4 格式!')
+      }
+      return isMp4
     }
-    if (!isLt2M) {
-      this.$message.error('上传头像图片大小不能超过 2MB!')
-    }
-    return isJPG && isLt2M
   }
-  async uploadImgEvent (param) {
-    console.log(param)
-    const { data } = await this.$store.dispatch('uploadImg', param.file)
-    console.log(data)
+  async uploadEvent (param) {
+    let vuex = this.isUploadPhoto ? 'uploadImg' : 'uploadSection'
+    const { data } = await this.$store.dispatch(vuex, param.file)
     if (data) {
       this.imageUrl = data.default
     }

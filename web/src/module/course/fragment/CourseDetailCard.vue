@@ -17,7 +17,7 @@
 <!--          <div class="o-8" :style="{ lineHeight: '1.7' }">{{ data.userInfo.name || '暂无' }}</div>-->
         </div>
         <div class="a-l m-t-20" data-flex="cross:center">
-          <el-button type="primary" size="medium" @click="$emit('click')">开始学习</el-button>
+          <el-button type="primary" size="medium" @click="$emit('click')" :disabled="!hasCatalog">开始学习</el-button>
           <div class="m-l-20">
             <hpc-icon @click="collectionEvent" name="el-icon-star-on" :style="{ color: isCollect ? '#ffe838' : '#aaa' }"></hpc-icon>
           </div>
@@ -28,17 +28,23 @@
 </template>
 
 <script>
-import {Component, Prop, Vue} from 'vue-property-decorator'
+import {Component, Prop, Watch, Vue} from 'vue-property-decorator'
 
 export default @Component
 class CourseDetailCard extends Vue {
   /* vue-props */
   @Prop({ type: Object, default: {} }) data
+  @Prop({ type: Boolean, default: false }) hasCatalog
   /* vue-vuex */
   /* vue-data */
   isCollect = false
+  btnDisabled = false
   /* vue-compute */
   /* vue-watch */
+  @Watch('hasCatalog')
+  change (newV) {
+    this.btnDisabled = newV
+  }
   /* vue-lifecycle */
   created () {
     this.isCollectEvent()

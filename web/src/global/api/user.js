@@ -10,6 +10,7 @@ export default {
   deleteAttention: (params, config) => request('delete', '/user/attentions/delete', params, config), // 取消用户的关注用户
 
   imageUpload: (params, config) => request('post', '/image/upload', params, config), // 上传文件
+  sectionUpload: (params, config) => request('post', '/section/upload', params, config), // 上传文件
 
   updateUserInfo: (params, config) => request('post', '/user/info/update', params, config), // 修改用户信息
 

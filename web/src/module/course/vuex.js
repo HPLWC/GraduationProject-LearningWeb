@@ -13,6 +13,9 @@ export default {
     getCourseAllSection (context, params) {
       return api.getCourseAllSection(params)
     },
+    saveCourseSection (context, params) {
+      return api.saveCourseSection(params)
+    },
 
     getTheComment (context, params) {
       return api.getTheComment(params)

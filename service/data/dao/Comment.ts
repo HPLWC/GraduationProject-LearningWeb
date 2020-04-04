@@ -54,6 +54,25 @@ class CommentDao extends BaseDao<Comment> {
     }
   }
 
+  async findAllByIds(where) {
+    if(!where.id) return { success:false, data: [] }
+
+    const repository = this.getRepository()
+
+    let resP = await repository.createQueryBuilder('comment')
+      .innerJoinAndSelect('comment.courseInfo', 'courseInfo')
+      .where('courseInfo.id = :id', { id: where.id })
+    let section = await resP.getMany()
+    const total = await resP.getCount()
+
+    let sectionIds = section.map(item => item.id)
+
+    return {
+      total: total,
+      data: sectionIds
+    }
+  }
+
   async saveComment(comment): Promise<any> {
     const manager = this.getManager()
     const section = await Section.findOne({id: comment.section_id})
@@ -63,6 +82,35 @@ class CommentDao extends BaseDao<Comment> {
 
     comment.id = this.getUuid().replace(/-/g, '')
     return manager.save(this.entityClass, comment)
+  }
+
+  async deleteComments(comments) {
+    const repository = this.getRepository()
+
+    let commentReplys = []
+    let ids = comments.map(item => {
+      commentReplys.push(...item.commentReply)
+      return item.id
+    })
+
+    let deleteComR = await CommentReply.deleteCommentReplys(commentReplys)
+    if (!deleteComR.success) {
+      return deleteComR
+    }
+
+    let deleteRes = await repository.delete(ids)
+
+    if(deleteRes.affected > 0) {
+      return {
+        success: true,
+        message: '删除成功'
+      }
+    } else {
+      return {
+        success: false,
+        message: '删除失败'
+      }
+    }
   }
 
 }

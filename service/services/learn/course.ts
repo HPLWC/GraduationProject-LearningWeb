@@ -82,6 +82,12 @@ async function getAllCourseSection(ctx) {
   ctx.body = createBody(section)
 }
 
+async function saveCourseSection(ctx) {
+  const params = ctx.request.body
+  const section = await Dao.Section.saveSection(params)
+  ctx.body = createBody(section)
+}
+
 export default (routes, prefix) => {
   // 课程种类
   routes.get(prefix + '/course/type/all', getAllCourseType) // 获取所有课程种类
@@ -102,4 +108,5 @@ export default (routes, prefix) => {
 
   // 课程目录
   routes.get(prefix + '/course/section/all', getAllCourseSection) // 获取所有课程目录
+  routes.post(prefix + '/course/section/save', saveCourseSection) // 添加课程目录
 }

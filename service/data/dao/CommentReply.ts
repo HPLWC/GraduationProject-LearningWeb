@@ -66,6 +66,25 @@ class CommentReplyDao extends BaseDao<CommentReply> {
     return manager.save(this.entityClass, comment)
   }
 
+  async deleteCommentReplys(commentReplys) {
+    const repository = this.getRepository()
+
+    let ids = commentReplys.map(item => item.id)
+
+    let deleteRes = await repository.delete(ids)
+
+    if(deleteRes.affected > 0) {
+      return {
+        success: true,
+        message: '删除成功'
+      }
+    } else {
+      return {
+        success: false,
+        message: '删除失败'
+      }
+    }
+  }
 }
 
 export default new CommentReplyDao()
