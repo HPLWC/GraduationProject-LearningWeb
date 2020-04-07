@@ -11,11 +11,17 @@
         <el-form-item label="密码">
           <el-input type="password" v-model="user.password"></el-input>
         </el-form-item>
+        <el-form-item>
+          <div data-flex="main:justify">
+            <el-button type="primary" @click="login">登录</el-button>
+            <p @click="register" class="t-hover cp">注册</p>
+          </div>
+        </el-form-item>
       </el-form>
-      <div data-flex="main:right">
-        <el-button type="primary" @click="login">登录</el-button>
-      </div>
-      <div class="c-info">测试账号:test   密码:123456</div>
+<!--      <div data-flex="main:right">-->
+<!--        <el-button type="primary" @click="login">登录</el-button>-->
+<!--      </div>-->
+<!--      <div class="c-info">测试账号:test   密码:123456</div>-->
     </el-card>
   </div>
 </template>
@@ -51,6 +57,10 @@ export default @Component class Login extends Vue {
       }
     }
   }
+
+  register () {
+    this.$router.push('/register')
+  }
 }
 </script>
 
@@ -58,7 +68,7 @@ export default @Component class Login extends Vue {
   @import "../../../assets/css/vars.scss";
   $img: "../../../assets/images";
   .login {
-    background-color: $bg0;
-    /* background: #ccc url("#{$img}/background.svg") no-repeat; */
+   /* background-color: $bg0;*/
+    background: url('../images/loginBg.png') 0% 0% / cover no-repeat $bg0;
   }
 </style>

@@ -4,6 +4,7 @@
 import { BaseDao } from './BaseDao'
 import UserInfo from '../entity/UserInfo'
 import {utils} from '../../utils/utils'
+import User from './User'
 
 class UserInfoDao extends BaseDao<UserInfo> {
   constructor() {
@@ -23,11 +24,16 @@ class UserInfoDao extends BaseDao<UserInfo> {
     const manager = this.getManager()
 
     // 查询是否已存在该用户
-    const res = await this.findOne({ user_id: userInfo.user_id })
+    const res = await this.findOne({ id: userInfo.user_id })
     if(!res) {
       // 设置uuid值
       userInfo.id = this.getUuid().replace(/-/g, '')
-      return manager.save(this.entityClass, userInfo)
+
+      let userInfoSave = await manager.save(this.entityClass, userInfo)
+      console.log(userInfoSave, 11111)
+      await User.updateUser({email: userInfo.email, user_id: userInfo.id})
+
+      return userInfoSave
     } else {
       return {
         success: false,

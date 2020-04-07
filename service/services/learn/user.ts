@@ -1,5 +1,7 @@
+import * as jwt from 'jsonwebtoken'
 import * as Dao from '../../data/dao'
 import createBody from '../config/createBody'
+import {jwtSecret} from '../config/encrypto'
 
 async function getTheUserCollections(ctx) {
   const params = ctx.request.query
@@ -55,6 +57,15 @@ async function updateUserInfo(ctx) {
   ctx.body = createBody(userInfo)
 }
 
+async function saveUserInfo(ctx) {
+  const params = ctx.request.body
+  const token = ctx.header['token']
+  const decoded = jwt.verify(token, jwtSecret)
+  params.id = decoded.data.id
+  const userInfo = await Dao.UserInfo.saveUserInfo(params)
+  ctx.body = createBody(userInfo)
+}
+
 export default (routes, prefix) => {
   // 用户收藏信息
   routes.get(prefix + '/user/collections/all', getTheUserCollections) // 获取用户的收藏信息
@@ -68,7 +79,8 @@ export default (routes, prefix) => {
   routes.delete(prefix + '/user/attentions/delete', deleteAttention) // 取消用户的关注用户
   routes.get(prefix + '/user/the/isAttention', getIsAttention) // 判断是否已关注
 
-  // 修改用户信息
+  // 用户信息
   routes.post(prefix + '/user/info/update', updateUserInfo) // 修改用户信息
+  routes.post(prefix + '/user/info/save', saveUserInfo) // 保存用户信息
 
 }

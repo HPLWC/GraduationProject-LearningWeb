@@ -3,6 +3,7 @@ import * as Dao from '../../data/dao'
 import createBody from '../config/createBody'
 import * as redis from '../../utils/redis'
 import { jwtSecret, jwtExp } from '../config/encrypto'
+import nodemail from '../config/mail'
 
 /* 测试接口 */
 async function test(ctx, a) {
@@ -36,7 +37,6 @@ async function login(ctx) {
     return
   }
   const user = await Dao.User.findOne(params)
-  console.log(user)
   if(user) {
     const token = jwt.sign({data: {id: user.id, password: user.password, username: user.username}}, jwtSecret, { expiresIn: jwtExp})
     await redis.set(user.id, {user}, jwtExp)
@@ -76,10 +76,62 @@ async function userInfo(ctx) {
   }
 }
 
+/* 邮箱验证 */
+async function emailVerify(ctx) {
+  const params = ctx.request.query
+  const code = Math.floor(Math.random() * (9999-1000)) + 1000
+
+  let res = await Dao.User.findOne({username: params.email})
+  if(!res) {
+    ctx.body = createBody({}, true, 200, '邮箱可用')
+    const mail = {
+      // 发件人
+      from: '易上课注册码 <15113125919@163.com>',
+      // 主题
+      subject: '注册验证码',
+      // 收件人
+      to: params.email,
+      // 邮件内容，HTML格式
+      text: `验证码为：${code}` // 发送验证码
+    }
+    await redis.set(params.email, {code}, 5 * 60)
+    await nodemail(mail) // 发送邮件
+  } else {
+    ctx.body = createBody({}, false, 0, '邮箱已被绑定')
+  }
+}
+
+async function doRegister(ctx) {
+  const params = ctx.request.body
+
+  const data = await redis.get(params.email)
+
+  if(data && data.code && data.code == params.code) {
+    const user = await Dao.User.saveUser({
+      username: params.email,
+      password: params.password
+    })
+    if(user.success === false) {
+      ctx.body = createBody(null, false, 0, user.message)
+    } else {
+      const userInfo = await Dao.User.findOne({id: user.id})
+      const token = jwt.sign({data: user}, jwtSecret, { expiresIn: jwtExp})
+      await redis.set(user.id, {user}, jwtExp)
+
+      ctx.body = createBody({token, userId: userInfo.userInfo && userInfo.userInfo.id})
+    }
+  } else {
+    ctx.body = createBody({message: '验证码错误'}, false, 0, '验证码错误')
+  }
+}
+
 export default (routes, prefix) => {
   routes.get(prefix + '/public/test', test)
-  routes.post(prefix + '/public/user/register', register)
+  // routes.post(prefix + '/public/user/register', register)
   routes.post(prefix + '/public/user/login', login)
   routes.post(prefix + '/public/user/logout', logout)
   routes.post(prefix + '/public/user/info', userInfo)
+
+  routes.get(prefix + '/public/user/email', emailVerify)
+  routes.post(prefix + '/public/user/register', doRegister)
 }

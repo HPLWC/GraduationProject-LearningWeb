@@ -29,5 +29,15 @@ export default {
     userInfo (context, params) {
       return api.userInfo(params)
     },
+    register (context, params) {
+      return api.register(params)
+    },
+    emailVerity (context, params) {
+      return api.emailVerity(params)
+    },
+
+    saveUserInfo (context, params) {
+      return api.saveUserInfo(params)
+    },
   },
 }

@@ -8,7 +8,13 @@ import { jwtSecret, jwtExp } from './services/config/encrypto'
 import * as redis from './utils/redis'
 
 const app = new Koa()
-const unTokenUrl = ['/learn/public/user/login', '/learn/public/user/logout', '/learn/public/user/register', '/home']
+const unTokenUrl = [
+  '/learn/public/user/login',
+  '/learn/public/user/logout',
+  '/learn/public/user/register',
+  '/learn/public/user/email',
+  '/home'
+]
 
 /* 中间件 */
 app.use(koaBody()) // 解析post请求的参数
@@ -16,7 +22,8 @@ app.use(serve('static', {maxage: 20 * 60 * 1000}))// 设置静态文件中间件
 
 /* 登录验证 */
 app.use(async (ctx, next) => {
-  if(unTokenUrl.includes(ctx.request.url)) {
+  let url = ctx.request.url.split('?')
+  if(unTokenUrl.includes(url[0])) {
     return await next()
   }
 
