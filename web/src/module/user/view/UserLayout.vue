@@ -21,6 +21,9 @@
         <el-menu-item index="upload">
           <span slot="title">我的上传</span>
         </el-menu-item>
+        <el-menu-item index="password">
+          <span slot="title">密码修改</span>
+        </el-menu-item>
       </el-menu>
 
       <div class="div m-l-10" :style="{ width: '1000px', minHeight: '233px' }">
@@ -53,6 +56,10 @@ class Home extends Vue {
         return '我的收藏'
       case 'attention':
         return '我的关注'
+      case 'upload':
+        return '我的上传'
+      case 'password':
+        return '密码修改'
       default:
         return ''
     }

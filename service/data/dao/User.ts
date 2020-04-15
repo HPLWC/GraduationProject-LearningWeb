@@ -24,6 +24,39 @@ class UserDao extends BaseDao<User> {
     return user
   }
 
+  async findAll(where) {
+    const repository = this.getRepository()
+    const params = this.pickPage(where)
+
+    const user = await repository.find({
+      where: params.where,
+      relations: ['userInfo'],
+      order: { addTime: 'ASC' },
+      skip: params.pageNum - 1 || 0,
+      take: params.pageSize || 6,
+    })
+
+    const total = await repository.count()
+
+    return {
+      total: total,
+      pageNum: parseInt(params.pageNum) || 1,
+      pageSize: parseInt(params.pageSize) || 6,
+      data: user
+    }
+  }
+  /*async findOneWithUserInfo(where) {
+    const repository = this.getRepository()
+
+    if(where.password) where.password = encrypto(where.password)
+
+    const user = await repository.createQueryBuilder('user')
+      .innerJoinAndSelect('user.userInfo', 'userInfo', 'userInfo.id = :id', {id: where.user_id})
+      .getOne()
+
+    return user
+  }*/
+
   async saveUser(user): Promise<any> {
     const manager = this.getManager()
 
@@ -51,10 +84,37 @@ class UserDao extends BaseDao<User> {
 
     // 查询是否已存在该用户
     const res = await this.findOne({ username: user.email })
-    console.log(111, res, 222)
+
     if(res) {
-      // Object.assign(res, utils.myLodashPick(user, 'user_id'))
-      res.userInfo = await UserInfo.findOne({id: user.user_id})
+      Object.assign(res, utils.myLodashPick(user, 'is_used', 'role', 'is_used_comment'))
+      if (user.user_id) {
+        res.userInfo = await UserInfo.findOne({id: user.user_id})
+      }
+      return manager.save(this.entityClass, res)
+    } else {
+      return {
+        success: false,
+        message: '未找到该用户'
+      }
+    }
+  }
+
+  async updateUserPassword(user): Promise<any> {
+    const manager = this.getManager()
+
+    // 查询是否已存在该用户
+    const res = await this.findOne({ username: user.email })
+
+    if(res) {
+      user.password = encrypto(user.password)
+      if(user.password !== res.password) {
+        return {
+          success: false,
+          message: '原密码错误'
+        }
+      }
+      user.password = encrypto(user.password_new)
+      Object.assign(res, utils.myLodashPick(user, 'password'))
       return manager.save(this.entityClass, res)
     } else {
       return {

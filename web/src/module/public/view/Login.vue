@@ -1,5 +1,8 @@
 <template>
-  <div class="login" data-flex="main:center cross:center">
+  <div class="login">
+    <div class="c-white f-50 p-t-50 p-b-100 a-c" style="font-family: '楷体';">易上课</div>
+
+    <div data-flex="main:center cross:center dir:top">
     <el-card>
       <div slot="header" data-flex="cross:center box:last">
         <span class="f-16">用户登录</span>
@@ -24,6 +27,7 @@
 <!--      <div class="c-info">测试账号:test   密码:123456</div>-->
     </el-card>
   </div>
+  </div>
 </template>
 
 <script>
@@ -34,7 +38,7 @@ export default @Component class Login extends Vue {
   /* vue-vuex */
   /* vue-data */
   user = {
-    username: 'test',
+    username: '935151619@qq.com',
     password: '123456'
   }
   /* vue-compute */

@@ -81,9 +81,9 @@ export default @Component class Register extends Vue {
   timeEvent = null
   time = 60
   user = {
-    username: 'test',
-    password: '123456',
-    email: '935151619@qq.com'
+    username: '',
+    password: '',
+    email: ''
   }
   rules = {
     username: [

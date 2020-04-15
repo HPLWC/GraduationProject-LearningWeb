@@ -2,7 +2,7 @@ import * as Dao from '../../data/dao'
 import createBody from '../config/createBody'
 
 async function getAllCourseType(ctx) {
-  const params = ctx.request.body
+  const params = ctx.request.query
   const courseType = await Dao.CourseType.findAll(params)
   ctx.body = createBody(courseType)
 }

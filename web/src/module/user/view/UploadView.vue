@@ -1,7 +1,7 @@
 <!-- 我的上传 -->
 <template>
   <div class="contact">
-    <div data-flex="dir:top" class="a-c">
+    <div data-flex="dir:top" class="a-c m-b-20" v-if="$ls.getObj('USER_INFO').role !== 2">
       <el-row :gutter="20" class="p-h-100">
         <el-col :lg="8" :md="8" :sm="12" class="m-t-20">
           <div @click="myUploadEvent" data-flex="cross:center main:center" style="height: 200px;" class="div m-t-10 cp">
@@ -24,7 +24,17 @@
       </el-pagination>
     </div>
 
-    <upload-modal ref="uploadModal" @refresh="refresh"></upload-modal>
+    <div data-flex="dir:top" class="a-c m-b-20" v-else>
+      <p class="f-20 m-t-20">
+        您还未认证教师身份,
+        <span class="t-hover cp" @click="showAuthenticate">点此认证</span>
+      </p>
+    </div>
+
+    <!-- 上传视频 -->
+    <upload-modal ref="uploadModal" @refresh="refresh" v-if="$ls.getObj('USER_INFO').role !== 2"></upload-modal>
+    <!-- 认证身份 -->
+    <authenticate-modal ref="authenticateModal" @refresh="refresh" v-else></authenticate-modal>
   </div>
 </template>
 
@@ -32,10 +42,11 @@
 import {Component, Vue} from 'vue-property-decorator'
 import LayoutHeader from '../../common/view/LayoutHeader'
 import LayoutFooter from '../../common/view/LayoutFooter'
-import NewCourse from '../../home/fragment/NewCourse'
 import UploadModal from '../fragment/UploadModal'
+import AuthenticateModal from '../fragment/AuthenticateModal'
+import NewCourse from '../../home/fragment/NewCourse'
 
-export default @Component({ components: { LayoutHeader, LayoutFooter, NewCourse, UploadModal } })
+export default @Component({ components: { LayoutHeader, LayoutFooter, UploadModal, AuthenticateModal, NewCourse } })
 class UploadView extends Vue {
   /* vue-props */
   /* vue-vuex */
@@ -69,6 +80,9 @@ class UploadView extends Vue {
 
   async myUploadEvent () {
     this.$refs.uploadModal.dialogVisible = true
+  }
+  showAuthenticate () {
+    this.$refs.authenticateModal.showModal()
   }
 
   handleSizeChange (val) {

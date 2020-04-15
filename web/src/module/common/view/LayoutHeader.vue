@@ -4,7 +4,7 @@
     <div class="header_bg" :style="{ height: screen ? '100%' : getHeight(height) }">
       <header-nav ref="HeaderNav" />
       <div class="c-white f-34 o-9 h-100" data-flex="main:center cross:center" :style="{ height: getHeight(titleHeight) }">
-        <slot>在线学习平台</slot>
+        <slot>易上课在线学习平台</slot>
       </div>
     </div>
   </div>

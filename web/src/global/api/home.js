@@ -9,4 +9,6 @@ export default {
   deleteCollection: (params, config) => request('delete', '/user/collections/delete', params, config), // 取消收藏
 
   deleteCourseInfo: (params, config) => request('delete', '/course/info/delete', params, config), // 删除课程详情
+
+  getUserInfoCommon: (params, config) => request('get', '/user/info/common', params, config), // 获取评论
 }

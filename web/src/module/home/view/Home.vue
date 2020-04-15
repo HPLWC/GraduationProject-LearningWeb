@@ -77,11 +77,13 @@
       <div class="f-24 f-b p-v-20 m-t-20 m-b-10">用户评价</div>
       <div class="m-h-80 w-100 p-h-100 bx-b">
         <el-carousel indicator-position="outside">
-          <el-carousel-item>
+          <el-carousel-item v-for="(item, key) in common" :key="key">
             <div data-flex="dir:top cross:center">
-              <img src="../../../assets/images/banner.png" alt="" :style="{ width: '120px', height: '120px', borderRadius: '50%' }">
-              <p class="f-b f-18 m-v-10">下雨收衫</p>
-              <p class="m-t-10 f-16 a-c" :style="{ maxWidth: '600px' }">既然你诚心诚意地问了，我就大发慈悲地告诉你，为了防止世界被破坏，为了维护世界的和平，贯彻爱与真实的邪恶，我是来学习的。</p>
+              <img v-if="item.photo" :src="item.photo" alt="" :style="{ width: '150px', height: '150px', borderRadius: '50%' }">
+<!--              <img v-else src="" alt="" :style="{ width: '150px', height: '150px', borderRadius: '50%' }">-->
+              <hpc-icon v-else name="defaultuser" :size="160" class="m-t-2 o-8"></hpc-icon>
+              <p class="f-b f-18 m-v-10">{{ item.name }}</p>
+              <p class="m-t-10 f-16 a-c" :style="{ maxWidth: '600px' }">{{ item.common }}</p>
             </div>
           </el-carousel-item>
         </el-carousel>
@@ -107,6 +109,7 @@ class Home extends Vue {
   /* vue-data */
   courseType = []
   courseInfo = []
+  common = []
   /* vue-compute */
   /* vue-watch */
   /* vue-lifecycle */
@@ -115,6 +118,7 @@ class Home extends Vue {
     this.courseType = this.$utils.toTwoArray(allType, 3)
 
     this.courseInfo = await this.getAllInfo()
+    this.getAllCommon()
   }
   /* vue-method */
   async getAllType () {
@@ -124,6 +128,12 @@ class Home extends Vue {
   async getAllInfo () {
     const { data } = await this.$store.dispatch('getCourseAllInfo', { pageSize: 3 })
     return data && data.data || []
+  }
+  async getAllCommon () {
+    const { data } = await this.$store.dispatch('getUserInfoCommon', { is_used_comment: 1 })
+    if (data) {
+      this.common = data || []
+    }
   }
   // 跳转到全部课程
   allCourse () {

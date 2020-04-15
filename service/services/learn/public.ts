@@ -38,9 +38,21 @@ async function login(ctx) {
   }
   const user = await Dao.User.findOne(params)
   if(user) {
-    const token = jwt.sign({data: {id: user.id, password: user.password, username: user.username}}, jwtSecret, { expiresIn: jwtExp})
-    await redis.set(user.id, {user}, jwtExp)
-    ctx.body = createBody({token})
+    console.log(user)
+    if(!user.is_used) {
+      console.log(111)
+      ctx.body = createBody({}, false, 0, '该用户目前被停用')
+    } else {
+      const token = jwt.sign({
+        data: {
+          id: user.id,
+          password: user.password,
+          username: user.username
+        }
+      }, jwtSecret, {expiresIn: jwtExp})
+      await redis.set(user.id, {user}, jwtExp)
+      ctx.body = createBody({token, role: user.role})
+    }
   } else {
     ctx.body = createBody({}, false, 0, '用户名密码不匹配')
   }
@@ -68,7 +80,7 @@ async function userInfo(ctx) {
   const decoded = jwt.verify(token, jwtSecret)
   // const userInfo = decoded.data && decoded.data.userInfo
   const user = await Dao.User.findOne({id: decoded.data.id})
-  const userInfo = user.userInfo
+  const userInfo = { ...user.userInfo, role: user.role }
   if(userInfo) {
     ctx.body = createBody(userInfo)
   } else {

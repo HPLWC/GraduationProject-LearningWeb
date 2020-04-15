@@ -5,7 +5,6 @@
 
     <div data-flex="main:justify cross:center" class="m-h-100 p-h-30 m-t-15 m-b-5 b-b">
       <div data-flex="cross:center" class="f-16">
-<!--        <p v-for="val in $c.OrderWay" class="m-r-20" :key="val.way">按{{ val.value }}排序</p>-->
         <p>类型：</p>
         <el-select v-model="courseTypeOptions.value" @change="typeChange" filterable placeholder="请选择">
           <el-option

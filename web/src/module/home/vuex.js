@@ -17,5 +17,9 @@ export default {
     deleteCourseInfo (context, params) {
       return api.deleteCourseInfo(params)
     },
+
+    getUserInfoCommon (context, params) {
+      return api.getUserInfoCommon(params)
+    },
   },
 }

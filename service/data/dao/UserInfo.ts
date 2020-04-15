@@ -30,7 +30,6 @@ class UserInfoDao extends BaseDao<UserInfo> {
       userInfo.id = this.getUuid().replace(/-/g, '')
 
       let userInfoSave = await manager.save(this.entityClass, userInfo)
-      console.log(userInfoSave, 11111)
       await User.updateUser({email: userInfo.email, user_id: userInfo.id})
 
       return userInfoSave

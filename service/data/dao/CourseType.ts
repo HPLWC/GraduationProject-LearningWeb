@@ -34,8 +34,8 @@ class CourseTypeDao extends BaseDao<CourseType> {
 
     return {
       total: total,
-      pageNum: params.pageNum || 1,
-      pageSize: params.pageSize || 6,
+      pageNum: parseInt(params.pageNum) || 1,
+      pageSize: parseInt(params.pageSize) || 6,
       data: courseType
     }
   }
@@ -81,7 +81,7 @@ class CourseTypeDao extends BaseDao<CourseType> {
     } else {
       // 判断是否有重复
       const nameRes = await this.findOne({ title: type.title })
-      if(!nameRes) return { success: false, message: '已存在此类型' }
+      if(nameRes) return { success: false, message: '已存在此类型' }
 
       utils.myLodashPick(res, 'title', 'id', 'photo')
       Object.assign(res, utils.myLodashPick(type, 'title', 'decoration', 'photo'))
@@ -100,18 +100,26 @@ class CourseTypeDao extends BaseDao<CourseType> {
         message: '未查找到该种类'
       }
     } else {
-      let deleteRes = await repository.delete(res.id)
-      if(deleteRes.affected > 0) {
-        return {
-          success: true,
-          message: '删除成功'
+      try {
+        let deleteRes = await repository.delete(res.id)
+        if(deleteRes.affected > 0) {
+          return {
+            success: true,
+            message: '删除成功'
+          }
+        } else {
+          return {
+            success: false,
+            message: '删除失败'
+          }
         }
-      } else {
+      } catch(e) {
         return {
           success: false,
-          message: '删除失败'
+          message: '删除失败，该种类下有相关课程'
         }
       }
+
     }
   }
 }

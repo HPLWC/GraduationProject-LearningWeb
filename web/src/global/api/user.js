@@ -13,7 +13,12 @@ export default {
   sectionUpload: (params, config) => request('post', '/section/upload', params, config), // 上传文件
 
   updateUserInfo: (params, config) => request('post', '/user/info/update', params, config), // 修改用户信息
+  updateUserPassword: (params, config) => request('post', '/user/admin/password/update', params, config), // 修改用户密码
 
   saveCourseInfo: (params, config) => request('post', '/course/info/save', params, config), // 添加课程详情
   getTheUploadCourseInfo: (params, config) => request('get', '/course/user/upload/all', params, config), // 获取用户的课程
+
+  saveAuthentication: (params, config) => request('post', '/user/authentication/save', params, config), // 保存用户身份校验
+  updateAuthentication: (params, config) => request('put', '/user/authentication/update', params, config), // 修改用户身份校验
+  getTheAuthentication: (params, config) => request('get', '/user/get/authentication', params, config), // 获取用户的身份校验
 }

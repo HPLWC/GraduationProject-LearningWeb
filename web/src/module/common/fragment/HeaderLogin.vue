@@ -45,7 +45,7 @@ export default @Component class HeaderLogin extends Vue {
   /* vue-lifecycle */
   created () {
     this.isLogin = !!this.$ls.get('ACCESS_TOKEN')
-    this.userInfo()
+    if (this.isLogin) this.userInfo()
   }
   /* vue-method */
 

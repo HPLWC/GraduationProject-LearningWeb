@@ -93,11 +93,12 @@ class CommentDao extends BaseDao<Comment> {
       return item.id
     })
 
-    let deleteComR = await CommentReply.deleteCommentReplys(commentReplys)
-    if (!deleteComR.success) {
-      return deleteComR
+    if(commentReplys.length > 0) {
+      let deleteComR = await CommentReply.deleteCommentReplys(commentReplys)
+      if (!deleteComR.success) {
+        return deleteComR
+      }
     }
-
     let deleteRes = await repository.delete(ids)
 
     if(deleteRes.affected > 0) {

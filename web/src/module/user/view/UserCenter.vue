@@ -20,7 +20,7 @@
           <el-input v-model="form.phone"></el-input>
         </el-form-item>
         <el-form-item label="邮箱" class="m-t-15" prop="email">
-          <el-input v-model="form.email"></el-input>
+          <el-input v-model="form.email" disabled></el-input>
         </el-form-item>
         <el-form-item label="个人简介" class="m-t-15" prop="decoration">
           <el-input type="textarea" v-model="form.decoration"></el-input>
@@ -103,6 +103,7 @@ class Home extends Vue {
           photo: this.photoUrl
         })
         if (data) {
+          data.role = this.$ls.getObj('USER_INFO').role
           this.$store.commit('SET_USER_INFO', data)
           this.form = this.$ls.getObj('USER_INFO')
           this.$notify({

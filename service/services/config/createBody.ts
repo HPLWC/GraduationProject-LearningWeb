@@ -6,7 +6,7 @@ export default function createBody(data:any = {}, success = true, code = 200, me
     data,
     message: data.message || ''
   }
-  if (!success) {
+  if (!success || !re.success) {
     if (typeof message === 'string') {
       re.error = { code, message }
     } else {

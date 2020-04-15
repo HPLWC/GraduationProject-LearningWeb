@@ -6,6 +6,7 @@ const Collection = () => import(/* webpackChunkName: "user" */ './view/Collectio
 const Attention = () => import(/* webpackChunkName: "user" */ './view/Attention')
 const UserCenter = () => import(/* webpackChunkName: "user" */ './view/UserCenter')
 const UploadView = () => import(/* webpackChunkName: "user" */ './view/UploadView')
+const PasswordView = () => import(/* webpackChunkName: "user" */ './view/PasswordView')
 const UserLayout = () => import(/* webpackChunkName: "user" */ './view/UserLayout')
 
 export default [
@@ -48,6 +49,11 @@ export default [
         path: 'upload',
         name: 'uploadView',
         component: UploadView
+      },
+      {
+        path: 'password',
+        name: 'passwordView',
+        component: PasswordView
       },
     ]
   },

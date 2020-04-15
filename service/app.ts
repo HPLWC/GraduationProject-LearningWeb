@@ -13,7 +13,12 @@ const unTokenUrl = [
   '/learn/public/user/logout',
   '/learn/public/user/register',
   '/learn/public/user/email',
-  '/home'
+  '/home',
+
+  '/learn/course/type/all',
+  '/learn/public/user/info',
+  '/learn/course/info/all',
+  '/learn/user/info/common',
 ]
 
 /* 中间件 */

@@ -53,7 +53,6 @@ class UploadSectionModal extends Vue {
   submitForm (formName) {
     this.$refs[formName].validate(async (valid) => {
       if (valid) {
-        console.log({...this.form}, 2333)
         const { data } = await this.$store.dispatch('saveCourseSection', {
           ...this.form,
           course_info_id: this.$route.query.id
@@ -65,6 +64,9 @@ class UploadSectionModal extends Vue {
             message: '添加成功'
           })
           this.dialogVisible = false
+          this.form = {
+            section_num: 1
+          }
           this.$emit('refresh')
         }
       } else {

@@ -4,7 +4,7 @@
     <img v-if="value.photo" :src="value.photo" alt="photo">
     <hpc-icon name="default" size="120" v-else></hpc-icon>
     <p class="m-t-10 f-18">{{ value.title || '无值' }}</p>
-    <p class="m-t-20">{{ value.decoration || '暂无介绍' }}</p>
+    <p class="m-t-20">{{ (value.decoration || '暂无介绍') | ellipsis(100) }}</p>
   </el-card>
 </template>
 

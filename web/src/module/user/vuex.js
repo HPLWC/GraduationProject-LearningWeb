@@ -20,6 +20,9 @@ export default {
     updateUserInfo (context, params) {
       return api.updateUserInfo(params)
     },
+    updateUserPassword (context, params) {
+      return api.updateUserPassword(params)
+    },
 
     saveCourseInfo (context, params) {
       return api.saveCourseInfo(params)
@@ -27,6 +30,16 @@ export default {
 
     getTheUploadCourseInfo (context, params) {
       return api.getTheUploadCourseInfo(params)
+    },
+
+    saveAuthentication (context, params) {
+      return api.saveAuthentication(params)
+    },
+    updateAuthentication (context, params) {
+      return api.updateAuthentication(params)
+    },
+    getTheAuthentication (context, params) {
+      return api.getTheAuthentication(params)
     },
   },
 }

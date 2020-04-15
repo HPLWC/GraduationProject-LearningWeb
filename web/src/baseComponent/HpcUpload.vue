@@ -14,7 +14,9 @@
       </template>
 
       <template v-else>
-        <el-button type="primary">上传视频</el-button>
+        <el-button type="primary">
+          <slot>上传文件</slot>
+        </el-button>
         <p>{{ photo }}</p>
       </template>
     </el-upload>
@@ -30,6 +32,7 @@ class HpcUpload extends Vue {
   @Prop({type: String, default: ''}) imageUrl
   @Prop({type: Boolean, default: true}) isCir
   @Prop({type: Boolean, default: true}) isUploadPhoto
+  @Prop({type: Boolean, default: true}) isUploadMp4
   /* vue-vuex */
   /* vue-data */
   photo = ''
@@ -59,11 +62,13 @@ class HpcUpload extends Vue {
         this.$message.error('上传头像图片大小不能超过 2MB!')
       }
       return isJPG && isLt2M
-    } else {
+    } else if (this.isUploadMp4){
       if (!isMp4) {
         this.$message.error('上传视频只能是 mp4 格式!')
       }
       return isMp4
+    } else {
+      return true
     }
   }
   async uploadEvent (param) {
