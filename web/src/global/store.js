@@ -23,7 +23,7 @@ const actions = {
     const { data } = await api.imageUpload(formData)
     // data.default = process.env.VUE_APP_BASE_URL + data.default
 
-    let baseUrl = 'http://127.0.0.1:3000'
+    let baseUrl = process.env.VUE_APP_PHOTO_URL
     data.default = baseUrl + '/' + data.default
     return { data }
   },
@@ -36,7 +36,7 @@ const actions = {
     const { data } = await api.sectionUpload(formData)
     // data.default = process.env.VUE_APP_BASE_URL + data.default
 
-    let baseUrl = 'http://127.0.0.1:3000'
+    let baseUrl = process.env.VUE_APP_PHOTO_URL
     data.default = baseUrl + '/' + data.default
     return { data }
   }
