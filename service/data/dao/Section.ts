@@ -78,7 +78,7 @@ class SectionDao extends BaseDao<Section> {
   //
   //   // const sections = await repository.find({
   //   //   where: params.where,
-  //   //   order: { addTime: 'ASC' },
+  //   //   order: { addTime: 'DESC' },
   //   //   skip: params.pageNum - 1 || 0,
   //   //   take: params.pageSize || 10,
   //   // })
@@ -86,7 +86,7 @@ class SectionDao extends BaseDao<Section> {
   //     .innerJoinAndSelect('section.courseInfo', 'info', 'info.id = :id', {id: params.where.id})
   //     .skip(params.pageNum - 1 || 0)
   //     .take(params.pageSize || 10)
-  //     .orderBy('section.section_num', 'ASC')
+  //     .orderBy('section.section_num', 'DESC')
   //   let sections = await resP.getMany()
   //   const total = await resP.getCount()
   //

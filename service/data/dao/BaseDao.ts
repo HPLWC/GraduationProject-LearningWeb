@@ -15,7 +15,7 @@ export class BaseDao<Model> {
 
   find(options: any = {}) {
     const entityManager = getManager()
-    options.order = {addTime: 'ASC'}
+    options.order = {addTime: 'DESC'}
     return entityManager.find(this.entityClass, options)
   }
 

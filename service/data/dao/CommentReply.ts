@@ -28,7 +28,7 @@ class CommentReplyDao extends BaseDao<CommentReply> {
 
     // const comment = await repository.find({
     //   where: params.where,
-    //   order: { addTime: 'ASC' },
+    //   order: { addTime: 'DESC' },
     //   skip: params.pageNum - 1 || 0,
     //   take: params.pageSize || 10,
     // })
@@ -39,7 +39,7 @@ class CommentReplyDao extends BaseDao<CommentReply> {
       .innerJoinAndSelect('commentReply.userInfo', 'userInfo')
       .skip(params.pageNum - 1 || 0)
       .take(params.pageSize || 10)
-      .orderBy('commentReply.addTime', 'ASC')
+      .orderBy('commentReply.addTime', 'DESC')
     let comment = await resP.getMany()
     const total = await resP.getCount()
 

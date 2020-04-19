@@ -31,7 +31,7 @@ class UserDao extends BaseDao<User> {
     const user = await repository.find({
       where: params.where,
       relations: ['userInfo'],
-      order: { addTime: 'ASC' },
+      order: { addTime: 'DESC' },
       skip: params.pageNum - 1 || 0,
       take: params.pageSize || 6,
     })

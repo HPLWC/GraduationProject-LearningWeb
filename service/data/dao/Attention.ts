@@ -41,7 +41,7 @@ class AttentionDao extends BaseDao<Attention> {
       .where('userInfo.id = :id', { id: params.where.id })
       .skip(params.pageNum - 1 || 0)
       .take(params.pageSize || 10)
-      .orderBy('attention.addTime', 'ASC')
+      .orderBy('attention.addTime', 'DESC')
     let attention = await resP.getMany()
     const total = await resP.getCount()
 

@@ -45,7 +45,7 @@ class AuthenticationDao extends BaseDao<Authentication> {
     let authentication = await repository.find({
       where: params.where,
       relations: ['user'],
-      order: { addTime: 'ASC' },
+      order: { addTime: 'DESC' },
       skip: parseInt(params.pageNum) - 1 || 0,
       take: parseInt(params.pageSize) || 6,
     })

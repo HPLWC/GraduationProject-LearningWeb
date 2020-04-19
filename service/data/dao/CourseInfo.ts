@@ -34,7 +34,7 @@ class CourseInfoDao extends BaseDao<CourseInfo> {
       let resP = await repository.createQueryBuilder('courseInfo')
         .innerJoin('courseInfo.courseType', 'type', 'type.id = :id', {id: params.where.type_id})
         .where('courseInfo.title Like :title', {title: params.where.title ? params.where.title._value : '%%'})
-        .orderBy('addTime', 'ASC')
+        .orderBy('courseInfo.addTime', 'DESC')
         .skip(params.pageNum - 1 || 0)
         .take(params.pageSize || 6)
       courseInfo = await resP.getMany()
@@ -42,7 +42,7 @@ class CourseInfoDao extends BaseDao<CourseInfo> {
     } else {
       courseInfo = await repository.find({
         where: params.where,
-        order: { addTime: 'ASC' },
+        order: { addTime: 'DESC' },
         relations: ['courseType'],
         skip: parseInt(params.pageNum) - 1 || 0,
         take: parseInt(params.pageSize) || 6,

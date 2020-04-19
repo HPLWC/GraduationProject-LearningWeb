@@ -42,7 +42,7 @@ class CollectionDao extends BaseDao<Collection> {
       .where('userInfo.id = :id', { id: params.where.id })
       .skip(params.pageNum - 1 || 0)
       .take(params.pageSize || 10)
-      .orderBy('collection.addTime', 'ASC')
+      .orderBy('collection.addTime', 'DESC')
     let collection = await resP.getMany()
     const total = await resP.getCount()
 
