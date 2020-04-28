@@ -31,9 +31,12 @@ class CourseInfoDao extends BaseDao<CourseInfo> {
     let courseInfo:any, total:number
 
     if(!(params.where.type_id === '0' || !params.where.type_id)) {
+      console.log(params.where.user_id, 32222, params.where.user_id ? params.where.user_id : '%%')
       let resP = await repository.createQueryBuilder('courseInfo')
         .innerJoin('courseInfo.courseType', 'type', 'type.id = :id', {id: params.where.type_id})
+        // .leftJoinAndSelect('courseInfo.userInfo', 'userInfo', 'userInfo.id Like :id', {id: params.where.user_id ? params.where.user_id : '%%'})
         .where('courseInfo.title Like :title', {title: params.where.title ? params.where.title._value : '%%'})
+        // .where('userInfo.id Like :id', {id: params.where.user_id ? params.where.user_id : '%%'})
         .orderBy('courseInfo.addTime', 'DESC')
         .skip(params.pageNum - 1 || 0)
         .take(params.pageSize || 6)
@@ -43,7 +46,7 @@ class CourseInfoDao extends BaseDao<CourseInfo> {
       courseInfo = await repository.find({
         where: params.where,
         order: { addTime: 'DESC' },
-        relations: ['courseType'],
+        relations: ['courseType', 'userInfo'],
         skip: parseInt(params.pageNum) - 1 || 0,
         take: parseInt(params.pageSize) || 6,
       })
@@ -69,6 +72,42 @@ class CourseInfoDao extends BaseDao<CourseInfo> {
       .take(params.pageSize || 6)
     const courseInfo = await resP.getMany()
     const total = await resP.getCount()
+
+    return {
+      total: total,
+      pageNum: parseInt(params.pageNum) || 1,
+      pageSize: parseInt(params.pageSize) || 6,
+      data: courseInfo
+    }
+  }
+
+  async findAllUser(where) {
+    const repository = this.getRepository()
+    const params = this.pickPage(where)
+    let courseInfo:any, total:number
+
+    if(!(params.where.type_id === '0' || !params.where.type_id)) {
+      let resP = await repository.createQueryBuilder('courseInfo')
+        .innerJoinAndSelect('courseInfo.userInfo', 'userInfo')
+        .innerJoinAndSelect('courseInfo.courseType', 'type', 'type.id = :id', {id: params.where.type_id})
+        .where('courseInfo.title Like :title', {title: params.where.title ? params.where.title._value : '%%'})
+        .where('userInfo.id = :user_id', {user_id: params.where.user_id})
+        .orderBy('courseInfo.addTime', 'DESC')
+        .skip(params.pageNum - 1 || 0)
+        .take(params.pageSize || 6)
+      courseInfo = await resP.getMany()
+      total = await resP.getCount()
+    } else {
+      let resP = await repository.createQueryBuilder('courseInfo')
+        .innerJoin('courseInfo.userInfo', 'userInfo', 'userInfo.id = :id', {id: params.where.user_id})
+        .where('courseInfo.title Like :title', {title: params.where.title ? params.where.title._value : '%%'})
+        .orderBy('courseInfo.addTime', 'DESC')
+        .skip(params.pageNum - 1 || 0)
+        .take(params.pageSize || 6)
+      courseInfo = await resP.getMany()
+      total = await resP.getCount()
+    }
+
 
     return {
       total: total,

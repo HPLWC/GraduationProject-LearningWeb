@@ -57,6 +57,12 @@ async function getAllUser(ctx) {
   ctx.body = createBody(attentions)
 }
 
+async function getTheUserInfo(ctx) {
+  const params = ctx.request.query
+  const attentions = await Dao.UserInfo.findOne(params)
+  ctx.body = createBody(attentions)
+}
+
 async function getAllUserCommon(ctx) {
   const params = ctx.request.query
   const attentions = await Dao.User.findAll(params)
@@ -147,6 +153,8 @@ export default (routes, prefix) => {
   routes.post(prefix + '/user/admin/info/update', updateUser) // 修改登录用户信息
   routes.post(prefix + '/user/admin/password/update', updateUserPassword) // 修改用户登录密码
   routes.get(prefix + '/user/info/common', getAllUserCommon) // 获取用户评论
+
+  routes.get(prefix + '/get/user/course/info', getTheUserInfo) // 获取用户评个人详情
 
   // 验证信息
   routes.post(prefix + '/user/authentication/save', saveAuthentication) // 上传身份验证

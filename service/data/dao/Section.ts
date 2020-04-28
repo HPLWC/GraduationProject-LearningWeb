@@ -5,6 +5,7 @@ import { BaseDao } from './BaseDao'
 import Section from '../entity/Section'
 import CourseInfo from './CourseInfo'
 import Comment from './Comment'
+import Collection from './Collection'
 
 class SectionDao extends BaseDao<Section> {
   constructor() {
@@ -15,7 +16,7 @@ class SectionDao extends BaseDao<Section> {
     const repository = this.getRepository()
 
     const section = await repository.findOne({
-      where
+      where,
     })
     return section
   }
@@ -115,7 +116,9 @@ class SectionDao extends BaseDao<Section> {
       return item.id
     })
 
-    let deleteCom = await Comment.deleteComments(comments)
+    if(comments.length > 0) {
+      let deleteCom = await Comment.deleteComments(comments)
+    }
 
     let deleteRes = await repository.delete(ids)
 
@@ -128,6 +131,45 @@ class SectionDao extends BaseDao<Section> {
       return {
         success: false,
         message: '删除失败'
+      }
+    }
+  }
+
+  async deleteInfo(info): Promise<any> {
+    // const manager = this.getManager()
+    const repository = this.getRepository()
+
+    const res = await repository.createQueryBuilder('section')
+      .leftJoinAndSelect('section.comment', 'comment')
+      .leftJoinAndSelect('comment.commentReply', 'reply')
+      .where('section.id = :id', { id: info.id })
+      .getMany()
+
+    if(!res) {
+      return {
+        success: false,
+        message: '未查找到此目录'
+      }
+    } else {
+      let deleteSec
+
+      if (res.length > 0) {
+        deleteSec = await this.deleteSections(res)
+      } else {
+        deleteSec = {
+          success: true
+        }
+      }
+      if (!deleteSec.success) {
+        return {
+          success: false,
+          message: '删除失败'
+        }
+      } else {
+        return {
+          success: true,
+          message: '删除成功'
+        }
       }
     }
   }

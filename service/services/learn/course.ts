@@ -51,6 +51,13 @@ async function getTheUploadCourseInfo(ctx) {
   ctx.body = createBody(courseInfo)
 }
 
+
+async function getTheUserCourseInfo(ctx) {
+  const params = ctx.request.query
+  const courseInfo = await Dao.CourseInfo.findAllUser(params)
+  ctx.body = createBody(courseInfo)
+}
+
 async function saveCourseInfo(ctx) {
   const params = ctx.request.body
   const courseInfo = await Dao.CourseInfo.saveInfo(params)
@@ -88,6 +95,14 @@ async function saveCourseSection(ctx) {
   ctx.body = createBody(section)
 }
 
+async function deleteCourseSection(ctx) {
+  const params = ctx.request.body
+  console.log(params)
+  const section = await Dao.Section.deleteInfo(params)
+  if(section.success) ctx.body = createBody(section)
+  else ctx.body = createBody(section, false, 400, section.message)
+}
+
 export default (routes, prefix) => {
   // 课程种类
   routes.get(prefix + '/course/type/all', getAllCourseType) // 获取所有课程种类
@@ -101,12 +116,14 @@ export default (routes, prefix) => {
   routes.get(prefix + '/course/info/detail', getTheCourseInfo) // 获取某个课程详情
   routes.post(prefix + '/course/info/save', saveCourseInfo) // 添加课程详情
   routes.put(prefix + '/course/info/update', updateCourseInfo) // 修改所有课程详情
-  routes.delete(prefix + '/course/info/delete', deleteCourseInfo) // 获取所有课程详情
+  routes.delete(prefix + '/course/info/delete', deleteCourseInfo) // 删除课程详情
   routes.put(prefix + '/course/info/play', playCourseInfo) // 播放量加一
 
   routes.get(prefix + '/course/user/upload/all', getTheUploadCourseInfo) // 获取用户的课程
+  routes.get(prefix + '/course/user/info/all', getTheUserCourseInfo) // 获取用户的课程(课程页)
 
   // 课程目录
   routes.get(prefix + '/course/section/all', getAllCourseSection) // 获取所有课程目录
   routes.post(prefix + '/course/section/save', saveCourseSection) // 添加课程目录
+  routes.delete(prefix + '/course/section/delete', deleteCourseSection) // 删除课程目录
 }

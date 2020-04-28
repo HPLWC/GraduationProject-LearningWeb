@@ -38,9 +38,7 @@ async function login(ctx) {
   }
   const user = await Dao.User.findOne(params)
   if(user) {
-    console.log(user)
     if(!user.is_used) {
-      console.log(111)
       ctx.body = createBody({}, false, 0, '该用户目前被停用')
     } else {
       const token = jwt.sign({

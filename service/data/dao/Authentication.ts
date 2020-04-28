@@ -85,7 +85,7 @@ class AuthenticationDao extends BaseDao<Authentication> {
     const res = await this.findOne({ id: info.id })
 
     if(res) {
-      Object.assign(res, utils.myLodashPick(info, 'username', 'school', 'material'))
+      Object.assign(res, utils.myLodashPick(info, 'username', 'school', 'material', 'status'))
 
       return manager.save(this.entityClass, res)
     } else {
