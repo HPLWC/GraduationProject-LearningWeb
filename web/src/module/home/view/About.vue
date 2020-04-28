@@ -14,6 +14,9 @@
         易上课也是一个开源的项目，前端方面采用的是vue.js配合element-ui框架搭建，后台采用的是node.js的koa框架 + typescript + typeorm + mysql 搭建，项目地址为
         <a href="https://github.com/HPLWC/GraduationProject-LearningWeb" class="t-hover">https://github.com/HPLWC/GraduationProject-LearningWeb</a>。
       </p>
+      <p class="m-b-15" :style="{ textIndent: '2em', lineHeight: '1.8' }">
+        如有何疑问，可联系管理员，管理员邮箱为 935151619@qq.com
+      </p>
     </div>
 
     <!--  页面底部  -->

@@ -10,11 +10,20 @@ export default {
     getTheCourseInfo (context, params) {
       return api.getTheCourseInfo(params)
     },
+    getTheUserCourseInfo (context, params) {
+      return api.getTheUserCourseInfo(params)
+    },
+    getTheUserInfo (context, params) {
+      return api.getTheUserInfo(params)
+    },
     getCourseAllSection (context, params) {
       return api.getCourseAllSection(params)
     },
     saveCourseSection (context, params) {
       return api.saveCourseSection(params)
+    },
+    deleteCourseSection (context, params) {
+      return api.deleteCourseSection(params)
     },
 
     getTheComment (context, params) {

@@ -29,8 +29,16 @@
           <template v-if="data.length > 0">
             <li v-for="(item, key) in data" data-flex="cross:top" class="m-t-20 p-b-20 p-h-10 b-b" :key="item.id">
               <div>
-                <img v-if="item.userInfo.photo" :src="item.userInfo.photo" alt="" class="my_photo_ava">
-                <hpc-icon v-else name="defaultuser" :size="50" class="m-t-2 o-8"></hpc-icon>
+                <el-popover
+                  placement="right"
+                  width="200"
+                  trigger="hover">
+                  {{ item.userInfo.email }}
+                  <template slot="reference">
+                    <img v-if="item.userInfo.photo" :src="item.userInfo.photo" alt="" class="my_photo_ava">
+                    <hpc-icon v-else name="defaultuser" :size="50" class="m-t-2 o-8"></hpc-icon>
+                  </template>
+                </el-popover>
               </div>
               <div class="m-l-18 bx-b w-100">
                 <div>
@@ -45,14 +53,22 @@
                   <ul class="w-100">
                     <li v-for="replyItem in item.commentReply" data-flex="cross:top" class="m-t-20 p-b-20 p-h-10" :key="replyItem.id">
                       <div>
-                        <img
-                          v-if="replyItem.userInfo.photo"
-                          :src="replyItem.userInfo.photo"
-                          alt=""
-                          class="my_photo_ava"
-                          :style="{ width: '34px', height: '34px' }"
-                        >
-                        <hpc-icon v-else name="defaultuser" :size="40" class="o-8"></hpc-icon>
+                        <el-popover
+                          placement="right"
+                          width="200"
+                          trigger="hover">
+                          {{ replyItem.userInfo.email }}
+                          <template slot="reference">
+                            <img
+                              v-if="replyItem.userInfo.photo"
+                              :src="replyItem.userInfo.photo"
+                              alt=""
+                              class="my_photo_ava"
+                              :style="{ width: '34px', height: '34px' }"
+                            >
+                            <hpc-icon v-else name="defaultuser" :size="40" class="o-8"></hpc-icon>
+                          </template>
+                        </el-popover>
                       </div>
                       <div class="m-l-18 bx-b">
                         <div>
@@ -103,9 +119,14 @@
               <div>
                 <hpc-icon name="video" class="o-8"></hpc-icon>
               </div>
-              <div class="m-l-18 bx-b">
-                <p class="m-b-15 f-18 cp t-hover" @click="toVideo(item.id)" :data-url="item.id">{{ item.title }}</p>
-                <p class="o-7 p-r-100">{{ item.decoration }}</p>
+              <div class="m-l-18 bx-b w-100" data-flex="main:justify">
+                <div>
+                  <p class="m-b-15 f-18 cp t-hover" @click="toVideo(item.id)" :data-url="item.id">{{ item.title }}</p>
+                  <p class="o-7 p-r-100">{{ item.decoration }}</p>
+                </div>
+                <div v-if="isEditor">
+                  <hpc-icon name="delete" @click="deleteCatalog(item.id)" class="cp"></hpc-icon>
+                </div>
               </div>
             </li>
           </template>
@@ -246,6 +267,19 @@ class ListView extends Vue {
     this.replyCommentInfo = {
       user_id: userId,
       comment_id: commentId
+    }
+  }
+
+  async deleteCatalog (id) {
+    const { data } = await this.$store.dispatch('deleteCourseSection', {id})
+    console.log(data)
+    if (data.success) {
+      this.$notify({
+        type: 'success',
+        title: '提示',
+        message: '删除成功'
+      })
+      this.$emit('refresh', true)
     }
   }
 

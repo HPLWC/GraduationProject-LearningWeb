@@ -29,16 +29,21 @@ const router = new Router({
     ...homeRouter,
     ...courseRouter,
     ...userRouter,
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })
 
 router.beforeEach((to, from, next) => {
   Nprogress.start()
-  // document.title = to.meta && to.meta.title ? to.meta.title : '在线学习网站'
+  document.body.scrollTop = 0
+  document.title = to.meta && to.meta.title ? to.meta.title : '在线学习网站'
   next()
 })
 router.afterEach((to, from, next) => {
   Nprogress.done()
+  window.scrollTo(1, 0)
 })
 
 export default router

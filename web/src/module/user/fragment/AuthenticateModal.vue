@@ -14,6 +14,9 @@
         <el-form-item label="证明材料" prop="material" class="m-t-15">
           <hpc-upload :imageUrl="form.material" @photoUrlEvent="photoUrlEvent" :isUploadPhoto="false" :isUploadMp4="false">上传材料</hpc-upload>
         </el-form-item>
+        <el-form-item class="m-t-15" v-if="form.status === 2">
+          <div style="color:red;">当前认证已被拒绝，请重新上传资料再次认证</div>
+        </el-form-item>
         <el-form-item class="m-t-15">
           <el-button type="primary" @click="authentication('form')">{{ isAdd ? '确认' : '修改' }}</el-button>
         </el-form-item>
@@ -62,6 +65,7 @@ class AuthenticateModal extends Vue {
         let vuex = this.isAdd ? 'saveAuthentication' : 'updateAuthentication'
         const { data } = await this.$store.dispatch(vuex, {
           ...this.form,
+          status: 0
         })
         if (data) {
           this.$notify({

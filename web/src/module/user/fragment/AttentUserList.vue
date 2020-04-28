@@ -6,7 +6,7 @@
         <img v-if="data.attentionUserInfo.photo" :src="data.attentionUserInfo.photo" alt="">
         <hpc-icon v-else name="defaultuser" :size="70" class="m-t-2 o-8"></hpc-icon>
         <div class="f-18 m-l-30 a-l">
-          <p>{{ data.attentionUserInfo.name }}</p>
+          <p class="cp t-hover" @click="toUserCourse(data.attentionUserInfo.id)">{{ data.attentionUserInfo.name }}</p>
           <p class="f-14 m-t-5">{{ data.attentionUserInfo.decoration || '暂无简介' }}</p>
         </div>
       </div>
@@ -20,7 +20,7 @@
 import {Component, Prop, Vue} from 'vue-property-decorator'
 
 export default @Component({})
-class Home extends Vue {
+class AttentUserList extends Vue {
   /* vue-props */
   @Prop({ type: Object, default: () => ({}) }) data
   /* vue-vuex */
@@ -48,6 +48,10 @@ class Home extends Vue {
         message: '取消失败'
       })
     }
+  }
+
+  toUserCourse (id) {
+    this.$router.push({path: '/course/user', query: {id}})
   }
 }
 </script>

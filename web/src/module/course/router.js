@@ -1,6 +1,7 @@
 const CourseList = () => import(/* webpackChunkName: "course" */ './view/CourseList')
 const CourseDetail = () => import(/* webpackChunkName: "course" */ './view/CourseDetail')
 const CourseVideo = () => import(/* webpackChunkName: "course" */ './view/CourseVideo')
+const CourseUser = () => import(/* webpackChunkName: "course" */ './view/UserCourse')
 
 export default [
   {
@@ -17,5 +18,10 @@ export default [
     path: '/course/video',
     name: 'courseVideo',
     component: CourseVideo
-  }
+  },
+  {
+    path: '/course/user',
+    name: 'courseUser',
+    component: CourseUser
+  },
 ]

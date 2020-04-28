@@ -1,7 +1,7 @@
 <!-- 目录 -->
 <template>
   <div>
-    <list-view type="catalog" :userId="courseDetail.userInfo && courseDetail.userInfo.id" @uploadSection="uploadSection" :data="data" :total="pagination.total" @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange"></list-view>
+    <list-view type="catalog" :userId="courseDetail.userInfo && courseDetail.userInfo.id" @uploadSection="uploadSection" :data="data" :total="pagination.total" @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange" @refresh="refresh"></list-view>
 
     <upload-section-modal ref="uploadSectionModal" @refresh="refresh"></upload-section-modal>
   </div>
