@@ -38,8 +38,8 @@ export default @Component class Login extends Vue {
   /* vue-vuex */
   /* vue-data */
   user = {
-    username: '935151619@qq.com',
-    password: '123456'
+    username: '',
+    password: ''
   }
   /* vue-compute */
   /* vue-watch */
