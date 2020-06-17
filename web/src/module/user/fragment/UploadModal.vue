@@ -36,7 +36,7 @@
 import {Component, Vue} from 'vue-property-decorator'
 
 export default @Component({})
-class UploadView extends Vue {
+class UploadModal extends Vue {
   /* vue-props */
   /* vue-vuex */
   /* vue-data */

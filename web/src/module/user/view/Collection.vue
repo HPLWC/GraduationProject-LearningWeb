@@ -29,7 +29,7 @@ import LayoutFooter from '../../common/view/LayoutFooter'
 import NewCourse from '../../home/fragment/NewCourse'
 
 export default @Component({ components: { LayoutHeader, LayoutFooter, NewCourse } })
-class Home extends Vue {
+class Collection extends Vue {
   /* vue-props */
   /* vue-vuex */
   /* vue-data */

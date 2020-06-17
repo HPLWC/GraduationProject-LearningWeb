@@ -49,7 +49,7 @@ import LayoutHeader from '../../common/view/LayoutHeader'
 import LayoutFooter from '../../common/view/LayoutFooter'
 
 export default @Component({ components: { LayoutHeader, LayoutFooter } })
-class Home extends Vue {
+class Contact extends Vue {
   /* vue-props */
   /* vue-vuex */
   /* vue-data */

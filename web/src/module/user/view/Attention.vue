@@ -27,7 +27,7 @@ import LayoutFooter from '../../common/view/LayoutFooter'
 import AttentUserList from '../fragment/AttentUserList'
 
 export default @Component({ components: { LayoutHeader, LayoutFooter, AttentUserList } })
-class Home extends Vue {
+class Attention extends Vue {
   /* vue-props */
   /* vue-vuex */
   /* vue-data */
