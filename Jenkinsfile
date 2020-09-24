@@ -9,5 +9,14 @@ pipeline {
         '''
       }
     }
+    stage('Build') {
+      steps {
+        sh '''
+          cd web
+          npm
+          npm install
+        '''
+      }
+    }
   }
 }
