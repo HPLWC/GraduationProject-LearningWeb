@@ -7,7 +7,8 @@
 <script>
 import {Component, Vue} from 'vue-property-decorator'
 
-export default @Component class App extends Vue {
+export default
+@Component class App extends Vue {
   /* vue-props */
   /* vue-vuex */
   /* vue-data */
