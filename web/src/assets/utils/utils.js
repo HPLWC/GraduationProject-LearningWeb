@@ -13,6 +13,7 @@ export default class Utils {
   }
   // 空对象判断
   isEmptyObject (obj) {
+    if (!this.isObj(obj)) return false
     return Object.keys(obj).length <= 0
   }
   // 一维数组转为二维三列
