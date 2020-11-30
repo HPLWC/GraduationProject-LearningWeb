@@ -21,7 +21,7 @@ export default class Utils {
     let len = arr.length / num
     let nArr = []
     for (let i = 0; i < len; i++) {
-      nArr.push(arr.splice(0, 3))
+      nArr.push(arr.splice(0, num))
     }
     return nArr
   }

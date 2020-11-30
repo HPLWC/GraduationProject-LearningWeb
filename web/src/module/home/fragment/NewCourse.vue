@@ -36,22 +36,27 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 
-export default @Component
-class NewCourse extends Vue {
+interface Value {
+  id: string | number,
+  [propName: string]: any
+}
+
+@Component<NewCourse>({})
+export default class NewCourse extends Vue {
   /* vue-props */
-  @Prop({ type: Object, default: () => ({}) }) value
-  @Prop({ type: Boolean, default: false }) isCollection
-  @Prop({ type: Boolean, default: false }) isUpload
+  @Prop({ type: Object, default: () => ({}) }) value!: Value
+  @Prop({ type: Boolean, default: false }) isCollection?: Boolean
+  @Prop({ type: Boolean, default: false }) isUpload?: Boolean
   /* vue-vuex */
   /* vue-data */
   /* vue-compute */
   /* vue-watch */
   /* vue-lifecycle */
   /* vue-method */
-  async handleCommand (command) {
+  async handleCommand (command: string) : Promise<void> {
     if (command === 'cancel') {
       /* 取消收藏 */
       const { data } = await this.$store.dispatch('deleteCollection', { id: this.value.id })

@@ -95,15 +95,16 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
-import LayoutHeader from '../../common/view/LayoutHeader'
-import LayoutFooter from '../../common/view/LayoutFooter'
-import IconCard from '../fragment/IconCard'
-import NewCourse from '../fragment/NewCourse'
 
-export default @Component({ components: { LayoutHeader, LayoutFooter, IconCard, NewCourse } })
-class Home extends Vue {
+import LayoutHeader from '../../common/view/LayoutHeader.vue'
+import LayoutFooter from '../../common/view/LayoutFooter.vue'
+import IconCard from '../fragment/IconCard.vue'
+import NewCourse from '../fragment/NewCourse.vue'
+
+@Component({ components: { LayoutHeader, LayoutFooter, IconCard, NewCourse } })
+export default class Home extends Vue {
   /* vue-props */
   /* vue-vuex */
   /* vue-data */
@@ -139,8 +140,9 @@ class Home extends Vue {
   allCourse () {
     this.$router.push('/course/list')
   }
-  toCourseDetail (id) {
-    this.$router.push({ path: '/course/detail', query: { id } })
+  toCourseDetail (id: string | number) {
+    id = id.toString()
+    this.$router.push({ path: '/course/detail', query: { id: id } })
   }
 }
 </script>

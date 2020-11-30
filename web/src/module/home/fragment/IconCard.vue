@@ -11,8 +11,8 @@
 <script>
 import {Component, Prop, Vue} from 'vue-property-decorator'
 
-export default @Component
-class IconCard extends Vue {
+@Component
+export default class IconCard extends Vue {
   /* vue-props */
   @Prop({ type: Object, default: () => ({}) }) value
   /* vue-vuex */
