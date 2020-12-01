@@ -31,10 +31,11 @@
   </ul>
 </template>
 
-<script>
+<script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
 
-export default @Component class HeaderLogin extends Vue {
+@Component
+export default class HeaderLogin extends Vue {
   /* vue-props */
   /* vue-vuex */
   /* vue-data */
@@ -63,7 +64,7 @@ export default @Component class HeaderLogin extends Vue {
   }
 
   /* 用户管理页面跳转 */
-  toUserInfo (e) {
+  toUserInfo (e: any) {
     let dataset = e.target.dataset
     this.$router.push(dataset.link)
   }

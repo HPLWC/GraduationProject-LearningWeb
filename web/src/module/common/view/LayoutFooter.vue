@@ -34,11 +34,11 @@
   </footer>
 </template>
 
-<script>
+<script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
 
-export default @Component
-class LayoutFooter extends Vue {
+@Component
+export default class LayoutFooter extends Vue {
   /* vue-props */
   /* vue-vuex */
   /* vue-data */

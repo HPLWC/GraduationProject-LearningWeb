@@ -2,12 +2,12 @@
   <exception-page type="403" />
 </template>
 
-<script>
+<script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
-import ExceptionPage from './ExceptionPage'
+import ExceptionPage from './ExceptionPage.vue'
 
-export default @Component({ components: { ExceptionPage } })
-class P403 extends Vue {
+@Component({ components: { ExceptionPage } })
+export default class P403 extends Vue {
   /* vue-props */
   /* vue-vuex */
   /* vue-data */

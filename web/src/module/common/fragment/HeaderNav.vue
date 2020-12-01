@@ -17,8 +17,8 @@
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import HeaderLogin from './HeaderLogin'
 
-export default @Component({ components: { HeaderLogin } })
-class HeaderNav extends Vue {
+@Component({ components: { HeaderLogin } })
+export default class HeaderNav extends Vue {
   /* vue-props */
   @Prop({ type: Boolean, default: false }) bgc
   /* vue-vuex */

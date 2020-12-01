@@ -13,14 +13,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import types from './types'
 
-export default @Component
-class ExceptionPage extends Vue {
+@Component
+export default class ExceptionPage extends Vue {
   /* vue-props */
-  @Prop({type: String, default: '404'}) type
+  @Prop({type: String, default: '404'}) type?: string
   /* vue-vuex */
   /* vue-data */
   config = types

@@ -10,15 +10,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
-import HeaderNav from '../fragment/HeaderNav'
+import HeaderNav from '../fragment/HeaderNav.vue'
 
 @Component({ components: { HeaderNav } })
 export default class LayoutHeader extends Vue {
   /* vue-props */
-  @Prop({ type: Number, default: 400 }) height
-  @Prop({ type: Boolean, default: false }) screen
+  @Prop({ type: Number, default: 400 }) height!: number
+  @Prop({ type: Boolean, default: false }) screen!: boolean
   /* vue-vuex */
   /* vue-data */
   titleHeight = 400
@@ -32,11 +32,12 @@ export default class LayoutHeader extends Vue {
   /** ******************************************  action  ************************************************************/
 
   /** ******************************************  function  ************************************************************/
-  init () {
-    this.titleHeight = this.height - this.$refs.HeaderNav.$el.offsetHeight
+  init (): void {
+    let el: any = (this.$refs.HeaderNav as Vue).$el
+    this.titleHeight = this.height - el.offsetHeight
   }
 
-  getHeight (val) {
+  getHeight (val: number): string {
     return val + 'px'
   }
 }
