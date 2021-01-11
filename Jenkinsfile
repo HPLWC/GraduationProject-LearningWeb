@@ -5,7 +5,6 @@ pipeline {
       steps {
         sh '''
           echo $JOB_NAME
-          echo $VUE_APP_BASE_URL .env.production
         '''
       }
     }
@@ -13,7 +12,6 @@ pipeline {
       steps {
         sh '''
           cd web
-          npm
           npm install
         '''
       }
