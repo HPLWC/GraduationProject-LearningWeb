@@ -12,7 +12,7 @@ pipeline {
       steps {
         sh '''
           cd web
-          sudo npm install
+          npm install --unsafe-perm=true --allow-root
           npm run build
         '''
       }
