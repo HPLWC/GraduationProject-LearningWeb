@@ -12,7 +12,8 @@ pipeline {
       steps {
         sh '''
           cd web
-          npm install
+          sudo npm install
+          npm run build
         '''
       }
     }
