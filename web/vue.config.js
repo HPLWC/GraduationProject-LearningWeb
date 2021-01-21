@@ -42,7 +42,7 @@ module.exports = {
     // 移除 preload 插件
     config.plugins.delete('preload')
     // 增加打包分析
-    if (process.env.IS_ANALYZ) {
+    if (process.env.IS_ANALYZ && process.env.IS_ANALYZ === 'true') {
       config.plugin('webpack-report')
         .use(BundleAnalyzerPlugin, [{
           analyzerMode: 'static',
