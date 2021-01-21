@@ -6,11 +6,11 @@ import { createConnection } from 'typeorm'
 export const connection = async (app: any) => {
   createConnection({
     type: 'mysql',
-    host: '127.0.0.1',
+    host: '120.26.162.237',
     port: 3306,
     username: 'root',
-    password: 'root',
-    database: 'learningWeb',
+    password: 'hplwc',
+    database: 'learning_web',
     entities: [ __dirname + '/entity/*.ts', 'dist/data/entity/*.js'], // 引入实体
   }).then((connection: any) => {
     console.log('数据库连接成功')
