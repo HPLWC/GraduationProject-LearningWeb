@@ -23,7 +23,7 @@
     "mysql2": "^2.1.0",
     "node-uuid": "^1.4.8",
     "nodemailer": "^6.4.6",
-    "typeorm": "^0.2.22"
+    "typeorm": "^0.2.25"
   },
   "devDependencies": {
     "@types/koa": "^2.11.0",
