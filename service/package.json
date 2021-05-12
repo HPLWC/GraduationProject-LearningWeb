@@ -22,7 +22,7 @@
     "koa-static": "^5.0.0",
     "mysql2": "^2.1.0",
     "node-uuid": "^1.4.8",
-    "nodemailer": "^6.4.6",
+    "nodemailer": "^6.4.16",
     "typeorm": "^0.2.22"
   },
   "devDependencies": {
