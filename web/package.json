@@ -29,7 +29,7 @@
     "babel-plugin-dynamic-import-webpack": "^1.1.0",
     "eslint": "^6.1.0",
     "eslint-plugin-vue": "^5.2.3",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "sass-loader": "^7.1.0",
     "svg-sprite-loader": "^4.1.6",
     "uglifyjs-webpack-plugin": "^2.2.0",
